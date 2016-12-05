@@ -1,0 +1,259 @@
+package com.mars.distribution.model;
+import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
+
+@Entity
+@Table(name="DIST_CHANNEL_INTERMEDIARY_DETAIL",schema="distribution")
+public class DistrictChannelIntermediaryDetail {
+	
+	public String getChintermId() {
+		return chintermId;
+	}
+
+	public void setChintermId(String chintermId) {
+		this.chintermId = chintermId;
+	}
+
+	@XmlTransient
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getModifiedOn() {
+		return modifiedOn;
+	}
+
+	public void setModifiedOn(Date modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+
+	@XmlTransient
+	public Org getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Org orgId) {
+		this.orgId = orgId;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@XmlTransient
+	public DistrictChannelStructure getChannelStrucId() {
+		return channelStrucId;
+	}
+
+	public void setChannelStrucId(DistrictChannelStructure channelStrucId) {
+		this.channelStrucId = channelStrucId;
+	}
+
+	@XmlTransient
+	public ZoneListFinal getZoneId() {
+		return zoneId;
+	}
+
+	public void setZoneId(ZoneListFinal zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	@XmlTransient
+	public Region getRegionId() {
+		return regionId;
+	}
+
+	public void setRegionId(Region regionId) {
+		this.regionId = regionId;
+	}
+
+	@XmlTransient
+	public Branch getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(Branch branchId) {
+		this.branchId = branchId;
+	}
+
+	@XmlTransient
+	public Territory getTerritoryId() {
+		return territoryId;
+	}
+
+	public void setTerritoryId(Territory territoryId) {
+		this.territoryId = territoryId;
+	}
+
+	public String getZoneName() {
+		return zoneName;
+	}
+
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
+	}
+
+	public String getRegionName() {
+		return regionName;
+	}
+
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getTerritoryName() {
+		return territoryName;
+	}
+
+	public void setTerritoryName(String territoryName) {
+		this.territoryName = territoryName;
+	}
+
+	public String getVillageTownName() {
+		return villageTownName;
+	}
+
+	public void setVillageTownName(String villageTownName) {
+		this.villageTownName = villageTownName;
+	}
+
+	public String getVillageTownType() {
+		return villageTownType;
+	}
+
+	public void setVillageTownType(String villageTownType) {
+		this.villageTownType = villageTownType;
+	}
+
+	public String getVillageTownId() {
+		return villageTownId;
+	}
+
+	public void setVillageTownId(String villageTownId) {
+		this.villageTownId = villageTownId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Id
+	private String chintermId;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CREATED_BY")
+	private User createdBy;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="MODIFIED_ON")
+	private Date modifiedOn;
+	
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORGID")
+	private Org orgId;
+	
+	@Column(name="STATUS")
+	private int status;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CHANNEL_STRUC_ID")
+	private DistrictChannelStructure channelStrucId;
+	
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="ZONE_ID")
+	private ZoneListFinal zoneId; 
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="REGION_ID")
+	private Region regionId; 
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="BRANCH_ID")
+	private Branch branchId; 
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="TERRITORY_ID")
+	private Territory territoryId;
+	
+	@Column(name="ZONE_NAME")
+	private String zoneName;
+	
+	@Column(name="REGION_NAME")
+	private String regionName;
+	
+	@Column(name="BRANCH_NAME")
+	private String branchName;
+	
+	@Column(name="TERR_NAME")
+	private String territoryName;
+	
+	@Column(name="VILL_TOWN_NAME")
+	private String villageTownName;
+	
+	@Column(name="VILL_TOWN_TYPE")
+	private String villageTownType;
+	
+	@Column(name="VILL_TOWN_ID")
+	private String villageTownId;
+	
+	@Column(name="ADDRESS")
+	private String address;
+	
+	@Column(name="NAME")
+	private String name;
+	
+	
+	
+
+}

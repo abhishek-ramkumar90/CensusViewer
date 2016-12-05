@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+
+	<bean id="RegionStateListService" class="com.mars.distribution.ServiceClass.RegionStateList">
+		<property name="stateList">
+			<ref bean="stateList" />
+		</property>
+	</bean>
+	<bean id="stateList" class="com.mars.distribution.Dao.RegionStateListDao" />
+	<bean id="ZoneRegionService" class="com.mars.distribution.ServiceClass.RegionZoneList">
+		<property name="rzdao">
+			<ref bean="rzdao" />
+		</property>
+	</bean>
+	<bean id="rzdao" class="com.mars.distribution.Dao.RegionZoneListDao" />
+	<bean id="stateService" class="com.mars.census.service.impl.StateRestService">
+		<property name="stateDetails">
+			<ref bean="stateDetails" />
+		</property>
+	</bean>
+	<bean id="stateDetails" class="com.mars.census.impl.StateDetails" />
+	<bean id="ZoneCreationService" class="com.mars.distribution.ServiceClass.ZoneCreation">
+		<property name="zcd">
+			<ref bean="zcd" />
+		</property>
+	</bean>
+	<bean id="zcd" class="com.mars.distribution.Dao.ZoneCreationDao" />
+	<bean id="districtService" class="com.mars.census.service.impl.DistrictRestService">
+		<property name="districtDAO">
+			<ref bean="districtDAO" />
+		</property>
+	</bean>
+	<bean id="districtDAO" class="com.mars.census.impl.DistrictDetails" />
+	<bean id="ZoneStateService" class="com.mars.distribution.ServiceClass.ZoneStateSelected ">
+		<property name="selectedStates">
+			<ref bean="selectedStates" />
+		</property>
+	</bean>
+	<bean id="selectedStates" class="com.mars.distribution.Dao.SelectedStateZoneDao" />
+	<bean id="villageService" class="com.mars.census.service.impl.VillageRestService">
+		<property name="villageDAO">
+			<ref bean="villageDAO" />
+		</property>
+	</bean>
+	<bean id="villageDAO" class="com.mars.census.impl.VillageDetails" />
+
+	<bean id="categoryService" class="com.mars.census.service.impl.CategoryRestService">
+		<property name="categoryDAO">
+			<ref bean="categoryDAO" />
+		</property>
+	</bean>
+	<bean id="categoryDAO" class="com.mars.census.impl.CategoryDetails" />
+
+	<bean id="subcategoryService" class="com.mars.census.service.impl.SubCategoryRestService">
+		<property name="subCategoryDAO">
+			<ref bean="subCategoryDAO" />
+		</property>
+	</bean>
+	<bean id="subCategoryDAO" class="com.mars.census.impl.SubCategoryDetails" />
+
+	<bean id="solrsearchService" class="com.mars.census.service.impl.SolrRestService">
+		<property name="solrSearchDAO">
+			<ref bean="solrSearchDAO" />
+		</property>
+	</bean>
+	<bean id="solrSearchDAO" class="com.mars.census.impl.solrsearchDetails" />
+
+	<bean id="solrPlaceService" class="com.mars.census.service.impl.SolrSearchRestService">
+		<property name="placeDAO">
+			<ref bean="placeDAO" />
+		</property>
+	</bean>
+	<bean id="placeDAO" class="com.mars.census.impl.SolrplaceDetails" />
+	<bean id="resultGridService" class="com.mars.census.service.impl.ResultGridRestService">
+		<property name="gridDAO">
+			<ref bean="gridDAO" />
+		</property>
+	</bean>
+	<bean id="gridDAO" class="com.mars.census.impl.StateSubcategoryResult" />
+
+	<bean id="mapService" class="com.mars.census.service.impl.MapServiceDaoImpl">
+	</bean>
+	<bean id="mapDAO" class="com.mars.census.service.dao.MapServiceDao" />
+	<bean id="ShortestPathService" class="com.mars.distribution.ServiceClass.shortestPath">
+		<property name="dao">
+			<ref bean="shortestPathDao" />
+		</property>
+	</bean>
+	<bean id="shortestPathDao" class="com.mars.distribution.Dao.ShortestPathDao" />
+
+	<bean id="ZoneListService" class="com.mars.distribution.ServiceClass.ZoneList">
+		<property name="zoneListDao">
+			<ref bean="ZoneListDao" />
+		</property>
+	</bean>
+	<bean id="ZoneListDao" class="com.mars.distribution.Dao.ZoneListDao" />
+
+	<bean id="RegionCreationService" class="com.mars.distribution.ServiceClass.RegionCreation">
+		<property name="rdao">
+			<ref bean="RegionNameDao" />
+		</property>
+	</bean>
+	
+	<bean id="RegionNameDao" class="com.mars.distribution.Dao.RegionCreationDao" />
+
+	<bean id="RegionListService" class="com.mars.distribution.ServiceClass.RegionList">
+		<property name="regionListDao">
+			<ref bean="RegionListDao" />
+		</property>
+	</bean>
+	<bean id="RegionListDao" class="com.mars.distribution.Dao.RegionListDao" />
+	<bean id="BranchService" class="com.mars.distribution.ServiceClass.BranchServices">
+	</bean>
+	<bean id="TerritoryService" class="com.mars.distribution.ServiceClass.TerritoryServices">
+	</bean>
+</beans>

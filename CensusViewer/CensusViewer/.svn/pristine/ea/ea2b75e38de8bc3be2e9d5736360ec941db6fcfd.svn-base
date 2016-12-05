@@ -1,0 +1,63 @@
+package com.mars.distribution.model;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table( name="DIST_CHANNEL_INTER",schema = "distribution" )
+public class DistChannelInter {
+
+	@Id
+	@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.DistChannelInterIdGenerator")
+	@GeneratedValue(generator="seq_id")
+	@Column(name = "DIST_CHANNEL_INTER_ID", unique = true, nullable = false, length = 20)
+	public String distChannelInterId;
+	
+	@Column(name="DIST_CHANNEL_INTER_NAME")
+	public String distChannelInterName;
+	
+	@Column(name="CREATED_ON")
+	public Date createdOn;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="DIST_CHANNEL_INTER_ID")
+	private Collection<DistChannelStruc> distChannelStrucId;
+	
+	public Collection<DistChannelStruc> getDistChannelStrucId() {
+		return distChannelStrucId;
+	}
+	public void setDistChannelStrucId(
+			Collection<DistChannelStruc> distChannelStrucId) {
+		this.distChannelStrucId = distChannelStrucId;
+	}
+	public String getDistChannelInterId() {
+		return distChannelInterId;
+	}
+	public void setDistChannelInterId(String distChannelInterId) {
+		this.distChannelInterId = distChannelInterId;
+	}
+	public String getDistChannelInterName() {
+		return distChannelInterName;
+	}
+	public void setDistChannelInterName(String distChannelInterName) {
+		this.distChannelInterName = distChannelInterName;
+	}
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	
+}

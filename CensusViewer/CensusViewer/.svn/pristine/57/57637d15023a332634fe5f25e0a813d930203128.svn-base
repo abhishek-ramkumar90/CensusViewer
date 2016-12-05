@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		 <!-- <property name="connection.url">jdbc:postgresql://localhost:5432/Mars</property>  -->
+		 <property name="connection.url">jdbc:postgresql://172.16.1.7:5432/Mars</property> 
+		<property name="connection.username">postgres</property>
+		<!-- <property name="connection.password">postgres</property>  -->
+				<property name="connection.password">admin@123</property> 
+		<property name="connection.pool_size">10</property>
+		 <property name="dialect">org.hibernate.spatial.dialect.postgis.PostgisDialect</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		<property name="show_sql">false</property>
+
+		<!-- <property name="hbm2ddl.auto">update</property> -->
+
+		<mapping class="com.mars.distribution.model.Node1" />
+		<mapping class="com.mars.distribution.model.WKT" />
+		<mapping class="com.mars.distribution.model.ZoneStates" />
+		<mapping class="com.mars.distribution.model.User" />
+		<mapping class="com.mars.distribution.model.Zone" />
+		<mapping class="com.mars.distribution.model.Region" />
+		<mapping class="com.mars.distribution.model.Branch" />
+		<mapping class="com.mars.distribution.model.Territory" />
+		<mapping class="com.mars.distribution.model.Org" />
+		<mapping class="com.mars.distribution.model.Districts" />
+		<mapping class="com.mars.distribution.model.SalesForOrgMaster" />
+		<mapping class="com.mars.distribution.model.SalesForOrgMasterInter" />
+		<mapping class="com.mars.distribution.model.SalesForOrgSpecialization" />
+		<mapping class="com.mars.distribution.model.SalesForOrgStruc" />
+		<mapping class="com.mars.distribution.model.ZoneListFinal" />
+		<mapping class="com.mars.distribution.model.BrDistrict" />
+		<mapping class="com.mars.distribution.model.TerritoryVillTown" />
+		<mapping class="com.mars.distribution.model.ZoneStateListFinal" />
+
+		<mapping class="com.mars.distribution.model.DistrictTest1" />
+		<mapping class="com.mars.distribution.model.RegionGeometry" />
+		<mapping class="com.mars.distribution.model.TerritoryGeometry" />
+		<mapping class="com.mars.distribution.model.DistIds" />
+<!-- 	    <mapping class="com.mars.distribution.model.DistrictChannel" />
+       	<mapping class="com.mars.distribution.model.DistrictChannelIntermediary" />
+       	<mapping class="com.mars.distribution.model.DistrictChannelIntermediaryDetail" />
+        <mapping class="com.mars.distribution.model.DistrictChannelStructure" /> -->
+
+        <mapping class="com.mars.distribution.model.Channel" />
+        <mapping class="com.mars.distribution.model.Intermediary" />
+ 
+	</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,55 @@
+
+table.dynamic tbody tr {
+    display: none;
+}
+table.dynamic tbody tr.show {
+    display: block;
+}
+html > body table.dynamic tbody tr.show {
+    display: table-row;
+}
+th, td {
+    padding: 5px;
+}
+th {
+    background: none repeat scroll 0 0 #EEEEFF;
+}
+table.paginated {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #CCCCCC -moz-use-text-color -moz-use-text-color #CCCCCC;
+    border-image: none;
+    border-style: solid none none solid;
+    border-width: 1px medium medium 1px;
+    font-family: arial,sans-serif;
+    font-size: 0.8em;
+    width: 300px;
+}
+table.paginated td, table.paginated th {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color #CCCCCC #CCCCCC -moz-use-text-color;
+    border-image: none;
+    border-right: 1px solid #CCCCCC;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+}
+p.paginatedNav {
+    font-family: arial,sans-serif;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0.5em 10px;
+    text-align: right;
+    width: 280px;
+}
+p.paginatedNav a {
+    color: #CCCCCC;
+}
+p.paginatedNav a:link, p.paginatedNav a:visited {
+    color: #336699;
+}

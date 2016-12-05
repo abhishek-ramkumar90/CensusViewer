@@ -1,0 +1,78 @@
+package com.mars.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CHANNEL", schema="distribution")
+public class Channel {
+	@Id
+	@Column(name="CHANNEL_ID")
+	private String channelId;
+	
+	@Column(name="CHANNEL_NAME")
+	private String channelName;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinTable(name="CHANNEL_INTERMEDIARY",schema="distribution")
+	private List<Intermediary> intermCollection=new ArrayList<Intermediary>();
+	
+	@Column(name="LEVEL_COUNT")
+	private int levelCount;
+
+	@Column(name="STATUS")
+	private int status;
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getLevelCount() {
+		return levelCount;
+	}
+
+	public void setLevelCount(int levelCount) {
+		this.levelCount = levelCount;
+	}
+
+	public String getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+	public List<Intermediary> getIntermCollection() {
+		return intermCollection;
+	}
+
+	public void setIntermCollection(List<Intermediary> intermCollection) {
+		this.intermCollection = intermCollection;
+	}
+
+}

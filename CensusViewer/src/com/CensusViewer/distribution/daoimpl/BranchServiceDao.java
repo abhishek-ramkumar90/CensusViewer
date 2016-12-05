@@ -1,0 +1,651 @@
+package com.CensusViewer.distribution.daoimpl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.CensusViewer.HibernateUtility.HibernateUtil;
+import com.CensusViewer.distribution.ServicePojo.BranchJson;
+import com.CensusViewer.distribution.ServicePojo.RegDistJson;
+import com.CensusViewer.distribution.ServicePojo.RegionListBranch;
+import com.CensusViewer.distribution.config.DistributionConstants;
+import com.CensusViewer.distribution.id.generator.BranchSequenceIdGen;
+import com.CensusViewer.distribution.map.RegionGeomJdbc;
+import com.CensusViewer.distribution.model.BrDistrict;
+import com.CensusViewer.distribution.model.Branch;
+import com.CensusViewer.distribution.model.Districts;
+import com.CensusViewer.distribution.model.Region;
+import com.CensusViewer.distribution.model.Territory;
+import com.CensusViewer.distribution.model.TerritoryVillTown;
+import com.CensusViewer.distribution.model.ZoneListFinal;
+/**
+ * 
+ * @author parnitas
+ *
+ */
+public class BranchServiceDao {
+
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public BranchServiceDao() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+
+	Session session = null;
+	public Collection<RegionListBranch> getRegions(String zoneDetails){
+
+		String zoneId=null;
+		try {
+			JSONObject json = new JSONObject(zoneDetails);
+			zoneId=json.getString("zoneDetails");
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+
+		List<ZoneListFinal> regionList=null;
+		List<RegionListBranch> regns=new ArrayList<RegionListBranch>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		try{
+			session = sf.openSession();
+			session.beginTransaction();
+			Query regions=session.createQuery("from ZoneListFinal where ZoneId='"+zoneId+"'");
+			regionList=regions.list();
+
+			for(ZoneListFinal reg:regionList)
+			{
+				String zid=reg.getZoneId();
+
+				if( reg.getStatus() == DistributionConstants.ONE) {
+
+					Collection<Region> reg1=reg.getRegions();
+					for(Region r:reg1){
+
+						if( r.getStatus() == DistributionConstants.ONE) {
+
+							RegionListBranch rg=new RegionListBranch();
+							System.out.println(r.getRegion());
+							rg.setZoneId(zid);
+							rg.setRegionId(r.getRegionId());
+							rg.setRegionName(r.getRegion());
+							regns.add(rg);
+
+						}
+					}
+				}
+			}
+
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+		Collections.sort(regns,new RegionListBranch());
+		return  regns;	
+
+	}
+
+	public Collection<RegDistJson> getRegDistrict(String regionId){
+
+		List<Region> distList=null;
+		String regId=null;
+		List<RegDistJson> district=new ArrayList<RegDistJson>();
+		Collection<Branch> branchsInReg = new ArrayList<Branch>();
+		HashMap<Integer,Integer> stateCodes = new HashMap<Integer,Integer>();
+		Collection<BrDistrict> brDistrict = null;
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		session = sf.openSession();
+		try {
+			JSONObject json = new JSONObject(regionId);
+			regId=json.getString("regionId");
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+
+		try{
+
+			session = sf.openSession();
+			session.beginTransaction();
+			Query dists=session.createQuery("from Region where regionId='"+regId+"'");
+			distList=dists.list();
+			for(Region dist:distList)
+			{
+				if( dist.getStatus() == DistributionConstants.ONE) {
+
+					branchsInReg = dist.getBranches();
+
+					for(Branch branchs : branchsInReg) {
+						if(branchs.getStatus() == DistributionConstants.ONE) {
+							brDistrict = branchs.getDistricts();
+
+							Iterator iter = brDistrict.iterator();
+							while(iter.hasNext()) {
+								BrDistrict brdist = (BrDistrict)iter.next();
+								if(brdist.getStatus() == DistributionConstants.ONE) {
+								stateCodes.put(new Integer(brdist.getDistCode()), new Integer(brdist.getDistCode()));
+								}
+							}
+						}
+					}
+
+					Collection<Districts> distr=dist.getDistricts();
+					for(Districts dis:distr){
+
+						if( dis.getStatus() == DistributionConstants.ONE) {
+
+							if(!stateCodes.containsKey(dis.getDistId())) {
+								RegDistJson rd=new RegDistJson();
+								System.out.println(dis.getDistId());
+								rd.setDistCode(dis.getDistId());
+								rd.setDistName(dis.getDistName());
+								rd.setRegId(dist.getRegionId());
+								rd.setStateCode(dis.getStateId());
+								rd.setGid(dis.getGid());
+								district.add(rd);	
+							}
+
+
+
+						}
+					}
+				}
+				//regns.add(rg);
+			}
+
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+		Collections.sort(district, new RegDistJson());
+		return district;
+
+	}
+
+
+	public Collection<RegDistJson> getRegDistrictUpdate(String regionId){
+
+		List<Region> distList=null;
+		String regId=null;
+		String branchId = null;
+		List<RegDistJson> district=new ArrayList<RegDistJson>();
+		Collection<Branch> branchsInReg = new ArrayList<Branch>();
+		HashMap<Integer,Integer> stateCodes = new HashMap<Integer,Integer>();
+		Collection<BrDistrict> brDistrict = null;
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		session = sf.openSession();
+		try {
+			JSONObject json = new JSONObject(regionId);
+			regId=json.getString("regionId");
+			branchId = json.getString("branchId");
+			
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+
+		try{
+
+			session = sf.openSession();
+			session.beginTransaction();
+			Query dists=session.createQuery("from Region where regionId='"+regId+"'");
+			distList=dists.list();
+			for(Region dist:distList)
+			{
+				if( dist.getStatus() == DistributionConstants.ONE) {
+
+					branchsInReg = dist.getBranches();
+
+					for(Branch branchs : branchsInReg) {
+						if((branchs.getStatus() == DistributionConstants.ONE) && !branchs.getBranchId().equals(branchId)) {
+							brDistrict = branchs.getDistricts();
+
+							Iterator iter = brDistrict.iterator();
+							while(iter.hasNext()) {
+								BrDistrict brdist = (BrDistrict)iter.next();
+								if(brdist.getStatus() == DistributionConstants.ONE) {
+								stateCodes.put(new Integer(brdist.getDistCode()), new Integer(brdist.getDistCode()));
+								}
+							}
+						}
+					}
+
+					Collection<Districts> distr=dist.getDistricts();
+					for(Districts dis:distr){
+
+						if( dis.getStatus() == DistributionConstants.ONE) {
+
+							if(!stateCodes.containsKey(dis.getDistId())) {
+								RegDistJson rd=new RegDistJson();
+								System.out.println(dis.getDistId());
+								rd.setDistCode(dis.getDistId());
+								rd.setDistName(dis.getDistName());
+								rd.setRegId(dist.getRegionId());
+								rd.setStateCode(dis.getStateId());
+								district.add(rd);	
+							}
+
+
+
+						}
+					}
+				}
+				//regns.add(rg);
+			}
+
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+		Collections.sort(district, new RegDistJson());
+		return district;
+
+	}
+	
+	
+	public void saveBranch(String branchDetails ){
+		Collection<Branch> branch=new ArrayList<Branch>();
+		Collection<Region> r=new ArrayList<Region>();
+		Collection<BrDistrict> brdist=new ArrayList<BrDistrict>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		boolean updateFlag=false;
+		String regId=null;
+		String branchName=null;
+		String stDist=null;
+
+		try {
+			JSONObject json = new JSONObject(branchDetails);
+			regId=json.getString("regId");
+			//	regName=json.getString("regName");
+			branchName=json.getString("branchName");
+			stDist=json.getString("stDist");
+
+
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+		System.out.println("branchName"+branchName);
+		System.out.println("stDist=="+stDist);
+		HashMap hm = new HashMap();
+		int i1 = 0;
+		List list =Arrays.asList(stDist.split(("\\s*,\\s*")));
+		for(int i=0;i<list.size();i++){
+
+			System.out.println(list.size());
+			System.out.println("list"+list.get(i));
+			String st_dist=list.get(i).toString();
+			List list2 =Arrays.asList(st_dist.split(("\\s*:\\s*")));
+
+			BrDistrict br1=new BrDistrict();
+			br1.setDistCode(Integer.parseInt(list2.get(1).toString()));
+			hm.put(new Integer(i1++),Integer.parseInt(list2.get(1).toString()));
+
+			br1.setStateCode((Integer.parseInt(list2.get(0).toString())));
+			br1.setStatus(DistributionConstants.ONE);
+			brdist.add(br1);
+
+		}
+
+		long currentId =  BranchSequenceIdGen.getBranchSequenceIdGen();
+
+		String bId = DistributionConstants.BRANCH_CODE + currentId; 
+		//String bId="B25";
+		Branch br=new Branch();
+		br.setBranchId(bId);
+		br.setGid(currentId);
+		br.setBranch(branchName);
+		br.setCreatedOn(new java.util.Date());
+		br.setDistricts(brdist);
+		br.setStatus(DistributionConstants.ONE);
+		branch.add(br);	
+
+		try{
+			session = sf.openSession();
+			session.beginTransaction();
+			Query reg=session.createQuery("from Region where regionId='"+regId+"'");
+			r=reg.list();
+
+			for(Region regn:r)
+			{
+				regn.getBranches().add(br);
+				System.out.println(br.getBranchId());
+				session.save(regn);
+				session.getTransaction().commit();
+
+				/*session.flush();
+				Collection<Branch> branches=regn.getBranches();
+				for(Branch b:branches){
+					System.out.println("branch================================="+b.getBranchId());	
+				}*/
+
+
+
+
+			}
+			RegionGeomJdbc rgjdbc = new RegionGeomJdbc();
+			rgjdbc.storeGeomHibernate(hm,bId,branchName,DistributionConstants.BRANCH_GEOM,currentId,updateFlag,DistributionConstants.BRANCH_SINGLE_DELETE);
+
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+	}
+
+	public void updateBranch(String branchDetails ){
+		boolean updateFlag=true;
+		Collection<BrDistrict> brdist=new ArrayList<BrDistrict>();
+		Collection<BrDistrict> brdistDB=new ArrayList<BrDistrict>();
+		HashMap hm = new HashMap();
+		HashMap temp = new HashMap();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		String branchName=null;
+		String branchId=null;
+		String stDist=null;
+
+		try {
+			JSONObject json = new JSONObject(branchDetails);
+			branchId = json.getString("branchId");
+			branchName=json.getString("branchName");
+			stDist=json.getString("stDist");
+
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+		System.out.println("branchName"+branchName);
+		System.out.println("stDist=="+stDist);
+		List list =Arrays.asList(stDist.split(("\\s*,\\s*")));
+		int j=0;
+		for(int i=0;i<list.size();i++){
+
+			System.out.println(list.size());
+			System.out.println("list"+list.get(i));
+			String st_dist=list.get(i).toString();
+			List list2 =Arrays.asList(st_dist.split(("\\s*:\\s*")));
+
+			BrDistrict br1=new BrDistrict();
+			br1.setDistCode(Integer.parseInt(list2.get(1).toString()));
+		//	temp.put(list2.get(1).toString(), list2.get(1).toString());
+			br1.setStateCode((Integer.parseInt(list2.get(0).toString())));
+			br1.setStatus(DistributionConstants.ONE);
+			brdist.add(br1);
+			hm.put(new Integer(j++),list2.get(1).toString());
+		}
+		long currentId =  BranchSequenceIdGen.getBranchSequenceIdGen();
+		try {
+			session = sf.openSession();
+			Branch branchDB = (Branch)session.get(Branch.class, branchId);
+
+			session.beginTransaction();
+			brdistDB = branchDB.getDistricts();
+
+			for(BrDistrict brdistricts : brdistDB) {
+				//if(temp.containsKey(new Integer(brdistricts.getDistCode()).toString())) {
+					brdistricts.setStatus(DistributionConstants.ZERO);
+				//}
+			}
+
+			//to update the previous districts in branch status to zero
+			session.update(branchDB);
+
+			branchDB.getDistricts().addAll(brdist);
+			branchDB.setBranch(branchName);
+
+			session.update(branchDB);
+			session.getTransaction().commit();
+
+			RegionGeomJdbc rgjdbc = new RegionGeomJdbc();
+			rgjdbc.storeGeomHibernate(hm,branchId,branchName,DistributionConstants.BRANCH_GEOM,currentId,updateFlag,DistributionConstants.BRANCH_SINGLE_DELETE);
+
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+
+		}
+
+	}
+
+	public void deleteBranch(String branchDetails ){
+		HashMap<Integer,String> brId=new HashMap<Integer,String>();
+		HashMap<Integer,String> terrId=new HashMap<Integer,String>();
+		Collection<BrDistrict> brdistDB=new ArrayList<BrDistrict>();
+		Collection<Territory> territoryDB = new ArrayList<Territory>();
+		Collection<TerritoryVillTown> territoryVillTownList = null;
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Branch branchDB = null;
+		String branchId=null;
+		org.json.JSONArray branchIdArray = null;
+
+		try {
+			JSONObject json = new JSONObject(branchDetails);
+			//branchId = json.getString("branchId");
+			branchIdArray = json.getJSONArray("branchId");
+
+		} catch (JSONException e) {
+			System.out.println("JSON Exception while Coverting to jSon Object");
+			e.printStackTrace();
+		}
+
+		try {
+			session = sf.openSession();
+			int j=0;
+			for(int i=0; i<branchIdArray.length(); i++ ) {
+				branchDB = (Branch)session.get(Branch.class, branchIdArray.get(i).toString());
+				brId.put(new Integer(j++),branchIdArray.get(i).toString());
+				session.beginTransaction();
+				brdistDB = branchDB.getDistricts();
+
+				for(BrDistrict brdistricts : brdistDB) {
+					brdistricts.setStatus(DistributionConstants.ZERO);
+				}
+
+				territoryDB = branchDB.getTerritories();
+
+				for(Territory territory : territoryDB)  {
+					int k=0;
+					terrId.put(new Integer(k++),territory.getTerritoryId());
+					territoryVillTownList = new ArrayList<TerritoryVillTown>();
+					territoryVillTownList = territory.getVillTown();
+
+					for(TerritoryVillTown territoryVillTown :  territoryVillTownList) {
+						territoryVillTown.setStatus(DistributionConstants.ZERO);
+					}
+
+					territory.setStatus(DistributionConstants.ZERO);
+				}
+
+				//to update the previous districts in branch status to zero
+				branchDB.setTerritories(territoryDB);
+				branchDB.setStatus(DistributionConstants.ZERO);
+				session.update(branchDB);
+				session.getTransaction().commit();
+			}
+			RegionGeomJdbc rgjdbc = new RegionGeomJdbc();
+			rgjdbc.deleteGeom(brId,DistributionConstants.BRANCH_DELETE_ALL);	
+			if(!(terrId.isEmpty())){
+				rgjdbc.deleteGeom(terrId,DistributionConstants.TERRITORY_DELETE_ALL);
+			}
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+
+	public Collection<BranchJson> getBranchDetails() {
+
+		Collection<ZoneListFinal> zone = new ArrayList<ZoneListFinal>();
+		Collection<Branch> branch = new ArrayList<Branch>();
+		Collection<BranchJson> branchJsonList = new ArrayList<BranchJson>();
+		Collection<Region> regn = new ArrayList<Region>();
+		Collection<BrDistrict> brDistricts = null;
+		Collection<BrDistrict> brDistrictValid = new ArrayList<BrDistrict>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		BrDistrict brDistrict = null;
+		BranchJson branchJson = null;
+
+		try{
+			session = sf.openSession();
+			session.beginTransaction();
+			Query zoneList = session.createQuery("from ZoneListFinal where status = "+ DistributionConstants.ONE );
+			zone = zoneList.list();
+			for(ZoneListFinal zoneItr : zone) {
+				if(zoneItr.getStatus()== DistributionConstants.ONE){
+					regn=zoneItr.getRegions();
+					for(Region r:regn){
+						if(r.getStatus()== DistributionConstants.ONE){
+							branch=r.getBranches();
+
+							for(Branch b:branch){	
+								if(b.getStatus() == DistributionConstants.ONE){
+									branchJson = new BranchJson();	
+									branchJson.setZoneId(zoneItr.getZoneId());
+									branchJson.setZoneName(zoneItr.getZoneName());
+									branchJson.setRegionName(r.getRegion());
+									branchJson.setRegionId(r.getRegionId());
+									branchJson.setBranchId(b.getBranchId());
+									branchJson.setBranchName(b.getBranch());
+
+									brDistricts = b.getDistricts();
+
+									for(BrDistrict brDist : brDistricts) {
+										if( brDist.getStatus() == DistributionConstants.ONE ) {
+											brDistrict = new BrDistrict();
+											try {
+												BeanUtils.copyProperties(brDistrict, brDist);
+											} catch(Exception e) {
+												e.printStackTrace();
+												System.out.println(e.getMessage());
+											}
+										}
+
+										brDistrictValid.add(brDistrict);
+									}
+									branchJson.setBrDistricts(brDistrictValid);
+									branchJson.setBrDistricts(b.getDistricts());
+									branchJsonList.add(branchJson);
+								}
+							}
+						}
+					}
+				}
+			}
+			//branchJsonList.add(branchJson);
+			//System.out.println(branchJso);
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+		return branchJsonList;
+	}
+
+	public boolean vildateBranchName(String branchDetails) {
+
+		Collection<Region> region = new ArrayList<Region>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		boolean branchNameStatus = false;
+		Collection<Branch> branchs = new ArrayList<Branch>();
+
+		try {
+			session = sf.openSession();
+
+			JSONObject json = new JSONObject(branchDetails);
+			String branchName = json.getString("branchName");
+			String regId = json.getString("regId");
+
+			Query branchList = session.createQuery("from Region where regionId = '"+ regId.trim() + "'" );
+			region = branchList.list();
+
+			for(Region regions : region) {
+				if(regions.getStatus()== DistributionConstants.ONE){
+					branchs = regions.getBranches();
+					for(Branch branches : branchs) {
+						if(branches.getStatus()==DistributionConstants.ONE){
+							if(branches.getBranch().toString().trim().equals(branchName.trim())) {
+								branchNameStatus = true;
+							}
+						}
+					}
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return branchNameStatus;
+	}
+
+	public static void main(String args[]) {
+		String	input="{'branchName':'xyzzzz','zoneId':'Z111','regId':'R445','regName':'ABCJKAHSDFKLH',stDist:'27:28,27:27'}";
+		BranchServiceDao regionListDao = new BranchServiceDao();
+		//regionListDao.saveBranch1(input);
+		//String branchDetails="{'branchId':'B64','branchName':'ABC_updated_now','zoneId':'ZN206','regId':'R218',stDist:'27:05'}";
+		//String branchDelete = "{'branchId': ['B64','B65']}";
+
+		//String regId="{'regionId':'R220'}";
+		/*Collection<BranchJson> branchJsons = regionListDao.getBranchDetails();
+		for(BranchJson branchJsonEach : branchJsons) {
+			System.out.println(branchJsonEach.getBranchId()+"--" + branchJsonEach.getBranchName() + "--" + branchJsonEach.getZoneId() + "--" + branchJsonEach.getZoneName());
+		}*/
+		//regionListDao.saveBranch(branchDetails);
+		//regionListDao.getRegDistrict(regId);
+		//regionListDao.updateBranch(branchDetails);
+		//regionListDao.deleteBranch(branchDelete);
+
+		String branchDetails = "{'branchName':'branch north 2','regId':'R452'}";
+
+		boolean retval = regionListDao.vildateBranchName(branchDetails);
+		System.out.println("retval -- " + retval);
+	}
+}

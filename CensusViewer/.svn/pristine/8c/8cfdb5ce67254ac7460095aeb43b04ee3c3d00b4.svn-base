@@ -1,0 +1,129 @@
+package com.mars.distribution.daoimpl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.config.DistributionConstants;
+import com.mars.distribution.dao.ChannelDao;
+import com.mars.distribution.model.Channel;
+import com.mars.distribution.model.Intermediary;
+
+public class ChannelDaoImpl implements ChannelDao {
+
+	Session session = null;
+	
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public ChannelDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+
+	
+	public List getChannelOnKey() {
+
+		try {
+			
+		} catch(Exception e ) {
+			
+		} finally {
+			
+		}
+		return null;
+	}
+
+
+	public List<Channel> getChannelNames() {
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List<Channel> channels = new ArrayList<Channel>();
+		try {
+			session = sf.openSession();
+			
+			Query channelQuery = session.createQuery("from Channel where orgId='"+DistributionConstants.DEFAULT_ORGID+"'");
+			channels = channelQuery.list();
+			
+			return channels;
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+		}
+		return null;
+	}
+	
+	public List<LinkedHashMap> getChannelIntermOnKey(String channelId, String orgId) {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List<Channel> channels = new ArrayList<Channel>();
+		
+		List<Intermediary> channelCollec = new ArrayList<Intermediary>(); 
+		List<LinkedHashMap> channelDetails = new ArrayList<LinkedHashMap>();
+		
+		LinkedHashMap<String, String> channelhm = new LinkedHashMap<String, String>();
+		
+		try {
+			session = sf.openSession();
+			
+			Query channelQuery = session.createQuery("from Channel where orgId='"+orgId.trim()+"' and channelId='"+channelId.trim()+"'");
+			channels = channelQuery.list();
+			
+			if(channels.size() > 0) {
+				for(Channel channel : channels) {
+					channelCollec = channel.getIntermCollection();
+				
+					channelhm.put(channel.getChannelId(), channel.getChannelId());
+					channelhm.put(channel.getChannelName(), channel.getChannelName());
+				}
+				
+				LinkedHashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
+				traverseChildren(channelCollec, hm);
+				
+				channelDetails.add(channelhm);
+				channelDetails.add(hm);
+			}
+			return channelDetails;
+			
+		} catch(Exception e ) {
+			
+		} finally {
+			
+		}
+		return null;
+	}
+	
+	
+	
+	public Collection<Intermediary> traverseChildren(Collection<Intermediary> collection,HashMap<String, Integer> hm) {
+		
+		for(Intermediary inter:collection) {
+			//System.out.println(inter.getName());
+			hm.put(inter.getType(), inter.getLevel());
+			traverseChildren(inter.getIntermediaryCollection(),hm);
+		}
+		return null;
+	}
+	
+	public static void main(String args[]) {
+		
+		ChannelDaoImpl channelDaoImpl = new ChannelDaoImpl();
+		channelDaoImpl.getChannelIntermOnKey("CH7", "D1");
+	}
+}

@@ -1,0 +1,141 @@
+package com.mars.distribution.model;
+
+import java.sql.Date;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
+
+@Entity
+@Table(name="DISTRICT_CHANNEL_STRUCT",schema="distribution")
+public class DistrictChannelStructure {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE )
+	private String channelStructId;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CREATED_BY")
+	private User createdBy;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="MODIFIED_ON")
+	private Date modifiedOn;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORGID")
+	private Org orgId;
+	
+	public String getChannelStructId() {
+		return channelStructId;
+	}
+
+	public void setChannelStructId(String channelStructId) {
+		this.channelStructId = channelStructId;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@XmlTransient
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getModifiedOn() {
+		return modifiedOn;
+	}
+
+	public void setModifiedOn(Date modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+
+	@XmlTransient
+	public Org getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Org orgId) {
+		this.orgId = orgId;
+	}
+
+	public int getLevelNo() {
+		return levelNo;
+	}
+
+	public void setLevelNo(int levelNo) {
+		this.levelNo = levelNo;
+	}
+
+	@XmlTransient
+	public DistrictChannel getDistChannel() {
+		return distChannel;
+	}
+
+	public void setDistChannel(DistrictChannel distChannel) {
+		this.distChannel = distChannel;
+	}
+
+
+
+	public Collection<DistrictChannelIntermediary> getDistChannelIntermediary() {
+		return distChannelIntermediary;
+	}
+
+	public void setDistChannelIntermediary(
+			Collection<DistrictChannelIntermediary> distChannelIntermediary) {
+		this.distChannelIntermediary = distChannelIntermediary;
+	}
+
+
+
+	public Collection<DistrictChannelIntermediaryDetail> getDistIntermDetail() {
+		return distIntermDetail;
+	}
+
+	public void setDistIntermDetail(
+			Collection<DistrictChannelIntermediaryDetail> distIntermDetail) {
+		this.distIntermDetail = distIntermDetail;
+	}
+
+
+
+	@Column(name="LEVEL_NO")
+	private int levelNo;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CHANNEL_ID")
+	private DistrictChannel distChannel;
+	
+	@OneToMany(cascade=CascadeType.ALL ,mappedBy="intermId")
+	private Collection<DistrictChannelIntermediary> distChannelIntermediary;
+	
+	
+	@OneToMany(cascade=CascadeType.ALL ,mappedBy="channelStrucId")
+	private Collection<DistrictChannelIntermediaryDetail> distIntermDetail;
+
+}

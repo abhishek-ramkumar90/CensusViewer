@@ -1,0 +1,120 @@
+package com.mars.distrbution.service.bl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import com.mars.distribution.ServicePojo.ChannelIntermJson;
+import com.mars.distribution.ServicePojo.ChannelJson;
+import com.mars.distribution.ServicePojo.ChannelStructureJson;
+import com.mars.distribution.ServicePojo.RegDistJson;
+import com.mars.distribution.daoimpl.ChannelDaoImpl;
+import com.mars.distribution.model.Channel;
+
+public class ChannelBL {
+
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+	ChannelDaoImpl channelDaoImpl = null;
+	
+	public ChannelBL() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+	
+	public Collection<ChannelJson> getChannels() {
+	
+		channelDaoImpl = new ChannelDaoImpl();
+		List<Channel> channelList = new ArrayList<Channel>();
+		List<ChannelJson> channelJsonCollection = new ArrayList<ChannelJson>(); 
+				
+		ChannelJson channelJson = null; 
+		try {
+			channelList = channelDaoImpl.getChannelNames();
+			
+			for(Channel channels : channelList) {
+				channelJson = new ChannelJson();
+				
+				channelJson.setChannelId(channels.getChannelId());
+				channelJson.setChannelName(channels.getChannelName());
+				channelJson.setLevelCount(channels.getLevelCount());
+				channelJson.setOrgId(channels.getOrgId());
+				
+				channelJsonCollection.add(channelJson);
+				
+			}
+			
+		} catch(Exception e) {
+			
+		} finally {
+			
+		}
+		Collections.sort(channelJsonCollection, new ChannelJson());
+		return channelJsonCollection;
+	}
+
+	
+	public ChannelStructureJson getChannelStructure(String channelId, String orgId) {
+		
+		channelDaoImpl = new ChannelDaoImpl();
+		ChannelStructureJson channelStructureJson = new ChannelStructureJson(); 
+		ChannelIntermJson channelIntermJson = null;
+		
+		try {
+		
+			List<LinkedHashMap> channelDetails = channelDaoImpl.getChannelIntermOnKey(channelId, orgId);
+			
+			Iterator it = channelDetails.iterator();
+		    while (it.hasNext()) {
+		       
+		    	LinkedHashMap<String, String> channelIdName = (LinkedHashMap<String, String>)it.next();
+		    	
+		    	Iterator it2 = channelIdName.entrySet().iterator();
+		    	
+		    	while (it2.hasNext()) {
+		    		
+		    		Map.Entry pairs = (Map.Entry)it2.next();
+		    		
+		    		channelStructureJson.setChannelName(pairs.getKey().toString());
+		    		channelStructureJson.setChannelId(pairs.getValue().toString());
+		    	}
+		    	
+		    	LinkedHashMap<String, Integer> channelIntermDetails = (LinkedHashMap<String, Integer>)it.next();
+		    	
+		    	Iterator it1 = channelIntermDetails.entrySet().iterator();
+			    
+		    	while (it1.hasNext()) {
+
+		    		Map.Entry pairs = (Map.Entry)it1.next();
+			    
+			        channelIntermJson = new ChannelIntermJson();
+			        
+			        channelIntermJson.setType(pairs.getKey().toString());
+			        channelIntermJson.setLevel(((Integer)pairs.getValue()).intValue());
+			        
+			        channelStructureJson.getChannelIntermjson().add(channelIntermJson);
+			    }
+		     
+		    }
+			return channelStructureJson;
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+			logger.fatal(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	/*public static void main(String args[]){
+		ChannelBL chb= new ChannelBL();
+		chb.getChannels();
+		}*/
+	
+}

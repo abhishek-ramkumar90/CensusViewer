@@ -1,0 +1,83 @@
+package com.mars.distribution.model;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="DIST_CHANNELS", schema = "distribution")
+public class DistChannel {
+	@Id
+	@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.DistChannelIdGenerator")
+	@GeneratedValue(generator="seq_id")
+	@Column(name = "DIST_CHANNEL_ID", unique = true, nullable = false, length = 20)
+	private String distChannelId;
+	
+	@Column(name="DIST_CHANNEL_NAME")
+	private String distChannelName;
+	
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="DIST_CHANNEL_ID")
+	private Collection<DistChannelInter> distChannelInterId;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="DIST_CHANNEL_ID")
+	private Collection<DistChannelStruc> distChannelStrucId;
+	
+	public Collection<DistChannelStruc> getDistChannelStrucId() {
+		return distChannelStrucId;
+	}
+
+	public void setDistChannelStrucId(
+			Collection<DistChannelStruc> distChannelStrucId) {
+		this.distChannelStrucId = distChannelStrucId;
+	}
+
+	public Collection<DistChannelInter> getDistChannelInterId() {
+		return distChannelInterId;
+	}
+
+	public void setDistChannelInterId(
+			Collection<DistChannelInter> distChannelInterId) {
+		this.distChannelInterId = distChannelInterId;
+	}
+
+	public String getDistChannelId() {
+		return distChannelId;
+	}
+
+	public void setDistChannelId(String distChannelId) {
+		this.distChannelId = distChannelId;
+	}
+
+	public String getDistChannelName() {
+		return distChannelName;
+	}
+
+	public void setDistChannelName(String distChannelName) {
+		this.distChannelName = distChannelName;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	
+	
+}

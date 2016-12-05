@@ -1,0 +1,69 @@
+package com.mars.distribution.daoimpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.dao.DistributionDao;
+import com.mars.distribution.model.DistrictChannelStructure;
+
+public class ChannelDaoImpl implements DistributionDao{
+
+	Session session = null;
+	List<DistrictChannelStructure> districtChannelStructure;
+	
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public ChannelDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+	
+	
+	public List getAllChannels() {
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		try {
+
+			districtChannelStructure =  new ArrayList<DistrictChannelStructure>();
+			session = sf.openSession();
+			//session.beginTransaction();
+			/*Query channels = session.createQuery("from DistrictChannelStructure");
+			districtChannelStructure = channels.list();*/
+			
+			String sql = "select dc.channel_name, dci.iterm_name, dcs.channelstructid, dcs.created_on, dcs.level_no, dcs.modified_on, dcs.status, dcs.created_by, dcs.orgid from distribution.dist_channel dc, distribution.dist_channel_intermediary dci, distribution.district_channel_struct dcs where dcs.channel_id = dc.channel_id and dcs.interm_id = dci.interm_id and dcs.status = 1";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			List results = query.list();
+			
+			logger.info("get data");
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				logger.error(e.getMessage());
+			}
+		}
+		return null;
+	}
+
+	public static void main(String args[]) {
+		ChannelDaoImpl channelDaoImpl = new ChannelDaoImpl();
+		channelDaoImpl.getAllChannels();
+	}
+}

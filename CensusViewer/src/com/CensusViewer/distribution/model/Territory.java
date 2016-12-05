@@ -1,0 +1,97 @@
+package com.CensusViewer.distribution.model;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="TERRITORY_MASTER",schema = "distribution")
+public class Territory {
+
+	@Id
+	@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.TerritoryIdGenerator")
+	@GeneratedValue(generator="seq_id")
+	@Column(name = "TERRITORY_ID", unique = true, nullable = false, length = 20)
+	private String territoryId;
+	
+	@Column(name="TERRITORY_NAME")
+	private String territory;
+	
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+	
+
+
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="TERRITORY_ID")
+	private Collection<TerritoryVillTown> villTown;
+	
+	/*@OneToMany(cascade= CascadeType.ALL,mappedBy="territoryId")
+	private Collection<DistrictChannelIntermediaryDetail> districtChannelIntermDetail;
+
+	public Collection<DistrictChannelIntermediaryDetail> getDistrictChannelIntermDetail() {
+		return districtChannelIntermDetail;
+	}
+
+	public void setDistrictChannelIntermDetail(
+			Collection<DistrictChannelIntermediaryDetail> districtChannelIntermDetail) {
+		this.districtChannelIntermDetail = districtChannelIntermDetail;
+	}*/
+
+	@Column(name="STATUS")
+	private int status;
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getTerritoryId() {
+		return territoryId;
+	}
+
+	public void setTerritoryId(String territoryId) {
+		this.territoryId = territoryId;
+	}
+
+	public String getTerritory() {
+		return territory;
+	}
+
+	public void setTerritory(String territory) {
+		this.territory = territory;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+
+
+	public Collection<TerritoryVillTown> getVillTown() {
+		return villTown;
+	}
+
+	public void setVillTown(Collection<TerritoryVillTown> villTown) {
+		this.villTown = villTown;
+	}
+	
+
+}

@@ -1,0 +1,6 @@
+# configuration for Server
+jdbc.username=postgres
+jdbc.password=admin@123
+jdbc.driver=org.postgresql.Driver
+jdbc.connectionurl=jdbc:postgresql://172.16.1.7:5432/Mars
+solrSearch=http://localhost:8080/solr/collection1

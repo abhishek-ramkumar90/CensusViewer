@@ -1,0 +1,228 @@
+function saveIntermediary() {
+	
+	var intermediaryName = $("#intermediaryName").val();
+	
+	if($.trim(intermediaryName) == "") {
+		alert("Please enter Intermediary name.")
+		return;
+	}
+	
+	var typeVal = $("#typeList").val();
+	
+	if($.trim(typeVal) == "new") {
+		
+		typeVal = $("#newInterm").val();
+	//	alert("typeVal -- " + typeVal);
+		if($.trim(typeVal) == "") {
+			alert("Please enter New Intermediary.")
+			return;
+		}
+	} else {
+		if($.trim(typeVal) == "select") {
+			alert("Please select a Intermediary.");
+			return;
+		}
+	}
+	
+	var intermZoneList = $("#intermZoneList").val();
+	if($.trim(intermZoneList) == "select") {
+		alert("Please select a Zone.");
+		return;
+	}
+	
+	var intermRegionList = $("#intermRegionList").val();
+	if($.trim(intermRegionList) == "select") {
+		alert("Please select a Region.");
+		return;
+	}
+	
+	var intermBranchList = $("#intermBranchList").val();
+	if($.trim(intermBranchList) == "select") {
+		alert("Please select a Branch.");
+		return;
+	}
+	
+	var intermTerritoryList = $("#intermTerritoryList").val();
+	if($.trim(intermTerritoryList) == "select") {
+		alert("Please select a Territory.");
+		return;
+	}
+	
+	var villTownList = $("#villTownList").val();
+	if($.trim(villTownList) == "select") {
+		alert("Please select a Village/Town.");
+		return;
+	}
+	
+	var intermAddress = $("#intermAddress").val();
+	/*if($.trim(intermAddress) == "select") {
+		alert("Please select a Village/Town.");
+		return;
+	}*/
+	
+	var parentTypeList = $("#parentTypeList").val();
+	var childTypeList = $("#childTypeList").val();
+	var root =  document.getElementById("root").checked;
+	
+	var input = "{'intermName':'"+ intermediaryName +"','intermType':'"+typeVal+"','zoneId':'"+intermZoneList+"','regId':'"+intermRegionList+"','branchId':'"+intermBranchList+"','terrId':'"+intermTerritoryList+"','villTownId':'"+villTownList+"','address':'"+intermAddress+"','parentType':'"+parentTypeList+"','childType':'"+childTypeList+"','root':'"+root+"'}";
+	webMethod = CXFServiceURL+"IntermService/saveIntermediary";
+	var respObj = postAjax(webMethod,input);
+	
+	alert("respObj - " + JSON.stringify(respObj));
+	
+}
+
+function typeList() {
+	
+	//alert(1);
+	webMethod = CXFServiceURL+"IntermService/interm/types";
+	
+	clearSelect("typeList");
+	
+	var selectBox = document.getElementById("typeList");
+	createOptionElem("select","Select",selectBox);
+	createOptionElem("new","New",selectBox);
+	//alert(webMethod);
+	var respObj = getAjax(webMethod);
+	//alert(JSON.stringify(respObj));
+		
+	if(respObj.Intermediary == "") {
+		//alert("resp is blank");
+	}
+	
+	selectBranchZone("intermZoneList");
+}
+
+function isNew(selectedOption) {
+	var typeVal = $("#"+selectedOption).val();
+	//alert(typeVal )
+	if($.trim(typeVal) == "new") {
+		/*alert("--------" + typeVal);*/
+		document.getElementById("newIntermDiv").style.display = "block";
+	} else {
+		document.getElementById("newIntermDiv").style.display = "none";
+	}
+	//selectBranchRegion("intermZoneList","intermRegionList");
+	
+}
+
+function checkParentChild() {
+	if(document.getElementById("root").checked == true) {
+		//alert("root checked");
+		document.getElementById("parentdiv").style.display = "none";
+		document.getElementById("childdiv").style.display = "none";
+	} else {
+		//alert("root non-checked");
+		document.getElementById("parentdiv").style.display = "block";
+		document.getElementById("childdiv").style.display = "block";
+	}
+}
+
+function checkParent() {
+	
+	if(document.getElementById("parent").checked == true) {
+	
+		webMethod = CXFServiceURL+"IntermService/interm/types";
+		
+		clearSelect("parentTypeList");
+		var selectBox = document.getElementById("parentTypeList");
+		createOptionElem("select","Select",selectBox);
+		
+		var respObj = getAjax(webMethod);
+		//alert(JSON.stringify(respObj));
+			
+		if(respObj.Intermediary == "") {
+			//alert("resp is blank");
+		}
+	}
+}
+
+function checkChild() {
+	
+	if(document.getElementById("child").checked == true) {
+		
+		webMethod = CXFServiceURL+"IntermService/interm/types";
+		
+		clearSelect("childTypeList");
+		var selectBox = document.getElementById("childTypeList");
+		createOptionElem("select","Select",selectBox);
+		
+		var respObj = getAjax(webMethod);
+		//alert(JSON.stringify(respObj));
+			
+		if(respObj.Intermediary == "") {
+			//alert("resp is blank");
+		}
+	}
+}
+
+function selectedIntermediaryTerritory(intermBranchList,intermTerritoryList) {
+
+	webMethod = CXFServiceURL+"TerritoryService/branch/terrlist";
+	var branchCode=$("#"+intermBranchList).val();
+	
+	//alert("branchCode--" + branchCode);
+	
+	var input="{'branchId':'"+branchCode+"'}";
+	var respObj = postAjax(webMethod,input);
+	
+	//alert(JSON.stringify(respObj));
+
+	clearSelect(intermTerritoryList);
+	var selectBox1 = document.getElementById(intermTerritoryList);
+	createOptionElem("","Select",selectBox1);
+	
+	if((respObj.TerritoryDetails)!="" && (respObj.TerritoryDetails.terrList.length)>1) {
+		
+		for(var k=0; k<respObj.TerritoryDetails.terrList.length; k++ ) {
+			var terrId = $.trim(respObj.TerritoryDetails.terrList[k].terrId);
+			var terrName = $.trim(respObj.TerritoryDetails.terrList[k].terrName);
+			//alert(k + "--" + regionId + "--" + regionName);
+			createOptionElem(terrId,terrName,selectBox1);
+		}
+		
+	}else{
+		var terrId = $.trim(respObj.TerritoryDetails.terrList.terrId);
+		var terrName = $.trim(respObj.TerritoryDetails.terrList.terrName);
+		//alert(k + "--" + regionId + "--" + regionName);
+		createOptionElem(terrId,terrName,selectBox1);
+	}
+	
+	return;
+}
+
+function selectedTerritoryVillTown(intermTerritoryList,villTownList) {
+
+	webMethod = CXFServiceURL+"TerritoryService/territory/villtown";
+	var terrCode=$("#"+intermTerritoryList).val();
+	
+	//alert("territoryId--" + terrCode);
+	
+	var input="{'territoryId':'"+terrCode+"'}";
+	var respObj = postAjax(webMethod,input);
+	
+	//alert(JSON.stringify(respObj));
+
+	clearSelect(villTownList);
+	var selectBox1 = document.getElementById(villTownList);
+	createOptionElem("","Select",selectBox1);
+	
+	if((respObj.TerrVillTownDetails)!="" && (respObj.TerrVillTownDetails.terVillTown.length)>1) {
+		
+		for(var k=0; k<respObj.TerrVillTownDetails.terVillTown.length; k++ ) {
+			var villTownCode = $.trim(respObj.TerrVillTownDetails.terVillTown[k].villTownCode);
+			var villTownName = $.trim(respObj.TerrVillTownDetails.terVillTown[k].villTownName);
+			//alert(k + "--" + regionId + "--" + regionName);
+			createOptionElem(villTownCode,villTownName,selectBox1);
+		}
+		
+	}else{
+		var villTownCode = $.trim(respObj.TerrVillTownDetails.terVillTown.villTownCode);
+		var villTownName = $.trim(respObj.TerrVillTownDetails.terVillTown.villTownName);
+		//alert(k + "--" + regionId + "--" + regionName);
+		createOptionElem(villTownCode,villTownName,selectBox1);
+	}
+	
+	return;
+}
+

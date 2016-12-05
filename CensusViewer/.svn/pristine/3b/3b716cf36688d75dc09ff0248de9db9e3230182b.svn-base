@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<head>
+<title>Mars</title>
+<link rel="shortcut icon" href="/mars/images/favicon.ico" />
+
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<!-- <link rel="stylesheet" href="/mars/css/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+
+ <!--  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />-->
+<link rel="stylesheet" href="/mars/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+<link href="/mars/css/dcaccordion.css" rel="stylesheet" type="text/css" />
+<link href="/mars/css/nprogress.css" rel="stylesheet" type="text/css" />
+<link href="/mars/css/grey.css" rel="stylesheet" type="text/css" />
+<link href="/mars/css/pagination.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/mars/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/mars/js/jquery-ui.js" type="text/javascript"></script>
+<link href="/mars/css/reset3.css" rel="stylesheet" type="text/css" />
+<link href="/mars/css/layoutstyle3.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/mars/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="/mars/js/commonJquery3.js"></script>
+<link href="/mars/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<script src="/mars/js/grid.locale-en.js" type="text/javascript"></script>
+<script src="/mars/js/DOMhelp.js" type="text/javascript"></script>
+<script src="/mars/js/jquery.jqgrid.min.js" type="text/javascript"></script>
+<script src="/mars/js/jquery.jqGrid.src.js" type="text/javascript"></script>
+<script src="/mars/js/sorting.js" type="text/javascript"></script>
+<script src="/mars/js/pagination.js" type="text/javascript"></script>
+<script src="/mars/js/Census/mis.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/mis.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/channel.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/territory.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/branch.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/region.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/zone.js" type="text/javascript"></script>
+<script src="/mars/js/Distribution/gisMisFunctions.js" type="text/javascript"></script>
+<script src="/mars/js/pagination.js" type="text/javascript"></script>
+<script src="/mars/js/DOMhelp.js" type="text/javascript"></script>
+<script src="/mars/js/jsUtil/util.js" type="text/javascript"></script>
+<script src="/mars/js/Census/GIS.js" type="text/javascript"></script>
+<script src="/mars/js/nprogress.js" type="text/javascript"></script>
+<script src="/mars/js/script.js" type="text/javascript"></script>
+<!-- <script src="/mars/js/Census/ui.multiselect.js" type="text/javascript"></script> -->
+<!-- <script src="/mars/js/Census/jq1.js" type="text/javascript"></script> -->
+<!-- <script src="/mars/js/Census/jqueryTable.js" type="text/javascript"></script> -->
+
+<!-- <script src="/mars/js/propertyfile.js" type="text/javascript"></script> -->
+<script src="/mars/js/ddaccordion.js" type="text/javascript"></script>
+<script src="/mars/js/jquery.dcjqaccordion.2.7.js" type="text/javascript"></script>
+<link type="text/css" href="/mars/themes/default/style.css"
+	rel="Stylesheet" />
+<link type="text/css" href="/mars/OpenLayers/theme/default/style.css"
+	rel="Stylesheet" />
+<style type="text/css">
+#info {
+	margin: auto;
+	width: 100px;
+	color: #333333;
+	padding: 10px;
+	background: #f4f4f4;
+	border: 1px solid #DDD;
+}
+#nicemenu { /* margin:0 auto; */
+	width: 300px;
+	margin-top: -30px;
+	float: right /* border-bottom:dotted 1px #E5E5E5;*/
+}
+#nicemenu a {
+	color: #0066CC;
+	text-decoration: none;
+}
+#nicemenu a:hover {
+	text-decoration: underline;
+}
+#nicemenu li {
+	display: inline;
+	position: relative;
+}
+#nicemenu li span {
+	position: relative;
+	z-index: 10;
+	padding: 4px 4px 4px 6px;
+	border-top: solid 1px #E5E5E5;
+	border-left: solid 1px #E5E5E5;
+	border-right: solid 1px #999999;
+	border-bottom: solid 1px #fff;
+	font-size: 12px;
+	line-height: 18px;
+	float: right
+}
+#nicemenu li span a {
+	font-weight: bold;
+	padding: 0 6px 0px 2px;
+}
+#nicemenu li span.over {
+	padding: 4px 3px 4px 5px;
+	border-top: solid 1px #E5E5E5;
+	border-left: solid 1px #E5E5E5;
+	border-right: solid 1px #999999;
+	border-bottom: solid 1px #fff;
+}
+*+html #nicemenu li span.over {
+	border-top: solid 2px #E5E5E5;
+	padding-bottom: 3px;
+} /* IE6 */
+#nicemenu li span.over a {
+}
+#nicemenu li span.over a:hover {
+	text-decoration: none;
+}
+#nicemenu li span.active {
+	background: #ffffff;
+	padding: 4px 3px 4px 5px;
+	border-top: solid 1px #E5E5E5;
+	border-left: solid 1px #E5E5E5;
+	border-right: solid 1px #999999;
+	border-bottom: solid 1px #fff;
+}
+*+html #nicemenu li span.active {
+	border-top: solid 2px #E5E5E5;
+	padding-bottom: 3px;
+}
+#nicemenu li span.active a {
+}
+#nicemenu li span.active a:hover {
+	text-decoration: none;
+}
+#nicemenu img.arrow { /*margin-left:4px;*/
+	cursor: pointer;
+}
+#nicemenu div.sub_menu {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0px;
+	margin-top: 29px;
+	border-top: solid 1px #E5E5E5;
+	border-left: solid 1px #E5E5E5;
+	border-right: solid 1px #999999;
+	border-bottom: solid 1px #999999;
+	padding: 4px;
+	top: 9px;
+	width: 300px;
+	background: #FFFFFF;
+}
+* html #nicemenu div.sub_menu {
+	margin-top: 23px;
+} /* IE6 */
+*+html #nicemenu div.sub_menu {
+	margin-top: 23px;
+} /* IE7 */
+#nicemenu div.sub_menu a:link,#nicemenu div.sub_menu a:visited,#nicemenu div.sub_menu a:hover
+	{
+	display: block;
+	font-size: 11px;
+	padding: 4px;
+}
+#nicemenu a.item_line {
+	border-top: solid 1px #E5E5E5;
+	padding-top: 6px !important;
+	margin-top: 3px;
+}
+.categorysetting {
+	width: 150px;
+	float: left;
+	padding-bottom: 5px
+}
+.glossymenu{
+margin: 5px 0;
+padding: 0;
+width: 170px; /*width of menu*/
+border: 1px solid #9A9A9A;
+border-bottom-width: 0;
+}
+.glossymenu a.menuitem{
+background: black url(glossyback.gif) repeat-x bottom left;
+font: bold 14px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+color: white;
+display: block;
+position: relative; /*To help in the anchoring of the ".statusicon" icon image*/
+width: auto;
+padding: 4px 0;
+padding-left: 10px;
+text-decoration: none;
+}
+.glossymenu a.menuitem:visited, .glossymenu .menuitem:active{
+color: white;
+}
+.glossymenu a.menuitem .statusicon{ /*CSS for icon image that gets dynamically added to headers*/
+position: absolute;
+top: 5px;
+right: 5px;
+border: none;
+}
+.glossymenu a.menuitem:hover{
+background-image: url(glossyback2.gif);
+}
+.glossymenu div.submenu{ /*DIV that contains each sub menu*/
+background: white;
+}
+.glossymenu div.submenu ul{ /*UL of each sub menu*/
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+.glossymenu div.submenu ul li{
+border-bottom: 1px solid blue;
+}
+.glossymenu div.submenu ul li a{
+display: block;
+font: normal 13px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+color: black;
+text-decoration: none;
+padding: 2px 0;
+padding-left: 10px;
+}
+.glossymenu div.submenu ul li a:hover{
+background: #DFDCCB;
+colorz: white;
+}
+</style>
+<script type="text/javascript">
+var list = new Array();
+	$(document).ready(function() {
+    	 advanceSettingOptions.push("tot_p");
+	     advanceSettingOptions.push("tot_work_p");
+	 	 advanceSettingOptions.push("tot_irr");
+		 advanceSettingOptions.push("power");
+		 advanceSettingOptions.push("education"); 
+		 advanceSettingOptions.push("hospital");
+	     advanceSettingOptions.push("no_of_comm_inst");
+		 advanceSettingOptions.push("no_of_watersrc");
+		 advanceSettingOptions.push("entertain");
+		 advanceSettingOptions.push("no_of_transport_mode");
+		 advanceSettingOptions.push("tot_exp");
+		 advanceSettingOptions.push("tot_inc");
+		 advanceSettingOptions.push("no_of_comm_mode");
+		 advanceSettingOptions.push("pap_mag_src");
+		 advanceSettingOptions.push("service");
+		 var checkcounter;
+	     var counter = 2;
+	     var checkbox;
+		  $('div#log').hide();
+	      $('div#stdistgrid_gridHeader').hide();
+	      $('div#columnValues').hide();
+	      $('div#operatorValues').hide();
+	      DATA_ON_LOAD();
+	      FILL_ZONE_FORM();
+	      ZONETABLE_ON_LOAD();
+	      LOAD_ST_DIST();
+		  MAP_INIT();
+		  loadCheckedCategory();
+		       $("#Downloadpdf").click(function(e) {
+		    	 if(ok_flag==true){
+		    		 window.location.href='/mars/DownloadPDF?webMethod='+webMethod+'&inputcol='+inputcol;
+		    	 }
+		    	 else{
+		    		 ExportExcel();
+		    		 window.location.href='/mars/DownloadPDF?inputData='+inputData;
+		    	 }
+		    });
+		        $("#Downloadxls").click(function(e) {
+		    	 if(ok_flag==true){
+		    		window.location.href='/mars/DownloadXLS?webMethod='+webMethod+'&inputcol='+inputcol;
+		    	 }
+		    	 else{
+		    		 ExportExcel();
+		    		 window.location.href='/mars/DownloadXLS?inputData='+inputData;
+		    	 }
+		    });
+		        
+		        $("#resetZone").click(function(){
+		      		    	RESET_ZONE();
+		      		    });
+		        
+		        $("#resetRegion").click(function(){
+			    	RESET_REGION();
+			    });
+		        
+		    $("#okButton").click(function() {
+		      ok_flag=true;
+			  ON_OK_CLICK(counter);
+			  ON_OK_CLICK_NEW();
+		    });
+			$("#Button1").click(function(){
+			ZONE_CREATION_OK();
+			});
+		    $("#okBtnRegionform").click(function(){
+		    	REGION_OK_CLICK();
+		    });
+		    $("#cancel").click(function(){
+		    	closePopUp("channelName");
+		    });
+		    
+		    $("#updatebuttonChannel").click(function(){
+		    	UpdateChannel();
+		    });
+		    $("#mapBtnBranch").click(function(){
+		    	//alert("MAP Branch");
+		    	//zoomToDist();
+		    	branchOkFlag=true;
+		    	//alert("ok");
+		    	 branchMap=true;
+		    	 regionMap=false;
+		    	 territoryMap=false;
+		    	 MAP_INIT();
+		    });
+		    $("#mapBtnRegion").click(function(){
+		    	//alert("MAP region");
+		    	branchMap=false;
+		    	branchOkFlag=false;
+		    	territoryMap=false;
+		    	 regionMap=true;
+		    	//zoomToDist();
+		    	MAP_INIT();
+		    	 
+		    });
+		    $("#mapBtnTerritory").click(function(){
+		    	//alert("MAP Territory");
+		    	branchMap=false;
+		    	branchOkFlag=false;
+		    	territoryMap=true;
+		    	regionMap=false;
+		    	MAP_INIT();
+		    	 
+		    });
+		    
+		    
+
+		    $("input[type=checkbox]").click(function()
+		    		  {
+		    		var id1=$(this).attr("id");
+		    		if($("#"+id1).is(":checked"))
+		    			{
+		    			list.push(id1);
+		    			}
+		    		else
+		    			var index = list.indexOf(id1);
+		    		if (index > -1) {
+		    		    list.splice(index, 1);
+		    		}
+   		  });
+		 /*    $("#ZoneFormList").click(function(){
+		    	FILL_ZONE_FORM();
+		    }); */
+		     $("#submitn").click(function() {
+				CHANGE_SETTINGS();
+				loadCheckedCategory();
+				checkedCategory();
+				loadCategoryOnSubmit();
+			});
+		     /* $("#zoneSelection").click(function() {
+		    	 FILL_ZONE_REGION_FORM("zoneSelection");
+				}); */
+		    /*  $("#zoneSelectionBranch").click(function() {
+		    	 //selectBranchZone("zoneSelectionBranch");
+		    	 //FILL_ZONE_REGION_FORM("zoneSelectionBranch");
+			 				});
+		      */
+			     $("#zoneSelectionBranch").change(function() {
+				 		//FILL_REGION_BRANCH("regionSelectionBranch","zoneSelectionBranch");
+			    	 selectBranchRegion("zoneSelectionBranch","regionSelectionBranch");
+				 				});
+			     
+			     $("#okBtnBranchForm").click(function() {
+			    	 BranchOkClick();
+			    	 //branchReset();
+				 				});
+			     
+			     
+			     $("#updatebuttonzone").click(function() {
+			    	 zoneUpdateSaveData();
+				 				});
+			     $("#zoneDelete").click(function() {
+			    	 zoneDeleteChecked();
+				 				});
+			     
+			     $("#regionSelectionBranch").change(function() {
+			    	 BranchDistrictList();
+				 				});
+			     $("#updatebuttonbranch").click(function() {
+			    	 branchUpdateSaveData();
+				});
+			     $("#branchDelete").click(function() {
+			    	 branchDeleteChecked();
+				});
+			     
+			     $("#updatebuttonregion").click(function() {
+			    	 regionUpdateSaveData();
+				});
+			     
+			     $("#regionDelete").click(function() {
+			    	 regionDeleteChecked();
+				});
+			     
+			     $("#edit").click(function() {
+			    	 editChannel();
+				});
+			     
+			//for territory form     
+		    /* $("#zoneSelectionTerritory").click(function() {
+		    	
+		    	FILL_ZONE_REGION_FORM("zoneSelectionTerritory");
+			}); */
+			
+		    $("#zoneSelectionTerritory").change(function() {
+		    	selectBranchRegion("zoneSelectionTerritory","regionSelectionTerritory");
+			});
+		    
+		    $("#regionSelectionTerritory").change(function() {
+		    	//FILL_BRANCH_TERRITORY("branchSelectionTerritory");
+		    	selectedTerritoryBranch("regionSelectionTerritory","branchSelectionTerritory");
+			});
+			
+		    $("#okbuttonterritory").click(function() {
+		    	TerritoryOkClick();
+		    	//territoryReset();
+			});
+		    $("#updatebuttonterritory").click(function() {
+		    	territoryUpdateSaveData();
+			});
+		    
+		    $("#territoryDelete").click(function() {
+		    	territoryDeleteChecked();
+			});
+		    
+		    
+		    $("#branchSelectionTerritory").change(function() {
+		    	TerritoryVillageList();
+			});
+		    $("#channelNameArea").change(function() {
+		    	 var element = $(this);
+		    	getChannelStructure(element);
+			});
+		    
+		    $("#state").change(function() {
+			ON_STATE_CHANGE();
+		    });
+		    $("#category").change(function() {
+		    var segment=$('input[name=segment]:checked').val();
+			ON_CATEGORY_CHANGE($.trim(segment));
+		    });
+		    $("#district").change(function() {
+		    ON_DISTRICT_CHANGE();
+		    });
+		    $("input[type='radio']").click(function() {
+			$('#category').empty();
+			var value = $(this).val();
+			ON_RADIO_CLICK(value);
+		    });
+		  
+			 $("#searchBox").bind('paste', function() {
+				 setTimeout(function () {
+				  	 var val= $("#searchBox").val();
+				  	 SOLR_SEARCH(val);
+					  }, 100);
+		    });
+		    $("#searchBox").keyup(function() {
+			 var val= $("#searchBox").val();
+			 SOLR_SEARCH(val);
+			});
+		    $("#searchBoxbutton").click(function() {
+				 var val= $("#searchBox").val();
+				 searchButtonOnClick(val);
+				});
+		    $("#subcategory").change(function() {
+				});
+		    $("#btnAddAll").click(function () {
+		    counter=ADD_ALL_BUTTON_CLICK(counter);
+		    
+		    });
+		    $("#btnRemoveAll").click(function () {
+		    	REMOVE_ALL_BUTTON_CLICK(counter);
+		    });
+		    $("#btnAdd").click(function () {
+		    	checkbox=false;
+		    	if(counter==1)
+		    		{
+		    		counter=2;
+		    		}
+		     counter=ADD_BUTTON_CLICK(counter);
+		     });
+		     $("#btnRemove").click(function () {
+		 		    	 if(counter==1){
+		    	                return false;
+		    	                        }   
+		   if(checkbox==false)
+			   {
+		    	 checkcounter=counter;
+               	checkbox=true;
+			   }
+		    		BUTTON_REMOVE(counter);
+		     });
+		     $("#getButtonValue").click(function () {
+			var msg = '';
+			for(i=1; i<counter; i++){
+		   	  msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
+			}
+		    	  //alert(msg);
+		     });
+		  
+			 $("#add").click(function(){
+				 $("#gridData").empty();
+				 var val= $("#selectedCategory").val();
+				 var text1=$("#selectedCategory").text();
+				 $("#gridData").val($("#gridData").val() + text1);
+			 });
+			 
+			 $("#Equal").click(function(){
+				 var signature=$("#Equal").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#LessGreat").click(function(){
+				 var signature=$("#LessGreat").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#Greater").click(function(){
+				 var signature=$("#Greater").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#Less").click(function(){
+				 var signature=$("#Less").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#GreatEqual").click(function(){
+				 var signature=$("#GreatEqual").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#LessEqual").click(function(){
+				 var signature=$("#LessEqual").val();
+				 $("#gridData").val($("#gridData").val() + signature);
+			 });
+			 $("#nicemenu img.arrow").click(function(){ 
+					$("span.head_menu").removeClass('active');
+					submenu = $(this).parent().parent().find("div.sub_menu");
+					if(submenu.css('display')=="block"){
+						$(this).parent().removeClass("active"); 	
+						submenu.hide(); 		
+						$(this).attr('src','images/arrow_hover.png');									
+					}else{
+						$(this).parent().addClass("active"); 	
+						submenu.fadeIn(); 		
+						$(this).attr('src','images/arrow_select.png');	
+					}
+					$("div.sub_menu:visible").not(submenu).hide();
+					$("#nicemenu img.arrow").not(this).attr('src','images/arrow.png');
+				})
+				.mouseover(function(){ $(this).attr('src','images/arrow_hover.png'); })
+				.mouseout(function(){ 
+					if($(this).parent().parent().find("div.sub_menu").css('display')!="block"){
+						$(this).attr('src','images/arrow.png');
+					}else{
+						$(this).attr('src','images/arrow_select.png');
+					}
+				});
+				$("#nicemenu span.head_menu").mouseover(function(){ $(this).addClass('over')})
+											 .mouseout(function(){ $(this).removeClass('over') });
+				$("#nicemenu div.sub_menu").mouseover(function(){ $(this).fadeIn(); })
+										   .blur(function(){ 
+										   		$(this).hide();
+												$("span.head_menu").removeClass('active');
+											});		
+				$(document).click(function(event){ 		
+						var target = $(event.target);
+						if (target.parents("#nicemenu").length == 0) {				
+							$("#nicemenu span.head_menu").removeClass('active');
+							$("#nicemenu div.sub_menu").hide();
+							$("#nicemenu img.arrow").attr('src','images/arrow.png');
+						}
+				});			   
+	});
+	function mapzoom(idn,layrval){
+		mapzoomGIS(idn,"Village");
+	}
+function changeDisplay(){
+	settingArray();
+}
+$(function() {
+	$("#tabs").tabs({ heightStyle: "fill" });
+	$("#tabs2").tabs({ heightStyle: "fill" });
+	
+		});
+	
+$(function() {
+	
+});
+
+
+
+</script>
+<script type="text/javascript">
+ 
+</script>
+
+<script type="text/javascript">
+ddaccordion.init({
+	headerclass: "submenuheader", //Shared CSS class name of headers group
+	contentclass: "submenu", //Shared CSS class name of contents group
+	revealtype: "click", //Reveal content when user clicks or onmouseover the header? Valid value: "click", "clickgo", or "mouseover"
+	mouseoverdelay: 200, //if revealtype="mouseover", set delay in milliseconds before header expands onMouseover
+	collapseprev: true, //Collapse previous content (so only one open at any time)? true/false 
+	defaultexpanded: [], //index of content(s) open by default [index1, index2, etc] [] denotes no content
+	onemustopen: false, //Specify whether at least one header should be open always (so never all headers closed)
+	animatedefault: false, //Should contents open by default be animated into view?
+	persiststate: true, //persist state of opened contents within browser session?
+	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
+	togglehtml: ["suffix", "<img src='plus.gif' class='statusicon' />", "<img src='minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+	animatespeed: "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
+	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
+	},
+	onopenclose:function(header, index, state, isuseractivated){ //custom code to run whenever a header is opened or closed
+	}
+})
+</script>
+</head>
+<body>
+	<div class="overlay"></div>
+	<div id="channelName" title="Name of the channel">
+		<div class="labelInputWrap">
+			<label>Name of the channel:</label>
+			<input type="text" id="createdChannelName"/>
+		</div>
+		<div class="inputHolder channelsTypes" >
+			<a class="reset" id="cancel">Cancel</a><input type="button" title="" onclick="saveChannelOk();" value="" class="okBtnrightSlide" id="saveChannelName">
+		</div>
+	</div>
+	<div class="wrapper">
+		<div class="topStrip">
+			<img src="images/mars_logo.png" alt="" class="logoIndex" width="176"
+				height="83" />
+			<div class="searchBlock">
+				<ul class="searchOptions">
+					<li><a href="#" class="active">SEARCH</a></li>
+					<!--<li><a href="#">CATEGORY</a></li>-->
+				</ul>
+				<div class="searchWrapper">
+					<div class="searchBoxWrapper" style="position: relative">
+						<img src="images/tag_symbol_searcgBox.png" alt="" width="12"
+							height="17" /> <input type="text" id="searchBox"
+							class="searchBox" value="State, Districts, Tehsil"
+							onfocus="this.value=''"
+							onblur="if(this.value == '') { this.value='State, Districts, Tehsil'}"
+							onfocus="if (this.value == 'State, Districts, Tehsil') {this.value=''}" />
+						<div style="position: absolute; right: 0px; top: 0px; z-index: 100;">
+							<input type="button" id="searchBoxbutton"
+								title="Click to search results." value="" class="searchButton" />
+						</div>
+					</div>
+					<a class="advanceSearch">ADVANCE SEARCH</a>
+					<div class="searchOverlay">
+						<!-- State district Setting -->
+
+						<img src="images/btnSearchClose.jpg" class="btnClose" alt=""
+							width="24" height="29" />
+						<h2>Advance search</h2>
+
+
+						<div class="regionFilters clearfix">
+							<h4>Region</h4>
+							<div class="radioBlock">
+								<label class="labelOne" title="select rural"> <input
+									type="radio" name="segment" id="rural" value="r"
+									onclick="changeDisplay()" />Rural
+								</label> <label class="labelTwo" title="select urban"> <input
+									type="radio" name="segment" id="urban" value="u"
+									onclick="changeDisplay()" />Urban
+								</label> <label class="labelTwo" title="select both"> <input
+									type="radio" name="segment" id="both" value="b"
+									onclick="changeDisplay()" checked="checked" />Both
+								</label>
+							</div>
+						</div>
+						<div class="stateGrid">
+							<h4>State &amp; District</h4>
+
+							<div id="nicemenu">
+								<ul>
+									<li><span class="head_menu"><a>Setting</a><img
+											src="../images/arrow.png" width="18" height="15" align="top"
+											class="arrow" /></span>
+										<div class="sub_menu">
+											<div id="settings"></div>
+											<div
+												style="width: 100%; float: left; text-align: right; padding: 5px 5px 5px 0px">
+												<input id="submitn" type="button" value="Submit">
+											</div>
+										</div></li>
+								</ul>
+							</div>
+							<div class="stateGridBlock">
+								<div id="stdistgrid" class="grid"></div>
+							</div>
+						</div>
+						<div class="categoryFilters clearfix">
+							<h4>Select category</h4>
+							<div class="radioBlock">
+								<div class="selecrWrapper">
+									<select id="category">
+
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="coreFilters">
+							<div class="categorySwitch clearfix">
+								<div class="subCategory">
+									<label>Sub category</label> <select ID="subcategory"
+										multiple="multiple">
+									</select>
+								</div>
+								<div class="buttonSet">
+									<input ID="btnAdd" type="button" name="to2" title='assign'
+										class="btnAddSelected" /> <input ID="btnAddAll" type="button"
+										name="to2" title='assign' class="btnAddAll" /> <input
+										ID="btnRemove" type="button" name="to1" title='unassign'
+										class="btnRemoveSelected" /> <input ID="btnRemoveAll"
+										type="button" name="to1" title='unassign' class="btnRemoveAll" />
+								</div>
+								<div class="selectCategory">
+									<label>Selected category</label>
+									<!-- Div for selected subcategory -->
+									<div class="finalGrid" id="finalGrid"></div>
+									<div id="Operator"></div>
+									<div id="Value"></div>
+									<div id="columnValues">
+										<select ID="columnNames" multiple="multiple">
+										</select>
+									</div>
+									<div id="operatorValues">
+										<select ID="operatorNames" multiple="multiple">
+										</select>
+									</div>
+								</div>
+								<div class="inputHolder" style="width:82px;">
+								<a href="#" class="reset" style="border-right:none" >Reset</a>
+								</div>
+							</div>
+
+							<!-- <div style="margin-left: 787px;">
+								<a href="#" class="reset" >Reset</a>
+							</div> -->
+						</div>
+						<div class="filtersActions">
+							<div class="inputHolder">
+								<a href="#" class="reset" >Reset</a>
+								<input id="okButton" class="okButton" type="button" value=""
+									onclick="" title="" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui-widget"
+					style="margin-top: 2em; font-family: Arial; display: none;">
+
+					<div id="log" style="height: 200px; width: 300px; overflow: auto;"
+						class="ui-widget-content" style="display: none;"></div>
+				</div>
+			</div>
+			<ul class="topRightNav">
+				<li class="userStatus">Welcome user</li>
+				<li><input id="btnHelp" onclick="" class="btnHelp"
+					type="button" value="" title="" /></li>
+				<li><input id="btnLogout" onclick="" class="btnLogout"
+					type="button" value="" title="" /></li>
+			</ul>
+		</div>
+		<div class="panelsWrapper">
+		
+		
+		
+			<div class="sidebarWrapper" id="sidebarWrapper">
+			
+			<div id="eventsBlockAccord">
+			
+	        	<h3 class="accordHead">
+	                    <a href="#">
+	                       <span>Area Details</span></a>
+	              </h3>
+	                        
+	                   <div class="accordContent">
+	                 	 <div id="tabs">
+										<ul>
+											<li><a href="#tabs-0">Zone form</a></li>
+											<li><a href="#tabs-1" onclick="gridLoadRegion();">Region form</a></li>
+											<li><a href="#tabs-2" onclick="gridLoadBranch();selectBranchZone('zoneSelectionBranch');branchReset();showBranch();">Branch form</a></li>
+											<li><a href="#tabs-3" onclick="gridLoadTerritory();selectBranchZone('zoneSelectionTerritory');territoryReset();">Territory form</a></li>
+										</ul>
+										
+										
+										  <div id="tabs-0">
+									
+									<div class="labelInputWrap">
+										<label id="ZoneLabel">Zone:</label>
+										<select id="ZoneFormList">
+										<!-- 	<option>East</option>
+											<option>West</option>
+											<option>North</option>
+											<option>South</option>
+											<option>Center</option> -->
+										</select>
+									</div>
+									<h4>State:</h4>
+							
+										<div class="gridBlock" id="StateGridBlock" style="position:relative;">
+												<div class="grey demo-container">
+													<ul class="accordion" id="accordion-2">
+												       <!--      <li><a href="#"><input type="checkbox" />Desktop</a><ul>
+												                    <li><a href="#"><input type="checkbox" />Product 4</a></li>
+												                    <li><a href="#"><input type="checkbox" />Product 5</a></li>
+												                    <li><a href="#"><input type="checkbox" />Product 6</a></li>
+												                    <li><a href="#"><input type="checkbox" />Product 7</a></li>
+												                    <li><a href="#"><input type="checkbox" />Product 8</a></li>
+												                    <li><a href="#"><input type="checkbox" />Product 9</a></li>
+												                </ul>
+												            </li> -->
+												        </ul>
+												</div>
+											</div>
+					
+
+                                    <div class="labelInputWrap">
+										<label>Zone name:</label>
+										<input id="ZoneTextBox" type="text" />
+										<input id="zoneId" type="hidden" />
+									</div>
+
+									<div class="inputHolder">
+										<a class="reset" href="#" id="resetZone">Reset</a>
+										<input type="button" title="" onclick="" value="" class="okBtnrightSlide" id="Button1">
+										
+										
+										
+										
+										<input type="button" title="" onclick="" class="updatebutton"  id="updatebuttonzone">
+										<input type="button" title="" onclick="" class="deletebutton" value=""  id="zoneDelete">
+										
+										
+										
+									</div>
+									<div class="gridBlock" id="ZoneTableDiv">
+									
+									<table id="list1"></table>
+											 <div id="pager1"></div>
+										 <br /> 
+											<!--  <a href="javascript:void(0)" id="m2">Get Selected id's</a>   -->
+									</div>
+								</div>
+										
+										<div id="tabs-1">
+											<div class="labelInputWrap">
+												<label>Region name:</label> 
+												<input id="regionName" type="text" />
+												<input id="regionId" type="hidden" />
+											</div>
+											<div class="labelInputWrap">
+												<label>Zone:</label> <select id="zoneSelection">
+												</select>
+											</div>
+											<h4>State / District:</h4><input type="button" class="mapbutton" id="mapBtnRegion" name="MAP"/>
+											<div class="gridBlock" style="position:relative;">
+												<div class="grey demo-container">
+													<ul class="accordion" id="accordion-1">
+												    </ul>
+												</div> 
+											</div>
+											<div class="inputHolder">
+												<a class="reset" id="resetRegion" href="#">Reset</a> <input type="button"
+													title="" onclick="" value="" class="okBtnrightSlide"
+													id="okBtnRegionform">
+													
+													
+													<input type="button" title="" onclick="" class="updatebutton"  id="updatebuttonregion">
+													<input type="button" title="" onclick="" class="deletebutton" value=""  id="regionDelete">
+										
+										
+										
+											</div>
+											<div class="gridBlock">
+											
+											<table id="list2"></table>
+											 <div id="pager2"></div>
+											
+											</div>
+										</div>
+										<div id="tabs-2">
+											<div class="labelInputWrap">
+												<label>Branch name:</label> 
+												<input type="hidden" id="branchId" />
+												<input type="text" id="branchName" />
+											</div>
+											<div class="labelInputWrap">
+												<label>Zone:</label> <select id="zoneSelectionBranch"> </select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Region:</label> <select id="regionSelectionBranch"> </select>
+											</div>
+											<h4>District:</h4><input type="button" class="mapbutton" id="mapBtnBranch" name="MAP"/>
+											
+											<div class="gridBlock">
+												<div class="grey demo-container">
+												
+												<ul class="accordion" id="accordionBranchDist">
+												</ul>
+												</div>
+											</div>
+											<div class="inputHolder">
+												<a class="reset" href="javascript:branchReset();">Reset</a> <input type="button"
+													title="" onclick="" value="" class="okBtnrightSlide"
+													id="okBtnBranchForm">
+													<input type="button" title="" onclick="" class="updatebutton"  id="updatebuttonbranch">
+													<input type="button" title="" onclick="" class="deletebutton"  id="branchDelete">
+											</div>
+											<div class="gridBlock">
+											<table id="branchResult"></table>
+																
+											</div>
+										</div>
+										<div id="tabs-3" >
+											
+											<div class="labelInputWrap">
+												<label>Territory Name:</label>
+												<input type="hidden" id="territoryId" />
+												<input type="text" id="territoryName" />
+											</div>
+											<div class="labelInputWrap">
+												<label>Zone:</label>
+												<select id="zoneSelectionTerritory"> </select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Region:</label>
+												<select id="regionSelectionTerritory"> </select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Branch:</label>
+												<select id="branchSelectionTerritory"> </select>
+											</div>
+											<h4>Villages/Towns:</h4><input type="button" class="mapbutton" id="mapBtnTerritory" name="MAP"/>
+											<div class="gridBlock" >
+											<div class="grey demo-container">
+											<ul class="accordion" id="accordionTerrVill">
+												</ul>
+											</div>
+											</div>
+											<div class="inputHolder">
+												<a class="reset" href="javascript:territoryReset();">Reset</a>
+												<input type="button" title="" onclick="" value="" class="okBtnrightSlide" id="okbuttonterritory">
+												<input type="button" title="" onclick="" class="updatebutton"  id="updatebuttonterritory">
+												<input type="button" title="" onclick="" class="deletebutton"  id="territoryDelete">
+												<!-- <a href="#" id="territorydelete">Delete Territory's</a> -->
+												<!-- <a href="javascript:void(0)" id="territorydelete">Get Selected id's</a> -->
+												
+											</div>
+											<div class="gridBlock">
+												<table id="terrResult"></table>
+												 <!-- <a href="javascript:void(0)" id="m3">Get Selected id's</a> -->  
+											</div>
+											
+											
+										</div>
+									</div>
+	                </div>				
+					
+				
+	                <h3 class="accordHead" onclick="populateChannelList();" >
+	                    <a href="#" >
+	                       
+	                        <span>Channel Details</span></a></h3>
+	                        <div class="accordContent">
+	                      <div id="tabs2">
+										<ul>
+											<li><a href="#tabs2-1" onclick="populateChannelList();">Distribution Channel</a></li>
+											<li><a href="#tabs2-2">Insert Intermediaries</a></li>
+										</ul>
+										<div id="tabs2-1">
+											<!-- <div class="labelInputWrap">
+												<label>Channel name:</label> <input type="text" />
+											</div>
+											<fieldset>
+												<legend>Type of Channel:</legend>
+												<div class="gridBlock autoHeight">
+													<div class="chkBoxLabelWarap">
+														<input type="checkbox" checked="checked"
+															disabled="disabled" /> <label>Producer</label>
+													</div>
+													<div class="chkBoxLabelWarap">
+														<input type="checkbox" /> <label>Distributor</label>
+													</div>
+													<div class="chkBoxLabelWarap">
+														<input type="checkbox" /> <label>Wholesaler</label>
+													</div>
+													<div class="chkBoxLabelWarap optional">
+														<div style="float: left;">
+															<input type="checkbox" /> <label>Retailer</label>
+														</div>
+														<div style="clear: left; margin-bottom: 5px; float: left;">
+															<input type="checkbox" /> <input type="text"
+																class="optionalCatg" value="Other" disabled="disabled" />
+															<a href="#" class="moreOptions"><img
+																src="images/symbol_zoomIn.png" alt="add more" width="14"
+																height="14" /></a>
+														</div>
+													</div>
+												</div>
+											</fieldset>
+											<div class="inputHolder">
+												<a class="reset" href="#">Reset</a> <input type="button"
+													title="" onclick="" value="" class="okBtnrightSlide" id="">
+											</div> -->
+											
+											
+											
+											
+											<div class="labelInputWrap">
+												<label>Channel name:</label>
+												<select id="channelNameArea">
+													
+												</select>
+												<div id="channelDetailDiv" style="visibility: hidden">
+												<input id="createChannelText" type="text" name="lastname">
+												</div>
+												<!-- <option value="A1">A1</option>
+													<option value="A2">A2</option> -->
+											</div>
+											<h4>Type of channels:</h4>
+											<div id="channelIntermediary" class="gridBlock" style="height:auto;padding:10px 0;margin-top:10px;position:relative;" >
+												<!-- <div class="chkBoxLabelWarap" style="clear:left;">
+													<input type="checkbox" checked="checked" /> <label>Producer</label>
+													<a href="#" class="moreOptions"><img src="images/symbol_zoomIn.png" alt="add more" width="14" height="14" /></a>
+												</div> -->
+												<!--  <div class="chkBoxLabelWarap" style="clear:left;">
+													<input type="checkbox" checked="checked" /> <label>Distributor</label>
+													<a href="#" class="moreOptions"><img src="images/symbol_zoomIn.png" alt="add more" width="14" height="14" /></a>
+												</div>
+												<div class="chkBoxLabelWarap" style="clear:left;">
+													<input type="checkbox" checked="checked" /> <label>Wholesaler</label>
+													<a href="#" class="moreOptions"><img src="images/symbol_zoomIn.png" alt="add more" width="14" height="14" /></a>
+												</div> -->
+											<div class="other" style="display:none;">
+												<div class="chkBoxLabelWarap" style="clear:left;">
+													<input type="checkbox" /> <input type="text" class="optionalCatg" value="Other" />
+													<a href="#" class="moreOptions"><img src="images/symbol_zoomIn.png" alt="add more" width="14" height="14" /></a>
+													<a href="#" class="lessOptions"><img src="images/symbol_zoomOut.png" alt="remove this" width="14" height="14" style="margin-left:10px; float:left"/></a>
+												</div>
+												</div> 
+											 
+											</div>
+												<div class="channelsTypes" style="text-align:right">
+												<input type="button" title="" onclick="" value="" class="okBtnrightSlide" id="saveChannels">
+												<input id="updatebuttonChannel" class="updatebutton" type="button" onclick="" title="" style="visibility: hidden;">
+												</div>
+												
+											<div id="channelResultGrid" style="margin-top: 60px;" >
+											<input type="hidden" name=" " id="channelIdDisplay" />
+											<div id="channelLabelParah" style=" display:none;"">
+												<div  style="padding:10px"><label>Channel Name</label>  : <label id="channelNameDisplay"></label>
+											</div>
+										
+												 
+											<!-- <p  id="channelLabelParah" style="display:none;" >Channel name : <span id="channelNameDisplay" ></span></p> -->
+											
+																						
+											<table id="resultTbl" width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid #c3c3c3; height:auto; padding:10px">
+															  <tr>
+															    <td>
+															    
+															     <div ><div id="createdChannel"> </div></div>
+															    
+																</td>
+															  </tr>
+															</table>
+											
+											<div style="padding:5px;; text-align:right" >
+											<input type="button" name="Edit" id="edit" onclick="" value="" class="editbutn"  />
+											<input type="button" name="Delete" onclick="deleteChannnel();" value="" class="deletebutton" />															
+										</div>
+										</div>
+												<!-- <table cellpadding="0" cellspacing="0" border="0" width="100%" style="clear:left;" >
+													<tr>
+														<td>Producer</td>
+														<td>-></td>
+														<td>Wholesaler</td>
+														<td>-></td>
+														<td>Retailer</td>
+													</tr>style="display:none;"
+												</table>  -->
+												<!-- <p>
+													<span>Producer</span>
+													<span>-></span>
+													<span>Wholesaler</span>
+													<span>-></span>
+													<span>Retailer</span>
+													<span>-></span>
+													<span>Retailer</span>
+													<span>-></span>
+												</p> -->
+											</div>
+										</div>
+										<div id="tabs2-2">
+											<div class="labelInputWrap">
+												<label>Name of Intermediate:</label> <input type="text" />
+											</div>
+											<div class="labelInputWrap">
+												<label>Intermediate type:</label> <select>
+													<option>Distributor</option>
+													<option>Wholesaler</option>
+													<option>Retailer</option>
+												</select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Region:</label> <select>
+													<option></option>
+													<option></option>
+													<option></option>
+												</select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Branch:</label> <select>
+													<option></option>
+													<option></option>
+													<option></option>
+												</select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Territory:</label> <select>
+													<option></option>
+													<option></option>
+													<option></option>
+												</select>
+											</div>
+											<div class="labelInputWrap">
+												<label>Address:</label>
+												<textarea rows="4" cols="10"></textarea>
+											</div>
+											<div class="labelInputWrap">
+												<label>Tel. No.:</label> <input type="text" />
+											</div>
+											<div class="inputHolder">
+												<a class="reset" href="#">Reset</a> <input type="button"
+													title="" onclick="" value="" class="okBtnrightSlide" id="">
+											</div>
+										</div>
+									</div>
+							</div>	
+							<h3 class="accordHead">
+	                   			 <a href="#"><span>Result block</span></a>
+                   			 </h3>
+	                        <div class="accordContent">
+	                        	<div class="resultBlock">
+									<div class="resultBlockControl">
+										<span>Download result</span> <img src="images/pdf.png" id="Downloadpdf" />
+										<img src="images/xls.png" id="Downloadxls" />
+										<!-- <div class="buttonBlock">
+											<img src="images/btn_result_restore.jpg" class="btnRestore"
+												width="20" height="18" alt="" /><img
+												src="images/btn_result_minimize.jpg" class="btnMinimize"
+												width="16" height="18" alt="" />
+										</div> -->
+									</div>
+									<div id="divResultDetails" class="gridWrapper">
+										<table id="ResultGrid">
+										</table>
+										<div id="ResultPager"></div>
+									</div>
+								</div>
+	                        </div>
+					
+							
+				</div>
+						
+
+					
+					
+			
+				
+			</div>
+			<div class="mainContentWrapper" id="mainContentWrapper">
+			<img class="switch" src="images/open_reasult.png" width="34"  height="60" style="position: absolute;
+    z-index: 1005;" title="Open result pane"/>
+				<div class="mapWrapper">
+					<div class="rightSlideInWrapper">
+						<a href="#" class="slideRightArrow">
+						<img src="images/close.png" width="20" height="20" alt=""  /></a>
+						<ul class="rightSlideIn">
+							<li class="rightSlideInList">
+								<h4>
+									<a href="#"><img src="images/area.png" width="20"
+										height="20" alt="Area details" title="Area details" /></a>
+								</h4>
+								<div class="rightSlideInContent">
+									
+								</div>
+							</li>
+							<li class="rightSlideInList">
+								<h4>
+									<a href="#"><img src="images/chennel.png" width="20"
+										height="20" alt="Channel details" title="Channel details" /></a>
+								</h4>
+								<div class="rightSlideInContent">
+									
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div id="map" style="height: 772px; overflow: hidden; width: 100%;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+
+<web-app>
+    
+    <welcome-file-list>
+		<welcome-file>/census/mars4.html</welcome-file>
+	</welcome-file-list> 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		 WEB-INF/beans.xml
+		 WEB-INF/restapp.xml
+		</param-value>
+	</context-param>
+
+<!--  	   <filter>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <filter-class> org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+        <init-param>
+            <param-name>entityManagerFactoryBeanName</param-name>
+            <param-value>fsbEntityManagerFactory</param-value>
+        </init-param>
+      <init-param>
+            <param-name>singleSession</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>flushMode</param-name>
+            <param-value>AUTO</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping> -->
+   <!--  	<property name="jpaPropertyMap">
+      		<map>
+                
+                      <entry key="hibernate.current_session_context_class"
+value="thread"/>
+                      <entry key="hibernate.autocommit" value="false" /> 
+	         
+      		</map>
+    	</property> -->
+    
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<display-name>CXF Servlet</display-name>
+		<servlet-class>
+			org.apache.cxf.transport.servlet.CXFServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/CXFService/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+    
+    <servlet-name>PDF</servlet-name>
+    <servlet-class>com.mars.Download.DownloadPDF		
+		</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PDF</servlet-name>
+    <url-pattern>/DownloadPDF</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+    
+    <servlet-name>XLS</servlet-name>
+    <servlet-class>com.mars.Download.DownloadXLS	
+		</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XLS</servlet-name>
+    <url-pattern>/DownloadXLS</url-pattern>
+  </servlet-mapping>
+	
+</web-app>

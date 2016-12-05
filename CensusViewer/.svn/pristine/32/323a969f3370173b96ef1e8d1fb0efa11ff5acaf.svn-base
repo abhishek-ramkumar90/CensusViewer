@@ -1,0 +1,138 @@
+package com.mars.distribution.model;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+public class Test {
+	public static void main(String args[]) {
+		
+/*		System.out.println("Inserting user into user details table.");
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		
+		TestInterMediary test1=new TestInterMediary();
+		test1.setZoneid("ZN1234");
+		test1.setName("producer");
+		TestInterMediary test2=new TestInterMediary();
+	    test2.setZoneid("ZN1234");
+		test2.setName("wholesaler");
+		TestInterMediary test3=new TestInterMediary();
+	    test3.setZoneid("ZN1234");
+		test3.setName("wholesaler2");
+		TestInterMediary test4=new TestInterMediary();
+	    test4.setZoneid("ZN1234");
+		test4.setName("Retailer1");
+		TestInterMediary test5=new TestInterMediary();
+		test5.setZoneid("ZN1234");
+		test5.setName("Retailer1");
+		test1.getIntermediaryCollection().add(test2);
+		test1.getIntermediaryCollection().add(test3);
+		test2.getIntermediaryCollection().add(test4);
+		test2.getIntermediaryCollection().add(test5);
+		session.save(test1);
+		session.getTransaction().commit();
+		session.close();*/
+		
+		
+		SessionFactory sf1 = HibernateUtil.getSessionFactory();
+		Session session1 = sf1.openSession();
+		session1.beginTransaction();
+		
+		Query intermediaryList=(Query) session1.createQuery("from TestInterMediary");
+		List<Intermediary>  IntermediaryList= intermediaryList.list();
+		for(Intermediary test:IntermediaryList)
+		{
+			String name=test.getName();
+			Collection<Intermediary> IntermediaryCollection=test.getIntermediaryCollection();
+			System.out.println("hi man im json");
+		}
+		
+		
+		/*User user = new User();
+		user.setUserName("Gurunath");
+		user.setPassword("test123");
+		Org organization = new Org();
+		organization.setCreatedBy(user.getUserId());
+		organization.setOrgName("Genesys");
+		organization.setCreatedOn(new java.util.Date());
+		Collection<ZoneStates> zonecollection=new ArrayList<ZoneStates>();
+		ZoneStates zoneWestCollection=new ZoneStates();
+		zoneWestCollection.setStateId("27");
+		zoneWestCollection.setStateName("Maharashtra");
+		zonecollection.add(zoneWestCollection);
+		ZoneStates zoneWestCollection2=new ZoneStates();
+		zoneWestCollection2.setStateId("28");
+		zoneWestCollection2.setStateName("Gujrat");
+		zonecollection.add(zoneWestCollection2);
+		organization.setZoneStates(zonecollection);*/
+		
+/*		
+		Collection<ZoneStates> zonecollection1=new ArrayList<ZoneStates>();
+		ZoneStates zoneEastCollection=new ZoneStates();
+		zoneEastCollection.setStateId("21");
+		zoneEastCollection.setStateName("WestBengal");
+		zonecollection1.add(zoneEastCollection);
+		ZoneStates zoneEastCollection2=new ZoneStates();
+		zoneEastCollection2.setStateId("28");
+		zoneEastCollection2.setStateName("Orissa");
+		zonecollection1.add(zoneEastCollection2);*/
+		
+		
+		/*Zone zoneNorth = new Zone();
+		zoneNorth.setZone("North");
+		zoneNorth.setCreatedBy(user.getUserId());	
+		zoneNorth.setCreatedOn(new java.util.Date());
+		
+		Zone zoneSouth = new Zone();
+		zoneSouth.setZone("South");
+		zoneSouth.setCreatedBy(user.getUserId());	
+		zoneSouth.setCreatedOn(new java.util.Date());
+		Zone zoneEast = new Zone();
+		zoneEast.setZone("East");
+		zoneEast.setCreatedBy(user.getUserId());	
+		zoneEast.setCreatedOn(new java.util.Date());*/
+/*		zoneEast.setZoneStates(zonecollection1);*/
+		/*Zone zoneWest = new Zone();
+		zoneWest.setZone("West");
+		zoneWest.setCreatedBy(user.getUserId());	
+		zoneWest.setCreatedOn(new java.util.Date());
+		zoneWest.setZoneStates(zonecollection);
+		Zone zoneNorthEast = new Zone();
+		zoneNorthEast.setZone("NorthEast");
+		zoneNorthEast.setCreatedBy(user.getUserId());	
+		zoneNorthEast.setCreatedOn(new java.util.Date());
+		Zone zoneNorthWest = new Zone();
+		zoneNorthWest.setZone("NorthWest");
+		zoneNorthWest.setCreatedBy(user.getUserId());	
+		zoneNorthWest.setCreatedOn(new java.util.Date());
+		Zone zoneSouthEast = new Zone();
+		zoneSouthEast.setZone("SouthEast");
+		zoneSouthEast.setCreatedBy(user.getUserId());	
+		zoneSouthEast.setCreatedOn(new java.util.Date());
+		Zone zoneSouthWest = new Zone();
+		zoneSouthWest.setZone("SouthWest");
+		zoneSouthWest.setCreatedBy(user.getUserId());	
+		zoneSouthWest.setCreatedOn(new java.util.Date());
+		Collection<Zone> zones = new ArrayList<Zone>();
+		zones.add(zoneNorth);
+		zones.add(zoneSouth);
+		zones.add(zoneEast);
+		zones.add(zoneWest);
+		zones.add(zoneNorthEast);
+		zones.add(zoneNorthWest);
+		zones.add(zoneSouthEast);
+		zones.add(zoneSouthWest);
+		organization.setZones(zones);
+		user.setZones(zones);*/
+	
+	/*	session.save(test1);
+
+		session.getTransaction().commit();
+		session.close();*/
+       
+	}
+}

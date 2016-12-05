@@ -1,0 +1,31 @@
+package com.mars.distribution.ServiceClass;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import com.mars.distribution.daoimpl.SaveIntermediary;
+
+
+@Path("/IntermediaryService")
+@Produces({"application/json","application/xml"})
+public class IntermediaryService {
+
+	private SaveIntermediary saveInter=new SaveIntermediary();
+
+	public SaveIntermediary getSaveInter() {
+		return saveInter;
+	}
+
+	public void setSaveInter(SaveIntermediary saveInter) {
+		this.saveInter = saveInter;
+	}
+	
+	@POST
+	@Path("/SaveIntermediary")
+	@Produces("application/json")
+	public void SaveIntermediary(String intermediaryDetails)
+	{
+		getSaveInter().saveIntermediary(intermediaryDetails);
+	}
+	
+	
+}

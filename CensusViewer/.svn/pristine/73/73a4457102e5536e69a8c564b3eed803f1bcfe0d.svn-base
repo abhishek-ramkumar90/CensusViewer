@@ -1,0 +1,226 @@
+package com.mars.distribution.test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.config.DistributionConstants;
+import com.mars.distribution.model.Channel;
+import com.mars.distribution.model.Intermediary;
+import com.mars.util.MarsUtil;
+
+public class Test {
+
+	
+	static Collection<String> names=new ArrayList<String>();
+	
+	public Collection<Intermediary> traverseChildren(Collection<Intermediary> collection)
+	{
+		for(Intermediary inter:collection)
+		{
+			System.out.println(inter.getName());
+			names.add(inter.getName());
+			traverseChildren(inter.getIntermediaryCollection());
+		}
+		return null;
+	}
+	
+	public static void main(String args[]) {
+		SessionFactory sessionFactory = null;
+		Session session  = null;
+		
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			ArrayList<Channel>  channels = new ArrayList<Channel>();
+			session.beginTransaction();
+			 
+			//to insert 
+			
+			Channel testChannel = new Channel();
+			testChannel.setChannelName("A1");
+			testChannel.setChannelId(MarsUtil.getIdGenerated(DistributionConstants.CHANNEL_ID, DistributionConstants.CHANNEL_SEQUENCE));
+			testChannel.setLevelCount(3);
+			testChannel.setStatus(DistributionConstants.ONE);
+			
+			Intermediary testInterMediary = new Intermediary();
+			testInterMediary.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary.setType("Producer");
+			testInterMediary.setLevel(DistributionConstants.ONE);
+			testInterMediary.setStatus(DistributionConstants.ONE);
+			
+			
+			Intermediary testInterMediary1 = new Intermediary();
+			testInterMediary1.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary1.setType("Wholesaler");
+			testInterMediary1.setLevel(DistributionConstants.TWO);
+			testInterMediary1.setStatus(DistributionConstants.ONE);
+			
+			/*Intermediary testInterMediary21 = new Intermediary();
+			testInterMediary21.setName("Wholesaler");*/
+			
+			Intermediary testInterMediary2 = new Intermediary();
+			testInterMediary2.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary2.setType("Retailer");
+			testInterMediary2.setLevel(DistributionConstants.THREE);
+			testInterMediary2.setStatus(DistributionConstants.ONE);
+			
+			
+			/*Intermediary testInterMediary3 = new Intermediary();
+			testInterMediary3.setName("Retailer");
+			
+			Intermediary testInterMediary4 = new Intermediary();
+			testInterMediary4.setName("Retailer");*/
+			
+			
+			testInterMediary1.getIntermediaryCollection().add(testInterMediary2);
+			
+			testInterMediary.getIntermediaryCollection().add(testInterMediary1);
+			
+			testChannel.getIntermCollection().add(testInterMediary);
+			
+			//Default channel A2
+			
+			Channel testChannel1 = new Channel();
+			testChannel1.setChannelName("A2");
+			testChannel1.setChannelId(MarsUtil.getIdGenerated(DistributionConstants.CHANNEL_ID, DistributionConstants.CHANNEL_SEQUENCE));
+			testChannel1.setLevelCount(4);
+			testChannel1.setStatus(DistributionConstants.ONE);
+			
+			Intermediary testInterMediary11 = new Intermediary();
+			testInterMediary11.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary11.setType("Producer");
+			testInterMediary11.setLevel(DistributionConstants.ONE);
+			testInterMediary11.setStatus(DistributionConstants.ONE);
+			
+			
+			Intermediary testInterMediary12 = new Intermediary();
+			testInterMediary12.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary12.setType("Distributor");
+			testInterMediary12.setLevel(DistributionConstants.TWO);
+			testInterMediary12.setStatus(DistributionConstants.ONE);
+			
+			Intermediary testInterMediary13 = new Intermediary();
+			testInterMediary12.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary13.setType("Wholesaler");
+			testInterMediary13.setLevel(DistributionConstants.THREE);
+			testInterMediary13.setStatus(DistributionConstants.ONE);
+			
+			/*Intermediary testInterMediary21 = new Intermediary();
+			testInterMediary21.setName("Wholesaler");*/
+			
+			Intermediary testInterMediary14 = new Intermediary();
+			testInterMediary14.setIntermId(MarsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+			testInterMediary14.setType("Retailer");
+			testInterMediary14.setLevel(DistributionConstants.FOUR);
+			testInterMediary14.setStatus(DistributionConstants.ONE);
+			
+			testInterMediary13.getIntermediaryCollection().add(testInterMediary14);
+			
+			testInterMediary12.getIntermediaryCollection().add(testInterMediary13);
+			
+			testInterMediary11.getIntermediaryCollection().add(testInterMediary12);
+			
+			testChannel1.getIntermCollection().add(testInterMediary11);
+			
+			session.save(testChannel);
+			session.save(testChannel1);
+			//session.getTransaction().commit();
+			
+			//to get the details of channel
+			
+			/*Query channels1 = session.createQuery("from Channel");
+			
+			channels = (ArrayList)channels1.list();
+			
+			HashMap hm = new HashMap();
+			HashMap hmIds = new HashMap();
+			
+			for(Channel test1 : channels) {
+				int count = test1.getLevelCount();
+				
+				List<Intermediary> testinter = (List<Intermediary>)test1.getTestCollection();
+				
+				while(count > 0) {
+				
+					//for(TestInterMediary testin : testinter) {
+					for(int i=0; i<testinter.size(); i++) {
+						hm.put(testinter.get(i).getName(),testinter.get(i).getName());
+						hmIds.put(new Integer(testinter.get(i).getSerial()), new Integer(testinter.get(i).getSerial()));
+						System.out.println("inter--" + testinter.get(i).getName());
+						if(i == testinter.size()-1) {
+							testinter = (List<Intermediary>) testinter.get(i).getIntermediaryCollection();
+						}
+					}
+					count--;
+				}
+				System.out.println("testInter" +  testinter);
+			
+				
+				
+				
+				
+				
+				
+				
+			}
+			
+	
+			
+			for(Channel test1 : channels) {
+				List<Intermediary> testinter = (List<Intermediary>)test1.getTestCollection();
+				Test test=new Test();
+				test.traverseChildren(testinter);
+			}
+			
+			for(String s:names)
+			{
+				System.out.println("tree"+s);
+				
+			}
+			//list all intermediaries
+			Iterator it = hm.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		     
+		    }
+		    
+		    Iterator it1 = hmIds.entrySet().iterator();
+		    while (it1.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it1.next();
+		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		     
+		    }
+			*/
+			System.out.println("list "  + channels );
+			
+			session.getTransaction().commit();
+		
+			
+		} catch (Exception e ) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		
+	}
+}

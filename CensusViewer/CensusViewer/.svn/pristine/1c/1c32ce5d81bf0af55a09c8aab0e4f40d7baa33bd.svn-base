@@ -1,0 +1,127 @@
+package com.mars.distribution.daoimpl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.ServicePojo.IntermediaryJackson;
+import com.mars.distribution.config.DistributionConstants;
+import com.mars.distribution.model.Intermediary;
+import com.mars.util.MarsUtil;
+
+public class IntermediaryDaoImpl {
+
+	Session session = null;
+
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public IntermediaryDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+
+	public List<String> getAllIntermediary(String orgId,String userId) {
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Collection<String> type = new ArrayList<String>();
+		List<String> type1 = new ArrayList<String>();
+
+		try {
+			session = sf.openSession();
+
+			Query intermType = session.createQuery("select type from Intermediary where status='" + DistributionConstants.ONE + "' orgId = '" + orgId + "' and createdBy = '" + userId.trim() + "'");
+			//
+			type = intermType.list();
+
+			type1 = new ArrayList<String>(new HashSet<String>(type));
+			Collections.sort(type1);
+
+			return type1;
+
+		} catch(Exception e ) {
+			e.printStackTrace();
+			logger.fatal(e.getMessage());
+		} finally {
+
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+		}
+
+		return null;
+	}
+
+
+	public boolean saveIntermDetails(IntermediaryJackson intmdetails){
+		Intermediary intermediary1 = null;
+		Session session=null ;
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		boolean flag = false;
+		
+		if(intmdetails.isRoot()){
+
+			try{
+				MarsUtil marsUtil = new MarsUtil();
+				//	String channelId = MarsUtil.getIdGenerated(DistributionConstants.CHANNEL_ID, DistributionConstants.CHANNEL_SEQUENCE);
+				String user=DistributionConstants.DEFAULT_USER;
+				String orgId=DistributionConstants.CREATED_ORGID;
+				//String intrmParent="IN3";
+				///String intrmChild="IN13";
+				String intermId=marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+				intermediary1 = new Intermediary();
+				intermediary1.setIntermType(intmdetails.getIntermType());
+				intermediary1.setAddress(intmdetails.getAddress());
+				intermediary1.setZoneId(intmdetails.getZoneId());
+				intermediary1.setBranchId(intmdetails.getBranchId());
+				intermediary1.setRegionId(intmdetails.getRegId());
+				intermediary1.setTerritoryId(intmdetails.getTerrId());
+				intermediary1.setVillTownId(intmdetails.getVillTownId());
+				intermediary1.setCreatedBy(user);
+				intermediary1.setCreatedOn(new Date());
+				intermediary1.setIntermId(intermId);
+				intermediary1.setName(intmdetails.getIntermName());
+				intermediary1.setOrgId(orgId);
+				intermediary1.setStatus(DistributionConstants.ONE);
+				session = sf.openSession();
+				session.beginTransaction();	
+				session.save(intermediary1);
+				session.getTransaction().commit();
+
+				flag = true;
+				
+			}catch(HibernateException e){
+				flag = false;
+				e.printStackTrace();
+			}finally{
+				if(session.isOpen()) {	
+					session.close();
+				}
+			}
+		}
+		return flag;
+	}
+	public static void main(String args[]) {
+
+		IntermediaryDaoImpl intermDaoImpl = new IntermediaryDaoImpl();
+		List<String> strList = intermDaoImpl.getAllIntermediary(DistributionConstants.DEFAULT_ORGID, DistributionConstants.DEFAULT_USER);
+
+		for(String str : strList) {
+			System.out.println("String : " + str );
+		}
+	}
+
+}

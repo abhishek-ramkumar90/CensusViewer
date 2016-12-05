@@ -1,0 +1,41 @@
+package com.mars.distribution.daoimpl;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+
+public class IntermediaryDaoImpl {
+
+Session session = null;
+	
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public IntermediaryDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+	
+	public void getAllIntermediary(String channelId) {
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		
+		try {
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+			logger.fatal(e.getMessage());
+		} finally {
+			
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+
+		}
+	}
+}

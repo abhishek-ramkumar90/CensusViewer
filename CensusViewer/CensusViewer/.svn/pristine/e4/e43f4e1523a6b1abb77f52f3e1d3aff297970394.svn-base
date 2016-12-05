@@ -1,0 +1,33 @@
+
+function populateChannelList() {
+	alert("I am in ")
+	webMethod = CXFServiceURL+"ChannelService/channel/list";
+	var respObj = getAjax(webMethod);
+	var markers =JSON.stringify(respObj.Channels.channelJsonCollection);
+	var obj1=  $.parseJSON(markers);
+	$.each(obj1, function() {
+		//var regionName=this.regionName;
+		var channelId=this.channelId;
+		var channelName=this.channelName;
+		var levelCount = this.levelCount;
+		var orgId=this.orgId;
+		//var regId=this.regionId;
+		$("#channelNameArea").append("<option orgid='"+ orgId +"' levelcount='"+ levelCount +"' value='"+channelId+"'>"+channelName+"</option>");
+	});
+	
+}
+
+function getChannelStructure(element) {
+	
+	alert("in");
+	var channelId=$("#channelNameArea").val();	
+	var orgId= $('option:selected', element).attr('orgid');
+	var input="{'orgId':'"+orgId+"','channelId':'"+ channelId  +"'}";
+	//alert("channelId"+channelId+"  orgid=="+orgId);
+	
+	webMethod = CXFServiceURL+"ChannelService/channel/struct/";
+	var respObj = postAjax(webMethod,input);
+	alert("-----" + JSON.stringify(respObj));
+
+	
+}

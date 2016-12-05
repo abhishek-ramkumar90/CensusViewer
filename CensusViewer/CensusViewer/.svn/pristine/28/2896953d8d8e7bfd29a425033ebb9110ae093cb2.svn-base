@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<!-- DRS Service URL -->
+<!-- 	 <MapServiceURL>http://mum77sap-03/cgi-bin/mapserv.fcgi?map=/opt/mars/MarsV3.map</MapServiceURL> --> 
+	<!--  <MapServiceURL>http://mum77sap-03/cgi-bin/mapserv.fcgi?map=/opt/mars/Mars.map</MapServiceURL> --> 
+	<!--  <MapFileURL>http://172.16.1.7:8888/cgi-bin/mapserv.exe?map=D:/Mars/biadaref/Marsgeomtest.map</MapFileURL> --> 
+	<MapServiceURL>http://172.16.1.7:8888/cgi-bin/mapserv.exe?map=D:/Mars/MarsV2.map</MapServiceURL> 
+<!-- 	  <MapServiceURL>http://localhost:8888/cgi-bin/mapserv.exe?map=D:/map/biadaref/Mars.map</MapServiceURL>  -->
+	 <CXFServiceURL>http://localhost:8081/mars/CXFService/</CXFServiceURL> -->
+	 <!-- <CXFServiceURL>http://172.16.1.7:8080/mars/CXFService/</CXFServiceURL> 
+	 <MARSURL>http://172.16.1.7:8080/mars/</MARSURL> 
+ <MARSURL>http://localhost:8081/mars/</MARSURL> 
+	 <CXFServiceURL>http://172.16.1.7:8080/mars/CXFService/</CXFServiceURL> -->
+
+</configuration>
+ 
+ 

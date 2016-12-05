@@ -1,0 +1,22 @@
+
+function populateChannelList() {
+	alert("I am in ")
+	webMethod = CXFServiceURL+"ChannelService/channel/list";
+	var respObj = getAjax(webMethod);
+	var markers =JSON.stringify(respObj.Channels.channelJsonCollection);
+	var obj1=  $.parseJSON(markers);
+	$.each(obj1, function() {
+		//var regionName=this.regionName;
+		var channelId=this.channelId;
+		var channelName=this.channelName;
+		var levelCount = this.levelCount;
+		//var regId=this.regionId;
+		$("#channelNameArea").append("<option levelcount='"+ levelCount +"' value='"+channelId+"'>"+channelName+"</option>");
+	});
+	
+}
+
+function getChannelStructure() {
+	
+	webMethod = CXFServiceURL+"ChannelService/channel/struct/";
+}

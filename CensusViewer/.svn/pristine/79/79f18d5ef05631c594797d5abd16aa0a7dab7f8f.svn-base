@@ -1,0 +1,133 @@
+package com.mars.distribution.model;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
+@Entity
+@Table(name="DIST_CHANNEL", schema="distribution")
+public class DistrictChannel {
+	@Id
+	@Column(name="CHANNEL_ID" ,nullable=false)
+	private String channelId;
+	
+	@Column(name="CHANNEL_NAME" ,nullable=false)
+	private String channelName;
+	
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="distChannel")
+	private Collection<DistrictChannelStructure> distChannelStruct;
+	
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CREATED_BY")
+	private User createdBy;
+	
+	@Column(name="CREATED_ON")
+	@Temporal(TemporalType.DATE)
+	private Date createdOn;
+	
+	@Column(name="MODIFIED_ON")
+	@Temporal(TemporalType.DATE)
+	private Date modifiedOn;
+	
+	public Collection<DistrictChannelStructure> getDistChannelStruct() {
+		return distChannelStruct;
+	}
+
+	public void setDistChannelStruct(
+			Collection<DistrictChannelStructure> distChannelStruct) {
+		this.distChannelStruct = distChannelStruct;
+	}
+
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Org orgId;
+	
+	@Column(name="STATUS")
+	private int status;
+	
+	@Column(name="NO_OF_LEVEL")
+	private int numberOfLevel;
+	
+
+	public String getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+
+	@XmlTransient
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	@XmlTransient
+	public Org getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Org orgId) {
+		this.orgId = orgId;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getModifiedOn() {
+		return modifiedOn;
+	}
+
+	public void setModifiedOn(Date modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getNumberOfLevel() {
+		return numberOfLevel;
+	}
+
+	public void setNumberOfLevel(int numberOfLevel) {
+		this.numberOfLevel = numberOfLevel;
+	}
+
+	
+	
+
+}

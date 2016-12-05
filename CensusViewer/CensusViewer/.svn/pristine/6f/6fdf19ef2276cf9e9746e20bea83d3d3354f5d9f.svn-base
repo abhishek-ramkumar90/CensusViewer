@@ -1,0 +1,33 @@
+package com.mars.distribution.daoimpl;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import com.mars.distribution.dao.ChannelDao;
+
+public class ChannelDaoImpl implements ChannelDao {
+
+	Session session = null;
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public ChannelDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+
+	
+	public List getChannelOnKey() {
+
+		try {
+			
+		} catch(Exception e ) {
+			
+		} finally {
+			
+		}
+		return null;
+	}
+
+}

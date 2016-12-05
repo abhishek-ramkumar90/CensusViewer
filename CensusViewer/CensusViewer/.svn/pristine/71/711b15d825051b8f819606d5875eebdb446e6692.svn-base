@@ -1,0 +1,108 @@
+package com.mars.distribution.test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.model.Org;
+import com.mars.distribution.model.User;
+import com.mars.distribution.model.Zone;
+import com.mars.distribution.model.ZoneStates;
+public class ZoneTest {
+
+		public static void main(String args[]) {
+			
+			System.out.println("Inserting user into user details table.");
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			session.beginTransaction();
+			User user = new User();
+			user.setUserName("Gurunath");
+			user.setPassword("test123");
+			Org organization = new Org();
+			organization.setCreatedBy(user.getUserId());
+			organization.setOrgName("Genesys");
+			organization.setCreatedOn(new java.util.Date());
+			Collection<ZoneStates> zonecollection=new ArrayList<ZoneStates>();
+			ZoneStates zoneWestCollection=new ZoneStates();
+			zoneWestCollection.setStateId("27");
+			zoneWestCollection.setStateName("Maharashtra");
+			zonecollection.add(zoneWestCollection);
+			ZoneStates zoneWestCollection2=new ZoneStates();
+			zoneWestCollection2.setStateId("28");
+			zoneWestCollection2.setStateName("Gujrat");
+			zonecollection.add(zoneWestCollection2);
+			organization.setZoneStates(zonecollection);
+			
+	/*		
+			Collection<ZoneStates> zonecollection1=new ArrayList<ZoneStates>();
+			ZoneStates zoneEastCollection=new ZoneStates();
+			zoneEastCollection.setStateId("21");
+			zoneEastCollection.setStateName("WestBengal");
+			zonecollection1.add(zoneEastCollection);
+			ZoneStates zoneEastCollection2=new ZoneStates();
+			zoneEastCollection2.setStateId("28");
+			zoneEastCollection2.setStateName("Orissa");
+			zonecollection1.add(zoneEastCollection2);*/
+			
+			
+			Zone zoneNorth = new Zone();
+			zoneNorth.setZone("North");
+			zoneNorth.setCreatedBy(user.getUserId());	
+			zoneNorth.setCreatedOn(new java.util.Date());
+			
+			Zone zoneSouth = new Zone();
+			zoneSouth.setZone("South");
+			zoneSouth.setCreatedBy(user.getUserId());	
+			zoneSouth.setCreatedOn(new java.util.Date());
+			Zone zoneEast = new Zone();
+			zoneEast.setZone("East");
+			zoneEast.setCreatedBy(user.getUserId());	
+			zoneEast.setCreatedOn(new java.util.Date());
+	/*		zoneEast.setZoneStates(zonecollection1);*/
+			Zone zoneWest = new Zone();
+			zoneWest.setZone("West");
+			zoneWest.setCreatedBy(user.getUserId());	
+			zoneWest.setCreatedOn(new java.util.Date());
+			zoneWest.setZoneStates(zonecollection);
+			Zone zoneNorthEast = new Zone();
+			zoneNorthEast.setZone("NorthEast");
+			zoneNorthEast.setCreatedBy(user.getUserId());	
+			zoneNorthEast.setCreatedOn(new java.util.Date());
+			Zone zoneNorthWest = new Zone();
+			zoneNorthWest.setZone("NorthWest");
+			zoneNorthWest.setCreatedBy(user.getUserId());	
+			zoneNorthWest.setCreatedOn(new java.util.Date());
+			Zone zoneSouthEast = new Zone();
+			zoneSouthEast.setZone("SouthEast");
+			zoneSouthEast.setCreatedBy(user.getUserId());	
+			zoneSouthEast.setCreatedOn(new java.util.Date());
+			Zone zoneSouthWest = new Zone();
+			zoneSouthWest.setZone("SouthWest");
+			zoneSouthWest.setCreatedBy(user.getUserId());	
+			zoneSouthWest.setCreatedOn(new java.util.Date());
+			Collection<Zone> zones = new ArrayList<Zone>();
+			zones.add(zoneNorth);
+			zones.add(zoneSouth);
+			zones.add(zoneEast);
+			zones.add(zoneWest);
+			zones.add(zoneNorthEast);
+			zones.add(zoneNorthWest);
+			zones.add(zoneSouthEast);
+			zones.add(zoneSouthWest);
+			organization.setZones(zones);
+			user.setZones(zones);
+			session.save(user);
+		session.save(organization);
+			session.getTransaction().commit();
+			session.close();
+			
+	       
+		}
+
+
+
+}

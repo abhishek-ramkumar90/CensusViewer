@@ -1,0 +1,1082 @@
+var zoneRegionBoolean=true;
+var zoneBoolean=true;
+var regionZoneBoolean=true;
+var arr3=[];
+var zoneNameArray=[];
+var k=2;
+var branchMap=false;
+var territoryMap=false;
+var regionMap=false;
+var branchOkFlag=false;
+var branchFlag=false;
+var regionNameArray=[];
+var branchDistArr=[];
+var districtArr=[];
+
+$('input[name2=districtCheck]').live('change',function(){
+	if($(this).closest("ul").closest("li").find("#mainCheckMe").is(':checked'))
+	{
+		$(this).closest("ul").closest("li").find("#mainCheckMe").removeAttr("checked");
+	}
+});
+$("#mainCheckMe").live('change',function(){
+	var stateid=$(this).attr('stateidmain');
+	if($(this).is(':checked')) {
+		$("#ULIST"+$(this).attr('stateidmain')).each(function(){
+			$('input[name=checkMe'+stateid+']').prop('checked', true);
+		});
+	}
+	else
+	{
+		$("#ULIST"+$(this).attr('stateidmain')).each(function(){
+			$('input[name=checkMe'+stateid+']').prop('checked', false);
+		});
+	}
+});
+
+function ZONETABLE_ON_LOAD()
+{
+
+	webMethod=CXFServiceURL+'ZoneRegionService/ZoneList';
+	var obj2=getAjax(webMethod);
+	if(obj2.ZoneRegionList != "") {
+		jsonObj =[];
+		$(obj2.ZoneRegionList.zoneRegionList).each(function(){
+			var ZoneId=this.zoneId;
+			var ZoneName=this.zoneName;
+			zoneNameArray.push(ZoneName);
+			item = {};
+			item ["id"] = ZoneId;
+			item ["ZoneName"] = ZoneName;
+			jsonObj.push(item);
+		});
+		var mydata1 =jsonObj; 
+		ALL_GRID(mydata1);
+		$(function () {
+			$("updatebuttonzone").show();
+			$("zoneDelete").show();
+		});
+	} else {
+		$( document ).ready(function() {
+			$("updatebuttonzone").hide();
+			$("zoneDelete").hide();
+			});
+	}
+	document.getElementById('updatebuttonzone').style.visibility='hidden';
+}
+
+function BranchOkClick(){
+	
+	var branchName=$("#branchName").val();
+	var regId = $("#regionSelectionBranch").val();
+	var zoneId=$("#zoneSelectionBranch").val();
+	var flag = false;
+	
+	var e = document.getElementById("zoneSelectionBranch");
+	var zoneSelectedBranch = e.options[e.selectedIndex].value;
+	
+	if($.trim(branchName) == "") {
+		alert("Please enter a valid Branch name.");
+		return;
+	} else if ($.trim(branchName) != ""){
+		input="{'branchName':'"+branchName+"','regId':'"+regId+"'}";
+		webMethod = CXFServiceURL+"BranchService/validateBranchName";
+		var retval1 = postAjax(webMethod,input);
+		if(JSON.stringify(retval1) == "true") {
+			flag = false;
+			alert("Branch name already exists for this Region.");
+			return;
+		}
+		
+	} 
+	
+	if(zoneSelectedBranch == '' ) {
+		alert("Please select a Zone.");
+	} else if($.trim(regId) == "" ) {
+		alert("Please select a Region");
+	} else if($.trim(regId) != "") {
+		flag = true;
+		var checkBoxId;
+		$("#accordionBranchDist input:checked" ).each(function() {
+			checkBoxId=this.id;
+		});
+		if(checkBoxId == undefined) {
+			flag = false;
+			alert("Please select district.");
+			return;
+		}
+		
+	} 
+	if(flag == true ){
+		var regId=$("#regionSelectionBranch").val();
+		var selected = new Array();
+		$('#accordionBranchDist input:checked').each(function() {
+			selected.push($(this).attr('id'));
+		});
+		input="{'branchName':'"+branchName+"','zoneId':'"+zoneId+"','regId':'"+regId+"','stDist':'"+selected+"'}";
+		webMethod = CXFServiceURL+"BranchService/saveBranch";
+		postAjax(webMethod,input);
+		gridLoadBranch();
+		branchReset();
+		RefreshBranch();
+		DESTROY_DISTRICT_REGION();
+	}
+	
+	
+}
+
+function TerritoryVillageList() {
+	webMethod = CXFServiceURL+"TerritoryService/villageList";
+	var branchCode=$("#branchSelectionTerritory").val();
+	//alert("branchCode"+branchCode);
+	var input="{'branchId':'"+branchCode+"'}";
+	var obj1=postAjax(webMethod,input);
+	webMethod1 = CXFServiceURL+"TerritoryService/townList";
+	var obj2=postAjax(webMethod1,input);
+	$("#accordionTerrVill").empty();
+	
+	if(JSON.stringify(obj1.VillageList.villageList) == undefined) {
+		alert("No more Village/Town, Please select some other branch.");
+	}
+	$(obj1.VillageList.villageList).each(function() {
+		var distCode = this.distId;
+		var villId = this.villageId;
+		var villName=this.villageName;
+		var stateCode=this.stateCode;
+		$("#accordionTerrVill").append('<li id="'+villId+'" value='+villName+'><a ><input id="v:'+stateCode+':'+distCode+':'+villId+'"  type="checkbox" />'+villName+'</a><li>');
+	});
+
+	$(obj2.TownList.townList).each(function() {
+		var distCode = this.distId;
+		var townId = this.townId;
+		var townName=this.townName;
+		var stateCode=this.stateCode;
+		$("#accordionTerrVill").append('<li id="'+townId+'" value='+townName+'><a ><input id="t:'+stateCode+':'+distCode+':'+townId+'"  type="checkbox" />'+townName+'</a><li>');
+	});
+
+}
+
+function TerritoryOkClick(){
+	var territoryName=$("#territoryName").val();
+	var zoneId=$("#zoneSelectionTerritory").val();
+	var regId=$("#regionSelectionTerritory").val();
+	var branchId=$("#branchSelectionTerritory").val();
+	var flag = false;
+	var e = document.getElementById("zoneSelectionTerritory");
+	var zoneSelectedBranch = e.options[e.selectedIndex].value;
+	if($.trim(territoryName) == "") {
+		alert("Please enter a valid Territory name.")
+		return;
+	} else if ($.trim(territoryName) != ""){
+		input="{'territoryName':'"+territoryName+"','branchId':'"+branchId+"'}";
+		webMethod = CXFServiceURL+"TerritoryService/validateTerritoryName";
+		var retval1 = postAjax(webMethod,input);
+		//alert("1");
+		//alert("--branch ---" +JSON.stringify(retval1) + "--" +  retval1 );
+		if(JSON.stringify(retval1) == "true") {
+			flag = false;
+			alert("Territory name already exists for this Region.");
+			return;
+		}
+	} 
+	if(zoneSelectedBranch == '' ) {
+		alert("Please select a Zone.");
+	} else if($.trim(regId) == "" ) {
+		alert("Please select a Region");
+	} else if($.trim(branchId) == "" ) {
+		alert("Please select a Branch");
+	} else if($.trim(branchId) != "") {
+		flag = true;
+		var checkBoxId;
+		$("#accordionTerrVill input:checked" ).each(function() {
+			checkBoxId=this.id;
+		});
+		if(checkBoxId == undefined) {
+			flag = false;
+			alert("Please select Branch Village/Town.");
+			return;
+		}
+	} 
+	if(flag == true ){
+		
+		var selected = new Array();
+		$('#accordionTerrVill input:checked').each(function() {
+			selected.push($(this).attr('id'));
+		});
+		
+		input="{'territoryName':'"+territoryName+"','zoneId':'"+zoneId+"','regId':'"+regId+"','branchId':'"+branchId+"','stDist':'"+selected+"'}";
+		webMethod = CXFServiceURL+"TerritoryService/saveTerritory";
+		postAjax(webMethod,input);
+		gridLoadTerritory();
+		territoryReset();
+		RefreshTerritory();
+		DESTROY_DISTRICT_REGION();
+	}
+	
+	
+}
+
+function REGION_OK_CLICK()
+{
+	if($("#regionName").val()=="")
+	{
+		alert(" Please select Zone or enter a valid Region name");
+		return;
+	}
+	$("#zoneSelectionBranch").empty();
+	var regionName=$("#regionName").val();
+	var myArr=[];
+	 $("#accordion-1 input" )
+	 .each(function() {
+		if($(this).attr("id")!= "mainCheckMe")
+		{	 var distIds={};
+		distIds["districtId"]=$(this).attr("id");
+		var dsitrict=JSON.stringify(distIds);
+		myArr.push(dsitrict);
+		}
+	 });
+	var zoneid=$("#zoneSelection option:selected").attr("value");
+	 var myarr2=[];
+		var checkBoxId;
+	 $("#accordion-1 input:checked" )
+	 .each(function() {
+			checkBoxId=this.id;
+				 if($(this).is(":checked"))
+					{
+		    		 var districtname=$(this).attr("districtname");
+		    		 var districtName={};
+		    		 districtName["districtName"]=districtname;
+		    		 var districtNameMarker=JSON.stringify(districtName);
+		    		 if(districtname!=undefined)
+		    		 myarr2.push(districtNameMarker);
+		    		 var districtid=$(this).attr("distid");
+		    		 var districtId={};
+		    		 districtId["districtId"]=districtid;
+		    		 var districtIdMarker=JSON.stringify(districtId);
+		    		 if(districtid!=undefined && districtname!=undefined)
+		    		 myarr2.push(districtIdMarker);
+		    		 var stateId=$(this).attr("stateidmain");
+		    		 var stateid={};
+		    		 stateid["stateId"]=stateId;
+		    		 var stateIdMarker=JSON.stringify(stateid);
+		    		 if(stateId!=undefined && districtname!=undefined)
+		    		 myarr2.push(stateIdMarker);
+					}
+	 });
+	if(checkBoxId==undefined)
+	{
+		alert("Region Creation incomplete.Please select  Zone or choose states or districts");
+		return;
+	}
+	var regionName=$("#regionName").val();
+	if(regionNameArray.length==0)
+	{
+		regionNameArray.push(regionName);
+	}
+
+	else
+	{
+		for(var i=0;i<regionNameArray.length;i++)
+		{
+			if(regionName==regionNameArray[i])
+			{
+				alert("Region name "+regionName+" already created please create a new Region");
+				return;
+			}
+		}
+		regionNameArray.push(regionName);
+	}
+	webMethod = CXFServiceURL+"RegionCreationService/CreateRegion";
+	inputcol='{"zoneId":'+zoneid+',"regionName":[{"regionname":'+regionName+',"districts":['+myarr2+'],"distIds":['+myArr+']}]}';
+	var respObj = postAjax(webMethod, inputcol);
+	webMethod=CXFServiceURL+"RegionCreationService/RegionGridList";
+	var regObj=getAjax(webMethod);
+	jsonObj =[];
+	$(regObj.RegionList.regions).each(function(){
+		var region=this.region;
+		var regionId=this.regionId;
+		var zoneName = this.zoneName;
+		item = {};
+		item ["id"] =regionId;
+		item ["RegionName"] =region;
+		item ["ZoneName"] = zoneName;
+		jsonObj.push(item);
+	});
+	RESET_REGION();
+	ALL_GRID_REGION(jsonObj);
+	document.getElementById('updatebuttonregion').style.visibility='hidden';
+	RefreshRegion();
+	DESTROY_DISTRICT_REGION();
+
+}
+
+
+function gridLoadRegion() {
+	 RESET_REGION();
+	 FILL_ZONE_REGION_FORM("zoneSelection");
+	webMethod=CXFServiceURL+"RegionCreationService/RegionGridList";
+	var regObj=getAjax(webMethod);
+	if(regObj.RegionList != "") {
+		jsonObj =[];
+		var region;
+		var regionId;
+		var zoneName;
+		$(regObj.RegionList.regions).each(function(){
+			 region=this.region;
+			 regionId=this.regionId;
+			 zoneName= this.zoneName;
+			item = {};
+			item ["id"] =regionId;
+			item ["RegionName"] =region;
+			item ["ZoneName"] = zoneName;
+			jsonObj.push(item);
+		});
+	//	alert(regionNameArray.length);
+		if(regionNameArray.length==0)
+		{
+			regionNameArray.push(region);
+		}
+		ALL_GRID_REGION(jsonObj);
+		$("updatebuttonregion").show();
+		$("regionDelete").show();
+		
+	} else {
+		//alert(2);
+		$( document ).ready(function() {
+			
+			$("updatebuttonregion").hide();
+			$("regionDelete").hide();
+		});
+	}
+	document.getElementById('updatebuttonregion').style.visibility='hidden';
+}
+
+function ALL_GRID_REGION(mydata1)
+{
+	document.getElementById('regionDelete').style.visibility='visible';   
+	document.getElementById('updatebuttonregion').style.visibility='visible';
+	jQuery("#list2").jqGrid('GridUnload');
+	if(mydata1=="")
+		{
+		regionNameArray.length=0;
+		document.getElementById('regionDelete').style.visibility='hidden'; 
+		document.getElementById('updatebuttonregion').style.visibility='hidden';
+		alert("No data Available");
+		DESTROY_DISTRICT_REGION();
+		RESET_REGION();
+		jQuery("#list2").jqGrid('GridUnload');
+		return;
+		}
+	jQuery("#list2").jqGrid({ 
+		data: mydata1, //insert data from the data object we created above
+		datatype: 'local',
+		colNames:['Actions','Id','Region Name','Zone Name'], 
+		colModel:[ {name:'act',index:'act', width:45,sortable:false}, 
+		           {name:'id', index:'id', key: true, width:150,hidden:true},
+		           {name:'RegionName', index:'RegionName', width:150,editable:true},
+		           {name:'ZoneName', index:'ZoneName', width:170,editable:true} ],
+		           rowNum:4,
+		           rowList:[10,20,30], 
+		           pager: '#pager2', 
+		           sortname: 'id',
+		           viewrecords: true,
+		           multiselect: true,
+		           sortorder: "desc",
+		           gridComplete: function(){ 
+		        	   var ids = jQuery("#list2").jqGrid('getDataIDs');
+		        	   for(var i=0;i < ids.length;i++)
+		        	   { var cl = ids[i]; 
+		        	   be = "<input class='editbutton' onclick=\"editthis('"+cl+"');\"  />"; 
+
+		        	   //jQuery("#list2").jqGrid('setRowData',ids[i],{act:be+se+ce});
+		        	   jQuery("#list2").jqGrid('setRowData',ids[i],{act:be}); } }, 
+	});
+	jQuery("#list2").jqGrid('navGrid',"#pager2",{edit:false,add:false,del:false});  
+	jQuery("#m1").click( function()
+			{ var s; s = jQuery("#list2").jqGrid('getGridParam','selarrrow');
+			//alert(s); 
+			});	
+}
+
+function ZONE_STATEDISTRICT(arr2)
+{  
+	$("#accordion-2").empty();
+	webMethod = CXFServiceURL+"StateDetailService/MARS/stateDetails";
+	var obj1=getAjax(webMethod);
+var myarr=[];
+	$( obj1.State.states ).each(function() {
+		var stname=this.name;
+		var st_code=this.statecode;
+		var statename = {};
+		statename["stateName"] =stname;
+		var marker=JSON.stringify(statename);
+		myarr.push(marker);
+		var stateid = {};
+		stateid["stateId"] = st_code;
+		var marker1=JSON.stringify(stateid);
+		myarr.push(marker1);
+		var input="{'StateDetails':["+myarr+"]}";
+		webMethod = CXFServiceURL+"ZoneCreationService/ZoneShift";
+		var respObj = postAjax(webMethod, input);
+		if(respObj.ZoneShift!="" && respObj.ZoneShift.shiftCollection.length>1){
+			$(respObj.ZoneShift.shiftCollection).each(function() {
+			if(st_code==this.stateId)
+				{
+				alert(this.stateName+"has already been created");
+				}
+			else{
+				$("#accordion-2").append('<li id="zone'+st_code+'" value='+stname+' ><a href="#"><input id="checkbox'+st_code+'"  type="checkbox" state_code='+st_code+' state_name='+stname+' />'+stname+'</a><li>');
+			}
+			});
+			}
+		else if(respObj.ZoneShift!="")
+			{
+			}
+		else
+			{
+			$("#accordion-2").append('<li id="zone'+st_code+'" value='+stname+' ><a href="#"><input id="checkbox'+st_code+'"  type="checkbox" state_code='+st_code+' state_name='+stname+' />'+stname+'</a><li>');
+			}
+	});
+	for(var i=0;i<arr2.length;i++)
+	{
+		$("#checkbox"+arr2[i]).prop('checked', true);
+	}
+}
+
+function CHECK_ZONE_STATES(myarr)
+{
+	var input="{'StateDetails':["+myarr+"]}";
+	webMethod = CXFServiceURL+"ZoneCreationService/ZoneShift";
+	var respObj = postAjax(webMethod, input);
+	$(respObj.ZoneShift.shiftCollection).each(function() {
+	//alert(this.stateId);
+	});
+return false;	
+}
+
+function FILL_ZONE_REGION_FORM(zoneId)
+{
+	if(regionZoneBoolean==true)
+		{
+	$("#"+zoneId).append("<option value=''>select</option>");
+	webMethod = CXFServiceURL+"ZoneRegionService/ZoneList ";
+	var obj1=getAjax(webMethod);
+	if((obj1.ZoneRegionList)!=""&&(obj1.ZoneRegionList.zoneRegionList.length)>1)
+	{
+		$.each(obj1.ZoneRegionList.zoneRegionList, function() {
+			var zonename=this.zoneName;
+			var zoneid=this.zoneId;
+			$("#"+zoneId).append("<option value='"+zoneid+"'>"+zonename+"</option>");
+		});
+	}
+	else if(obj1.ZoneRegionList!="")
+	{
+		var zonename=obj1.ZoneRegionList.zoneRegionList.zoneName;
+		var zoneid=obj1.ZoneRegionList.zoneRegionList.zoneId;
+		$("#"+zoneId).append("<option value='"+zoneid+"'>"+zonename+"</option>");
+	}
+	regionZoneBoolean=false;
+		}
+}
+
+function FILL_ZONE_FORM()
+{
+	if(zoneBoolean==true)
+{
+	$("#ZoneFormList").append("<option value=''>select</option>");
+	webMethod = CXFServiceURL+"ZoneListService/ZoneList ";
+	var obj1=getAjax(webMethod);
+	$.each(obj1.ZoneList.zoneList,function() {
+		var zonename=this.zoneName;
+		var zoneid=this.zoneId;
+		$("#ZoneFormList").append("<option value='"+zoneid+"' name='"+zonename+"'>"+zonename+"</option>");
+	});
+	zoneBoolean=false;
+}
+}
+
+$("#ZoneFormList").live('change',function() {
+	arr3.length=0;
+	var ZoneId=$(this).val();
+	if(ZoneId=="")
+		{$("#accordion-2").empty();}
+	
+	var ZoneName=$("#ZoneFormList option:selected").attr("name");
+	$("#ZoneTextBox").val(ZoneName);
+	webMethod = CXFServiceURL+"ZoneStateCreationService/ZoneStateList/"+ZoneId;
+	var obj1=getAjax(webMethod);
+	var arr=[];
+	if((obj1.SelectedStateList)!=""&&(obj1.SelectedStateList.zoneStateList.length)>1)
+	{
+		$.each(obj1.SelectedStateList.zoneStateList,function() {
+			var stateid=this.stateId;
+			arr.push(stateid);
+		});
+	}
+	else if(obj1.SelectedStateList!="")
+	{
+		var stateid=obj1.SelectedStateList.zoneStateList.stateId;
+		arr.push(stateid);
+	}
+	ZONE_STATEDISTRICT(arr);
+});
+
+function FILL_ACCORDION(stateid,stateName)
+{ 
+	var  distidList=[];
+	var dist_id=[];
+	var state_code=[];
+	webMethod = CXFServiceURL+"DistrictDetailService/Country/districtDetails";
+	inputcol="{'jacksonStateDetails':[{'statecode':'"+stateid+"'}]}";
+	var obj2=postAjax(webMethod,inputcol);
+	//alert(JSON.stringify(obj2));
+	$( obj2.districts.districts ).each(function() {
+		var distname=this.name;
+		var distid=this.dist_code;
+		var stateCode=this.stateCode;
+		dist_id.push(distid);
+	});
+		webMethod = CXFServiceURL+"RegionCreationService/RegionCheckShift";
+		var obj3=postAjaxArray(webMethod,dist_id);
+		var empty=true;
+		if(obj3.regionshift=="")
+			{
+			$("#accordion-1").append('<li id="state'+stateid+'" value='+stateName+'><a href="#"><input type="checkbox" id="mainCheckMe" stateidmain='+stateid+' />'+stateName+'</a><li>');
+			$("#state"+stateid+"").append('<ul id="ULIST'+stateid+'"></ul>');
+			$('#accordion-1').dcAccordion({
+				eventType: 'click',
+				autoClose: true,
+				saveState: false,
+				disableLink: true,
+				speed: 'slow',
+				showCount: false,
+				autoExpand: true,
+				cookie	: 'dcjq-accordion-1',
+				classExpand	 : 'dcjq-current-parent'
+			});
+			$('.grey .accordion a input').click(function(event){
+				event.stopPropagation();
+			});
+			$( obj2.districts.districts ).each(function() {
+				var distname=this.name;
+				var distid=this.dist_code;
+				var stateCode=this.stateCode;
+				districtArr.push(distid);
+				$("#ULIST"+stateid).append('<li  id="list:'+stateCode+':'+distid+'"><a href="#"><input id="dist:'+stateCode+':'+distid+'"+ distid='+distid+' districtName='+distname+' stateId='+stateid+'  name="checkMe'+stateid+'" class="active" name2="districtCheck" type="checkbox" stateidmain='+stateid+' />'+distname+'</a></li>');
+				empty=false;
+				});
+			}
+		else
+		 if(obj3.regionshift.regionCollection.length>1)
+			{
+			
+				$("#accordion-1").append('<li id="state'+stateid+'" value='+stateName+'><a href="#"><input type="checkbox" id="mainCheckMe" stateidmain='+stateid+' />'+stateName+'</a><li>');
+				$("#state"+stateid+"").append('<ul id="ULIST'+stateid+'"></ul>');
+				$('#accordion-1').dcAccordion({
+					eventType: 'click',
+					autoClose: true,
+					saveState: false,
+					disableLink: true,
+					speed: 'slow',
+					showCount: false,
+					autoExpand: true,
+					cookie	: 'dcjq-accordion-1',
+					classExpand	 : 'dcjq-current-parent'
+				});
+				$('.grey .accordion a input').click(function(event){
+					event.stopPropagation();
+				});
+	$( obj2.districts.districts ).each(function() {
+		 var present=false;
+				var distname=this.name;
+				var distid=this.dist_code;
+				var stateCode=this.stateCode;
+				$(obj3.regionshift.regionCollection).each(function (){
+					if(distid==this.districtId)
+						{
+					present=true;
+						}
+				});
+				if(present==false)
+					{
+					districtArr.push(distid);
+					$("#ULIST"+stateid).append('<li id="list:'+stateCode+':'+distid+'"><a href="#"><input id="dist:'+stateCode+':'+distid+'"+ distid='+distid+' districtName='+distname+' stateId='+stateid+'  name="checkMe'+stateid+'" class="active" name2="districtCheck" type="checkbox" stateidmain='+stateid+' />'+distname+'</a></li>');
+					 empty=false;
+					}
+			});
+}
+		 else
+			 {
+				$("#accordion-1").append('<li id="state'+stateid+'" value='+stateName+'><a href="#"><input type="checkbox" id="mainCheckMe" stateidmain='+stateid+' />'+stateName+'</a><li>');
+				$("#state"+stateid+"").append('<ul id="ULIST'+stateid+'"></ul>');
+				$('#accordion-1').dcAccordion({
+					eventType: 'click',
+					autoClose: true,
+					saveState: false,
+					disableLink: true,
+					speed: 'slow',
+					showCount: false,
+					autoExpand: true,
+					cookie	: 'dcjq-accordion-1',
+					classExpand	 : 'dcjq-current-parent'
+				});
+				$('.grey .accordion a input').click(function(event){
+					event.stopPropagation();
+				});
+			 $( obj2.districts.districts ).each(function() {
+				 var present=false;
+						var distname=this.name;
+						var distid=this.dist_code;
+						var stateCode=this.stateCode;
+							if(distid==obj3.regionshift.regionCollection.districtId)
+								{
+							present=true;
+								}
+						if(present==false)
+							{
+							$("#ULIST"+stateid).append('<li id="list:'+stateCode+':'+distid+'"><a href="#"><input id="dist:'+stateCode+':'+distid+'"+ distid='+distid+' districtName='+distname+' stateId='+stateid+'  name="checkMe'+stateid+'" class="active" name2="districtCheck" type="checkbox" stateidmain='+stateid+' />'+distname+'</a></li>');
+							empty=false;			
+							}
+					});
+			 }
+		if(empty==true)
+		{
+		$("#accordion-1").empty();
+		}
+	return;
+}
+
+function FILL_ACCORDION_UPDATE(stateid,stateName,selectedRow)
+{ 
+	districtArr.length=0;
+	webMethod=CXFServiceURL+"RegionCreationService/LogicMap";
+    inputcol=selectedRow;
+	var distIds1=[];
+	var respObj1 = postAjax(webMethod, inputcol);
+		{
+			//alert(JSON.stringify(respObj1));
+			if(respObj1.RegionLogicMap!="")
+				{
+		var distIds=respObj1.RegionLogicMap.distIdCollection;
+        var main=distIds.toString();
+		distIds1=main.split(",");
+				}
+		}
+	$("#accordion-1").append('<li id="state'+stateid+'" value='+stateName+'><a href="#"><input type="checkbox" id="mainCheckMe" stateidmain='+stateid+' />'+stateName+'</a><li>');
+	$("#state"+stateid+"").append('<ul id="ULIST'+stateid+'"></ul>');
+	$('#accordion-1').dcAccordion({
+		eventType: 'click',
+		autoClose: true,
+		saveState: false,
+		disableLink: true,
+		speed: 'slow',
+		showCount: false,
+		autoExpand: true,
+		cookie	: 'dcjq-accordion-1',
+		classExpand	 : 'dcjq-current-parent'
+	});
+	$('.grey .accordion a input').click(function(event){
+		event.stopPropagation();
+	});
+	webMethod = CXFServiceURL+"DistrictDetailService/Country/districtDetails";
+	inputcol="{'jacksonStateDetails':[{'statecode':'"+stateid+"'}]}";
+	var obj2=postAjax(webMethod,inputcol);
+	$( obj2.districts.districts ).each(function() {
+		var distname=this.name;
+		var distid=this.dist_code;
+		districtArr.push(distid);
+		var stateCode=this.stateCode;
+		var distIds="dist:"+stateCode+":"+distid+"";
+		$("#ULIST"+stateid).append('<li id="list:'+stateCode+':'+distid+'"><a href="#"><input id="dist:'+stateCode+':'+distid+'"+ distid='+distid+' districtName='+distname+' stateId='+stateid+'  name="checkMe'+stateid+'" class="active" name2="districtCheck" type="checkbox" stateidmain='+stateid+' />'+distname+'</a></li>');
+	});
+	$.each(distIds1,function(index,value){
+			var elem = document.getElementById(value);
+			if(elem!=null || elem!=undefined || elem!="")
+			elem.parentNode.removeChild(elem);
+	});
+	return;
+}
+
+$("#zoneSelection").live('change',function(){
+	var ZoneId1=$(this).val();
+	webMethod = CXFServiceURL+'RegionStateService/RegionStateList/'+ZoneId1+'';
+	var obj1=getAjax(webMethod);
+	if((obj1.RegionStateList)!=""&&(obj1.RegionStateList.stateDetails.length)>1)
+	{
+		$("#accordion-1").empty();
+		$.each(obj1.RegionStateList.stateDetails,function() {
+			var stateid1=this.state_id;
+			var stateName1=this.state_name;
+			FILL_ACCORDION(stateid1,stateName1);
+		});
+	}
+	else if((obj1.RegionStateList)!="")
+	{
+		$("#accordion-1").empty();
+		var stateid1=obj1.RegionStateList.stateDetails.state_id;
+		var stateName1=obj1.RegionStateList.stateDetails.state_name;
+		FILL_ACCORDION(stateid1,stateName1);
+	}
+});
+
+function FILL_ZONE_BRANCH(elementId) {
+	webMethod = CXFServiceURL+"ZoneListService/ZoneList";
+	var respObj = getAjax(webMethod);
+	$("#"+elementId).append("<option value='select'>Select</option>");
+	var obj=JSON.stringify(respObj.ZoneList.zoneList);
+	var obj1=  $.parseJSON(obj);
+	$('#'+ elementId).empty();
+	$.each(obj1, function() {
+		var zonename=this.zoneName;
+		var zoneid=this.zoneId;
+		$("#"+elementId).append("<option value='"+zoneid+"'>"+zonename+"</option>");
+	});
+}
+
+
+function FILL_REGION_BRANCH(elementId,zoneId) {
+	var zoneCode=$("#"+zoneId).val();
+	var input="{'zoneDetails':'"+zoneCode+"'}";
+	webMethod = CXFServiceURL+"BranchService/regions/list";
+	var respObj = postAjax(webMethod, input);
+	var markers =JSON.stringify(respObj.RegionListBr.regionlist);
+	if((respObj.RegionListBr)!=""&&(respObj.RegionListBr.regionlist.length)>1)
+		{
+		$.each(respObj.RegionListBr.regionlist, function() {
+			var regionName=this.regionName;
+			var zoneid=this.zoneId;
+			var regId=this.regionId;
+			$("#"+elementId).append("<option value='"+regId+"'>"+regionName+"</option>");
+		});
+		}
+	else if((respObj.RegionListBr)!="")
+	{
+		var regionName=respObj.RegionListBr.regionlist.regionName;
+		var zoneid=respObj.RegionListBr.regionlist.zoneId;
+		var regId=respObj.RegionListBr.regionlist.regionId;
+		$("#"+elementId).append("<option value='"+regId+"'>"+regionName+"</option>");
+	}
+}
+
+
+
+function FILL_BRANCH_TERRITORY(elementId) {
+	var regionCode=$("#regionSelectionTerritory").val();
+	var input="{'regId':'"+regionCode+"'}";
+	webMethod = CXFServiceURL+"TerritoryService/branch/list";
+	var respObj = postAjax(webMethod, input);
+	var markers =JSON.stringify(respObj.BranchList.branchlist);
+	var obj1=  $.parseJSON(markers);
+	$.each(obj1, function() {
+		//var regionName=this.regionName;
+		var branchId=this.branchId;
+		var branchName=this.branchName;
+		var regId=this.regionId;
+		$("#"+elementId).append("<option value='"+branchId+"'>"+branchName+"</option>");
+	});
+}
+
+
+function ZONE_CREATION_OK()
+{
+	if($("#ZoneTextBox").val()=="")
+		{
+		alert("Please select a zone or enter a valid zonename");
+		return;
+		}
+	$("#zoneSelection").empty();
+	regionZoneBoolean=true;
+	var checkBoxId;
+	$("#accordion-2 :checked" )
+	.each(function() {
+		checkBoxId=this.id;
+	});
+	if(checkBoxId==undefined)
+	{
+		alert("Zone Creation incomplete.Please select states");
+		return;
+	}
+	var zoneName=$("#ZoneTextBox").val();
+	if(zoneNameArray.length==0)
+	{
+		zoneNameArray.push(zoneName);
+	}
+
+	else
+	{
+		for(var i=0;i<zoneNameArray.length;i++)
+		{
+			if(zoneName==zoneNameArray[i])
+			{
+				alert("Zone name "+zoneName+" already created please create a new Zone ");
+				return;
+			}
+		}
+		zoneNameArray.push(zoneName);
+	}
+	var myarr=[];
+	$("#accordion-2 :checked" )
+	.each(function() {
+		var checkBoxId=this.id;
+		var stateName=$("#"+checkBoxId).attr("state_name");
+		var statename = {};
+		statename["stateName"] =stateName;
+		var marker=JSON.stringify(statename);
+		myarr.push(marker);
+		var stateCode=$("#"+checkBoxId).attr("state_code");
+		var stateid = {};
+		stateid["stateId"] = stateCode;
+		var marker1=JSON.stringify(stateid);
+		myarr.push(marker1);
+	});
+	webMethod=CXFServiceURL+'ZoneCreationService/{"ZoneName":'+zoneName+',"StateNames":['+myarr+']}"';
+	var obj=getAjax(webMethod);
+	webMethod=CXFServiceURL+'ZoneRegionService/ZoneList';
+	var obj2=getAjax(webMethod);
+	jsonObj =[];
+	$(obj2.ZoneRegionList.zoneRegionList).each(function(){
+		var ZoneId=this.zoneId;
+		var ZoneName=this.zoneName;
+		item = {};
+		item ["id"] = ZoneId;
+		item ["ZoneName"] = ZoneName;
+		jsonObj.push(item);
+	});
+	var mydata1 =jsonObj; 
+		RESET_ZONE();
+	ALL_GRID(mydata1);
+	document.getElementById('updatebuttonzone').style.visibility='hidden';
+}
+function RESET_REGION()
+{
+	document.getElementById('updatebuttonregion').style.visibility='hidden';
+	document.getElementById('okBtnRegionform').style.visibility='visible';
+	$("#zoneSelection").removeAttr("disabled");
+	$('#regionName').val("");
+	 $("#zoneSelection").val('');
+	 var zoneId=$("#zoneSelection").val();
+	 if(zoneId==""||zoneId==null)
+	 {$("#accordion-1").empty();}	
+}
+
+function RESET_ZONE()
+{
+	document.getElementById('updatebuttonzone').style.visibility='hidden';
+	document.getElementById('Button1').style.visibility='visible';
+	$('#ZoneTextBox').val("");
+	$("#ZoneLabel").show();
+	 $("#ZoneFormList").val('');
+	 var zoneId=$("#ZoneFormList").val();
+	 if(zoneId==""||zoneId==null)
+	 {$("#accordion-2").empty();}
+		$("#ZoneFormList").show();
+}
+
+function ALL_GRID(mydata1)
+{
+	document.getElementById('zoneDelete').style.visibility='visible';   
+	document.getElementById('updatebuttonzone').style.visibility='visible';
+	jQuery("#list1").jqGrid('GridUnload');
+	if(mydata1=="")
+		{
+		zoneNameArray.length=0;
+		document.getElementById('zoneDelete').style.visibility='hidden'; 
+		document.getElementById('updatebuttonzone').style.visibility='hidden';
+		RESET_ZONE();
+		alert("Zones deleted sucessfully");
+		jQuery("#list1").jqGrid('GridUnload');
+		return;
+		}
+	jQuery("#list1").jqGrid({ 
+		data: mydata1, //insert data from the data object we created above
+		datatype: 'local',
+		colNames:['Actions','Id','ZoneName'], 
+		colModel:[ {name:'act',index:'act', width:45,sortable:false}, 
+		           {name:'id', index:'id', key: true, width:150,hidden:true},
+		           {name:'ZoneName', index:'ZoneName', width:330,editable:true} ],
+		           rowNum:4,
+		           rowList:[10,20,30], 
+		           pager: '#pager1', 
+		           sortname: 'id',
+		           viewrecords: true,
+		           multiselect: true,
+		           sortorder: "desc",
+		           gridComplete: function(){ 
+		        	   var ids = jQuery("#list1").jqGrid('getDataIDs');
+		        	   for(var i=0;i < ids.length;i++)
+		        	   { var cl = ids[i]; 
+		        	   be = "<input class='editbutton' onclick=\"editthis('"+cl+"');\"  />"; 
+		        	   jQuery("#list1").jqGrid('setRowData',ids[i],{act:be}); } }, 
+	});
+	jQuery("#list1").jqGrid('navGrid',"#pager1",{edit:false,add:false,del:false});  
+	jQuery("#m2").click( function()
+			{ var s; s = jQuery("#list1").jqGrid('getGridParam','selarrrow');
+			//alert(s); 
+			});	
+
+}
+
+
+function allGrid11(mydata1,elementId,ReceiptColNames,ReceiptColModel) {
+	 jQuery("#"+elementId).jqGrid('GridUnload');
+	   jQuery("#"+elementId).jqGrid({ 
+		  	  data: mydata1, //insert data from the data object we created above
+		  		datatype: 'local',
+		  		  colNames:ReceiptColNames, 
+		  		  colModel:ReceiptColModel,     
+		  		             rowNum:4,
+		  		             rowList:[10,20,30], 
+		  		             pager: '#pager1', 
+		  		             sortname: 'id',
+		  		             viewrecords: true,
+		  		             multiselect: true,
+		  		             sortorder: "desc",
+		  		             gridComplete: function(){ 
+		  		            	 var ids = jQuery("#"+elementId).jqGrid('getDataIDs');
+		  		            	 for(var i=0;i < ids.length;i++)
+		  		            	 { 
+		  		            		 var cl = ids[i]; 
+		  		            	 be = "<input class='editbutton' onclick=\"editthis('"+cl+"');\"  />"; 
+		  		            	 jQuery("#"+elementId).jqGrid('setRowData',ids[i],{act:be}); } }, 
+		  		             });
+		               jQuery("#"+elementId).jqGrid('navGrid',"#pager1",{edit:false,add:false,del:false});  
+
+}
+function editthis(selectedRow){
+	if(selectedRow.indexOf('T') == 0) {
+		document.getElementById('okbuttonterritory').style.visibility='hidden';
+		territoryUpdateGetData(selectedRow);
+	} else if(selectedRow.indexOf('B') == 0){
+		document.getElementById('okBtnBranchForm').style.visibility='hidden';
+		branchUpdateGetData(selectedRow);
+	} else if(selectedRow.indexOf('R') == 0){
+		document.getElementById('okBtnRegionform').style.visibility='hidden';
+		
+		regionUpdateGetData(selectedRow);
+	} else if(selectedRow.indexOf('Z') == 0){
+		document.getElementById('Button1').style.visibility='hidden';
+		zoneUpdateGetData(selectedRow);
+	}
+	
+}
+
+function gridLoadTerritory() {
+	webMethod = CXFServiceURL+"TerritoryService/territoryDetails";
+	var respObj = getAjax(webMethod);
+	if(respObj.TerritoryDetails != "") {
+		var elementId="terrResult";
+		var ReceiptColNames=['Actions','Id','ZoneName','RegionName','BranchName','TerritoryName'];
+		var	ReceiptColModel=[ {name:'act',index:'act', width:70,sortable:false},  
+	   	                  {name:'territoyId', index:'id', key: true, width:10,hidden:true},
+	   	                  {name:'zoneName', index:'zoneName', width:80,editable:true},
+	   	                  {name:'regionName', index:'regionName', width:80,editable:true},
+	   	                  {name:'branchName', index:'branchName', width:80,editable:true},
+	   	                  {name:'territoryName', index:'territoryName', width:80,editable:true} ];
+		if(respObj.TerritoryDetails.territoryJsonList.length >1){
+			var mydata=	respObj.TerritoryDetails.territoryJsonList;	
+			allGrid11(mydata,elementId,ReceiptColNames,ReceiptColModel);
+		}else{
+			var mydata=[];
+			mydata.push(respObj.TerritoryDetails.territoryJsonList);
+			allGrid11(mydata,elementId,ReceiptColNames,ReceiptColModel);
+			
+		}	
+	} else {
+	}
+	
+	document.getElementById('updatebuttonterritory').style.visibility='hidden';
+	
+}
+function gridLoadBranch() {
+	webMethod = CXFServiceURL+"BranchService/branchDetails";
+	var respObj = getAjax(webMethod);
+	if(respObj.BranchDetails != "") {
+		
+		var mydata=respObj.BranchDetails.branchJsonList;
+		var elementId="branchResult";
+		var ReceiptColNames=['Actions','Id','ZoneName','RegionName','BranchName'];
+		var ReceiptColModel=[ {name:'act',index:'act', width:70,sortable:false}, 
+			  		          {name:'branchId', index:'id', key: true, width:10,hidden:true},
+				  		      {name:'zoneName', index:'zoneName', width:80,editable:true},
+				  		      {name:'regionName', index:'regionName', width:80,editable:true},
+				  		      {name:'branchName', index:'branchName', width:80,editable:true} ];
+		if(respObj.BranchDetails.branchJsonList.length >1){
+			var mydata=	respObj.BranchDetails.branchJsonList;
+			allGrid11(mydata,elementId,ReceiptColNames,ReceiptColModel);
+		}else{
+			var mydata=[];
+			mydata.push(respObj.BranchDetails.branchJsonList);
+			allGrid11(mydata,elementId,ReceiptColNames,ReceiptColModel);
+		}
+	} else {
+		
+	}
+	document.getElementById('updatebuttonbranch').style.visibility='hidden';
+}
+
+
+
+function BranchDistrictList() {
+		webMethod = CXFServiceURL+"BranchService/districtlist";
+		var regCode=$("#regionSelectionBranch").val();
+		var input="{'regionId':'"+regCode+"'}";
+		var obj1=postAjax(webMethod,input);
+		$("#accordionBranchDist").empty();
+		if( JSON.stringify(obj1.DistrictList.dists) == undefined) {
+			alert("No more Districts available, Please choose some other region.")
+		}
+		$( obj1.DistrictList.dists ).each(function() {
+			var distCode = this.distCode;
+			var distName = this.distName;
+			var	stateCode=this.stateCode;
+			branchDistArr.push(distCode);
+			$("#accordionBranchDist").append('<li id="zone'+distCode+'" value='+distName+'><a ><input id="'+stateCode+':'+distCode+'" type="checkbox" />'+distName+'</a><li>');
+		});
+	}
+
+function checkDistRegion(stDistCode,level){
+	if(level=="DISTRICT"){
+		element="dist:"+stDistCode;
+		if(element!="" || element!=null)
+			{
+		document.getElementById(element).checked = true;
+			}
+	}else{
+		alert("PLease zoom to District level");
+	}
+}
+
+function checkDistBranch(stDistCode,level){
+		if(level=="DISTRICT"){
+		document.getElementById(stDistCode).checked = true;
+	}else{
+	}
+}
+function checkVillTerritory(stDistVill,level){
+	id="v:"+stDistVill;	
+	document.getElementById(id).checked = true;
+}
+function checkTownTerritory(stTownVill,level){
+	id="t:"+stTownVill;
+	document.getElementById(id).checked = true;
+}
+
+function clearSelect(selectedElem) {
+	for (var i=document.getElementById(selectedElem).options.length; i-->0;){
+		document.getElementById(selectedElem).options[i] = null;
+	}
+	    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

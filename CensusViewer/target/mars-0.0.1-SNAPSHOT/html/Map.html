@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  
+    <style type="text/css">
+        #map {
+            width: 700px;
+            height: 700px;
+            border: 1px solid black;
+        }
+		
+	</style>
+<!--    	<link rel="stylesheet" href="../theme/default/style.css" type="text/css"> -->
+	<script type="text/javascript" src="../js/OpenLayers.js"></script>
+	<script src="../js/validation.js" type="text/javascript"></script>
+	<script src="../js/jquery.min.js" type="text/javascript"></script>
+	<script src="../js/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var map,state, district, tehsil, towns, village,airports,sea,water_polygon,rail_network,roads,water_line,areanames,Layer_hilight,towns, village, latlon, lat, lon, popup,markers,layers,tempgid,req,temlayer,str,gid;
+	var tempgid='';
+       
+    
+    
+    /* 
+        * creates a new XMLHttpRequest object which is the backbone of AJAX  
+        * or returns false if the browser doesn't support it 
+        */  
+    	   
+        
+   
+		 
+        function init(){
+		map = new OpenLayers.Map('map');
+          		
+            OSM = new OpenLayers.Layer.WMS( "OSM (Telescience)", 
+               [
+                 "http://t1.hypercube.telascience.org/tiles?",
+                 "http://t2.hypercube.telascience.org/tiles?",
+                 "http://t3.hypercube.telascience.org/tiles?",
+                 "http://t4.hypercube.telascience.org/tiles?"
+                 ], 
+                {layers: 'osm-4326', format: 'image/png' } );
+//alert("2");
+			base = new OpenLayers.Layer.WMS( "OpenLayers WMS",
+				"http://labs.metacarta.com/wms-c/Basic.py",
+				{layers: 'basic'} );
+//alert("3"); 
+map.addLayer(base);
+
+
+
+
+state = new OpenLayers.Layer.MapServer( "State",
+  		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+		   {layers:'state', format:'image/png', 'gid':0 },
+                         {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+                        
+);	
+		
+		
+map.addLayer(state);
+
+
+
+
+
+district = new OpenLayers.Layer.MapServer( "District",
+		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+		   {layers:'district', format:'image/png', 'gid':0 },
+                         {isBaseLayer:false, visibility:true, opacity:0.3,transparent:true }
+                       
+);
+map.addLayer(district);	
+
+tehsil = new OpenLayers.Layer.MapServer("Tehsil",
+        
+		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+	   {layers:'tehsil', format:'image/png', 'gid':0 },
+                        {isBaseLayer:false, visibility:true,opacity:0.2, transparent:true }
+                        
+);
+	   
+		map.addLayer(tehsil);	
+		
+		
+ 	
+
+towns = new OpenLayers.Layer.MapServer( "Towns",
+		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+		   {layers:'towns', format:'image/png', 'gid':0 },
+                         {isBaseLayer:false, visibility:true, opacity:0.2, transparent:true }
+                     );
+		   
+            map.addLayer(towns);				
+		
+village = new OpenLayers.Layer.MapServer( "Village",
+		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+		   {layers:'village', format:'image/png', 'gid':0 },
+                         {isBaseLayer:false, visibility:true, opacity:0.2, transparent:true }
+                     );
+		   
+                    map.addLayer(village);				
+        			
+                    
+// airports = new OpenLayers.Layer.MapServer( "Airports",
+// 		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'airports', format:'image/png', 'gid':0 },
+//                          {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                      );
+		   
+//             map.addLayer(airports);				
+                			
+//  sea = new OpenLayers.Layer.MapServer( "Sea",
+// 		 "http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'sea', format:'image/png', 'gid':0 },
+//                           {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                       );
+		   
+//             map.addLayer(sea);				
+                        			
+//  water_polygon = new OpenLayers.Layer.MapServer( "Water Polygon",
+// 		 "http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'water_polygon', format:'image/png', 'gid':0 },
+//                           {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                       );
+		   
+//                   map.addLayer(water_polygon);				
+                                			
+//  rail_network = new OpenLayers.Layer.MapServer( "Rail Network",
+// 		 "http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'rail_network', format:'image/png', 'gid':0 },
+//                           {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                       );
+		   
+//                  map.addLayer(rail_network);				
+                                        			
+        			
+                                                    
+// roads = new OpenLayers.Layer.MapServer( "Roads",
+// 		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'roads', format:'image/png', 'gid':0 },
+//                          {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                      );
+		   
+//          map.addLayer(roads);				
+                                                			
+// water_line = new OpenLayers.Layer.MapServer( "Water Line",
+// 		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'water_line', format:'image/png', 'gid':0 },
+//                          {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                      );
+		   
+// 		map.addLayer(water_line);				
+                                                       
+// areanames = new OpenLayers.Layer.MapServer( "Area Names",
+// 		"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+// 		   {layers:'areanames', format:'image/png', 'gid':0 },
+//                          {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//                      );
+		   
+//          map.addLayer(areanames);				
+                  
+// major_poi = new OpenLayers.Layer.MapServer( "Major Poi",
+//         			"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+//         			   {layers:'major_poi', format:'image/png', 'gid':0 },
+//         	                         {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//         	                     );
+        			   
+//         	         map.addLayer(major_poi);				
+        	   
+// shipping_port = new OpenLayers.Layer.MapServer( "Shipping Port",
+//         	        			"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+//         	        			   {layers:'shipping_port', format:'image/png', 'gid':0 },
+//         	        	                         {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//         	        	                     );
+        	        			   
+//         	        	         map.addLayer(shipping_port);				
+        	        	               
+// wetlands = new OpenLayers.Layer.MapServer( "Wetlands",
+//         	        	        			"http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&mode=map",
+//         	        	        			   {layers:'wetlands', format:'image/png', 'gid':0 },
+//         	        	        	                         {isBaseLayer:false, visibility:false, opacity:0.5, transparent:true }
+//         	        	        	                     );
+        	        	        			   
+//         	        	        	         map.addLayer(wetlands);				
+        	        	        	   
+        	        	         
+        	        	         //alert("8");
+					
+			
+				map.addControl(new OpenLayers.Control.PanZoomBar());
+				map.addControl(new OpenLayers.Control.LayerSwitcher({'ascending':true}));
+				//map.addControl(new OpenLayers.Control.Permalink());
+				//map.addControl(new OpenLayers.Control.Permalink('permalink'));
+				map.addControl(new OpenLayers.Control.MousePosition());
+			
+			
+			
+            map.zoomToMaxExtent();
+			//alert("9");
+		 map.setCenter(new OpenLayers.LonLat(79.0702529687,22.15804625),6);
+			
+			
+	map.events.register('click', map, findMapClick);
+    //   highlightWMS(12);
+ }
+       
+	
+	function findMapClick(event) {
+
+	var scal=map.getScale();
+	alert("scal==="+scal);
+	temlayer=''; 
+	if(scal<"10000000" && scal>"3500000"){
+		temlayer="district";	
+	}
+	else if(scal<"3500000" && scal>"1200000"){
+		temlayer="tehsil";	
+	}
+	else if(scal<"2500000" && scal>"1250000"){
+		temlayer="towns";	
+	}								
+	else if(scal<"2500000" && scal>="1250000"){
+		temlayer="village";	
+	}
+// 		var mLayers = map.layers;
+// 		var layername = map.getLayersBy("visibility", true); 
+// 		temlayer=''; 		 
+// 		 for(var l = 0; l < layername.length; l++ ){
+// 	 		   temlayer=layername[l].name;	 		
+// 		 }
+		 
+		 if(temlayer=="Water Polygon"){temlayer="water_polygon";};
+		 if(temlayer=="Rail Network"){temlayer="rail_network";};
+		 if(temlayer=="Water Line"){temlayer="water_line";};
+		 if(temlayer=="Major Poi"){temlayer="major_poi";};
+		 if(temlayer=="Shipping Port"){temlayer="shipping_port";};
+		 
+		 
+		 
+		// alert("temlayer=="+temlayer);
+		var bbox=map.getExtent().toBBOX();
+		var X=event.xy.x;
+		var Y=event.xy.y;
+		latlon = map.getLonLatFromPixel(event.xy);
+	 	var XY = latlon.toString().split(',');
+	 	var tempLat = XY[1].toString().split('=');
+	 	var tempLon = XY[0].toString().split('=');
+	 var LatN=tempLat.toString().split(',');
+	 var LonN=tempLon.toString().split(',');
+
+	
+	var parameters="{'lat':'"+LatN[1]+"','lon':'"+LonN[1]+"','layer':'"+temlayer+"'}";
+	var webMethod = "http://localhost:8080/mars/CXFService/MapService/"+temlayer+"/"+parameters; 
+//alert("webMethod=="+webMethod);
+	    $.ajax({
+	    	//alert("hi");
+	       
+	    	type:'GET',
+	    	 url:webMethod,	
+	            Accept: "application/json",
+		       dataType: "json",
+				success: function(resp) {
+	      	   var markers =JSON.stringify(resp);
+	      	 var json_parsed = $.parseJSON(markers);
+	      	  alert(json_parsed.districts);
+	      	 var jsonSting = JSON.stringify(json_parsed.districts);
+	    	   alert(jsonSting);
+	    	//var jsonParse=$.parseJSON(json_parsed.districts);
+	    	var distcode=json_parsed.districts.distcode;
+	    	var distid=json_parsed.districts.distid;
+	    	 gid=json_parsed.districts.gid;
+	    	var level=json_parsed.districts.level;
+	    	var name=json_parsed.districts.name;
+	    	var statecode=json_parsed.districts.statecode;
+	    	
+		     str = '<div id=mydiv>';
+	        str += '<table cellpadding="3" cellspacing="0" style="font-family:Verdana; font-size:xx-small;">';
+	        str += '<tr><td colspan="2" style="font-size:x-small;color:Blue;font-weight:bold">Attributes</td><td colspan="2" style="font-size:x-small;color:Blue;font-weight:bold">Value</td><tr>';
+	      
+	        str += '<tr><td style="font-family:Verdana"; colspan=2><font color="black"><b>Gid</font></b></td>';
+	        str += '<td colspan=2; style="font-family:Verdana"><font color="black">' + gid+ '</font></td></tr>';
+	        
+	        str += '<tr><td style="font-family:Verdana"; colspan=2><font color="black"><b>Name</font></b></td>';
+	        str += '<td colspan=2; style="font-family:Verdana"><font color="black">' + name + '</font></td></tr>';
+	        
+	        str += '<tr><td style="font-family:Verdana"; colspan=2><font color="black"><b>Stats Code </font></b></td>';
+	        str += '<td colspan=2; style="font-family:Verdana"><font color="black">' + statecode + '</font></td></tr>';
+	        
+	        str += '<tr><td style="font-family:Verdana"; colspan=2><font color="black"><b>Dist Code</font></b></td>';
+	        str += '<td colspan=2; style="font-family:Verdana"><font color="black">' + distcode + '</font></td></tr>';
+	        
+	        str += '<tr><td style="font-family:Verdana"; colspan=2><font color="black"><b>Level</font></b></td>';
+	        str += '<td colspan=2; style="font-family:Verdana"><font color="black">' + level + '</font></td></tr>';
+	        
+	        
+	        str += '</table>';
+	        str += '</div>';
+	    	
+	    	
+	             },
+	            error: function(e){
+	            	alert("error=="+e);
+	            	
+	            	            
+	            }
+	        });
+	 	
+    
+		 popup = new OpenLayers.Popup.FramedCloud(
+                "chicken",
+                latlon,
+                null,
+                str,
+                null,
+                true
+            );
+
+        latlon = null;
+		popup.autoSize = true;
+  	  map.addPopup(popup); 
+	tempgid=gid+','+tempgid;
+		showlayer(tempgid,temlayer);
+	 	
+   
+}	
+
+	
+
+function showlayer(idn,layrval) {
+if(Layer_hilight==null||Layer_hilight==''){
+	highlightWMS(idn,layrval);
+    }
+	else{
+	unhighlightWMS();
+	highlightWMS(idn,layrval);
+  }  
+
+}
+
+
+  function highlightWMS(idn,layrval) {
+  var strG =  idn.split(',');
+  var wms_url= "http://172.16.0.199:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map&layer="+layrval+"&singleTile:true,";
+  sld = '<?xml version="1.0" encoding="utf-8"?>';
+			sld+= '<sld:StyledLayerDescriptor version="1.0.0">';
+			sld+= '<sld:NamedLayer><sld:Name>'+layrval+'</sld:Name><sld:UserStyle><sld:Name>'+layrval+'</sld:Name><sld:FeatureTypeStyle><sld:Rule>';
+			sld+= '<ogc:Filter >';
+			 sld+= '<Or>';
+			 for(var i=0;i<strG.length;i++){
+			sld+= '<ogc:PropertyIsEqualTo>';
+			sld+= '<ogc:PropertyName>gid</ogc:PropertyName>';
+			sld+= '<ogc:Literal>'+strG[i]+'</ogc:Literal>';
+			sld+= '</ogc:PropertyIsEqualTo>';
+			}
+			sld+= '</Or></ogc:Filter>'
+			
+			sld+= '<sld:PolygonSymbolizer><sld:Fill><sld:CssParameter name="fill">#FF0000</sld:CssParameter><sld:CssParameter name="fill-opacity">0.4</sld:CssParameter></sld:Fill>';
+			sld+= '<sld:Stroke><sld:CssParameter name="stroke">#0000FF</sld:CssParameter><sld:CssParameter name="stroke-opacity">0.4</sld:CssParameter><sld:CssParameter name="stroke-width">2</sld:CssParameter></sld:Stroke></sld:PolygonSymbolizer>';
+			sld+= '</sld:Rule>';
+        // sld+='<sld:Rule>';
+			
+		//	sld+= '<ogc:Filter><ogc:PropertyIsNotEqualTo>';
+		//	sld+= '<ogc:PropertyName>gid</ogc:PropertyName>';
+		//	sld+= '<ogc:Literal>'+idn+'</ogc:Literal>';
+		//	sld+= '</ogc:PropertyIsNotEqualTo></ogc:Filter>';
+			
+		//	sld+= '<sld:PolygonSymbolizer><sld:Fill><sld:CssParameter name="fill">#000000</sld:CssParameter><sld:CssParameter name="fill-opacity">0.4</sld:CssParameter></sld:Fill>';
+		//	sld+= '<sld:Stroke><sld:CssParameter name="stroke">#0000FF</sld:CssParameter><sld:CssParameter name="stroke-opacity">0.4</sld:CssParameter><sld:CssParameter name="stroke-width">2</sld:CssParameter></sld:Stroke></sld:PolygonSymbolizer>';
+		//	sld+= '</sld:Rule>
+		    sld+= '</sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>';					
+
+
+//unhighlightWMS();
+ Layer_hilight = new OpenLayers.Layer.WMS(
+				"HighlightWMS",
+				wms_url,
+				{layers: +layrval,
+				 transparent: true
+				},
+					{
+					    visibility: false,
+					    isBaseLayer: false,
+						opacity: 0.5,
+                        singleTile: true
+
+					}
+					
+				    );
+ 	 
+map.addLayers([Layer_hilight]);
+
+
+			Layer_hilight.mergeNewParams({sld_body:sld});
+			Layer_hilight.setVisibility(true);
+			 
+  
+}
+
+			
+function unhighlightWMS() {
+Layer_hilight.destroy(); 
+			}
+        
+    </script>
+  </head>
+  <body onload="init()">
+    <h1>OpenLayers Example</h1>
+	<SELECT ONCHANGE="showlayer(this.options[this.selectedIndex].value,'tehsil')">
+
+<OPTION VALUE="SELECT">SELECT
+<OPTION VALUE="10,">10
+<OPTION VALUE="20,">20
+<OPTION VALUE="30,">30
+<OPTION VALUE="40,">40
+</SELECT>
+	
+	<input type="button" value="GO" onclick="showlayer('200,','tehsil')"></input>
+    <div id="map"></div>
+	 <div id="feature_info">
+	 
+	 <table>
+	 <tr>
+	 <td>
+	State Code  <input type="text" id=statecode readonly="readonly">
+	 </td>
+	 </tr>
+	 
+	 <tr>
+	 <td>
+	Dist Code  <input type="text" id=distcode readonly="readonly">
+	 </td>
+	 </tr>
+	 
+	 
+	 <tr>
+	 <td>
+	Tehsil Code  <input type="text" id=tehsilcode readonly="readonly">
+	 </td>
+	 </tr>
+	 
+	 
+	 <tr>
+	 <td>
+	Level  <input type="text" id=level readonly="readonly">
+	 </td>
+	 </tr>
+	 
+	  
+	 <tr>
+	 <td>
+	Name  <input type="text" id=name readonly="readonly">
+	 </td>
+	 </tr>
+	 
+	 
+	 
+	 </table>
+	 
+	 </div>
+  </body>
+ 
+</html>

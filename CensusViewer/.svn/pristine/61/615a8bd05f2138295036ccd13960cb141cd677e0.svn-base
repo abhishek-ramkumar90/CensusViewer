@@ -1,0 +1,163 @@
+package com.mars.distribution.model;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="ORG",schema = "distribution")
+public class Org {
+
+	@Id
+	@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.OrgIdGenerator")
+	@GeneratedValue(generator="seq_id")
+	@Column(name = "ORG_ID", unique = true, nullable = false, length = 20)
+	private String orgId;
+	
+	/*@OneToMany(cascade= CascadeType.ALL, mappedBy="orgId")
+	private Collection<DistrictChannel> distChannel;
+	
+	@OneToMany(cascade= CascadeType.ALL, mappedBy="orgId")
+	private Collection<DistrictChannelStructure> distChannelStruct;*/
+	
+	@Column(name="ORG_NAME")
+	private String orgName;
+	
+	/*@OneToMany(cascade= CascadeType.ALL, mappedBy="orgId")
+	private Collection<DistrictChannelIntermediary> distChannelInterMediary;
+	
+	@OneToMany(cascade= CascadeType.ALL, mappedBy="orgId")
+	private Collection<DistrictChannelIntermediaryDetail> distChannelInterDetails;
+	
+	
+	public Collection<DistrictChannel> getDistChannel() {
+		return distChannel;
+	}
+	public void setDistChannel(Collection<DistrictChannel> distChannel) {
+		this.distChannel = distChannel;
+	}
+	public Collection<DistrictChannelStructure> getDistChannelStruct() {
+		return distChannelStruct;
+	}
+	public void setDistChannelStruct(
+			Collection<DistrictChannelStructure> distChannelStruct) {
+		this.distChannelStruct = distChannelStruct;
+	}
+	public Collection<DistrictChannelIntermediary> getDistChannelInterMediary() {
+		return distChannelInterMediary;
+	}
+	public void setDistChannelInterMediary(
+			Collection<DistrictChannelIntermediary> distChannelInterMediary) {
+		this.distChannelInterMediary = distChannelInterMediary;
+	}
+	public Collection<DistrictChannelIntermediaryDetail> getDistChannelInterDetails() {
+		return distChannelInterDetails;
+	}*/
+	/*public void setDistChannelInterDetails(
+			Collection<DistrictChannelIntermediaryDetail> distChannelInterDetails) {
+		this.distChannelInterDetails = distChannelInterDetails;
+	}*/
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+	
+	@Column(name="CREATED_BY")
+	private String createdBy;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<Zone> zones;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<Region> regions;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<Branch> branchs;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<Territory> territories;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<SalesForOrgMaster> sforgIds;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORG_ID")
+	private Collection<ZoneStates> ZoneStates;
+	
+	public Collection<ZoneStates> getZoneStates() {
+		return ZoneStates;
+	}
+	public void setZoneStates(Collection<ZoneStates> zoneStates) {
+		ZoneStates = zoneStates;
+	}
+	
+	public Collection<SalesForOrgMaster> getSforgIds() {
+		return sforgIds;
+	}
+	public void setSforgIds(Collection<SalesForOrgMaster> sforgIds) {
+		this.sforgIds = sforgIds;
+	}
+	public Collection<Region> getRegions() {
+		return regions;
+	}
+	public void setRegions(Collection<Region> regions) {
+		this.regions = regions;
+	}
+	public Collection<Branch> getBranchs() {
+		return branchs;
+	}
+	public void setBranchs(Collection<Branch> branchs) {
+		this.branchs = branchs;
+	}
+	public Collection<Territory> getTerritories() {
+		return territories;
+	}
+	public void setTerritories(Collection<Territory> territories) {
+		this.territories = territories;
+	}
+	public Collection<Zone> getZones() {
+		return zones;
+	}
+	public void setZones(Collection<Zone> zones) {
+		this.zones = zones;
+	}
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+	public String getOrgName() {
+		return orgName;
+	}
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	
+}

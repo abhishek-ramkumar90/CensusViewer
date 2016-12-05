@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+</head>
+<script type="text/javascript" src="/mars/js/jquery-1.7.2.js"> </script>
+<script type="text/javascript">
+function adduser(){
+	$.support.cors = true;
+	 var uname=document.getElementById("uname").value;
+	 var status="active";
+	 var name;
+//var	 inputcol="{'jacksonVillageDetails':[{'distCode':'"+val+"'}]}";
+//var      inputcol="{'jsonString':[{'name':'"+uname+"','status':'active','id':'22'}]}";
+//var	 webMethod ="http://localhost:80/usermodule/CXFService/user/adduser";
+var	 webMethod ="http://172.16.0.199/usermodule/CXFService/user/adduser";
+ var inputcol='{"name":"test","status":"active"}';
+// var	 webMethod ="http://localhost/usermodule/CXFService/user/adduser/"+inputcol;
+//alert("webMethod"+webMethod+"::inputcol=="+inputcol);
+$.ajax({
+	    type:'POST',
+	    	 url:webMethod,	
+	    	 data: inputcol,
+	         dataType: "json",
+	         ProcessData: true, 
+			 ContentType: "application/json;",
+			 crossDomain:true,
+    		  success: function(resp) {
+    		   var markers =JSON.stringify(resp);
+	      	   var json_parsed = $.parseJSON(markers);
+	      	   		 response=resp.user;
+    	 			 name=json_parsed.user.name;
+    	 			Success(name);
+	    	     },
+	            error: function(e){
+	            	   alert("Error "+e);
+	            }
+	        });
+document.getElementById("uname").value="";
+}
+function GetUser()
+{
+
+$.ajax({
+type:"post",
+url: "http://172.16.0.199:80/usermodule/CXFService/user/getuser",
+/* contentType: "application/jsonp", */
+dataType: "jsonp",
+jsonp: 'jsonp_callback',
+success: function(resp)
+{	alert("Success"+JSON.stringify(resp));},
+error:function(e)
+{alert(e);}
+});
+// $.ajax({
+	    // type:'POST',
+	    	 // url",	
+	         // dataType: "json",
+	         // ProcessData: true, 
+			 // crossDomain:true,
+    		  // success: function(resp) {
+					   // alert("Success "+resp);
+	    	     // },
+	            // error: function(e){
+	            	   // alert("Error "+e);
+	            // }
+	        // });
+}
+function deleteuser(){
+	 var id=document.getElementById("id").value;
+
+		var	 webMethod ="http://localhost:80/usermodule/CXFService/user/deleteuser";
+		var inputcol="{'id':'"+id+"'}";
+
+$.ajax({
+	    type:'POST',
+	    	 url:webMethod,	
+	    	 data: inputcol,
+	    	 Accept: "application/json",
+	          async: false,
+	         dataType: "json",
+	         ProcessData: true, 
+   		  success: function(resp) {
+   		   var markers =JSON.stringify(resp);
+	      	   var json_parsed = $.parseJSON(markers);
+	      	   		 response=resp.user.id;
+	      	   	Success(resp.user.id);
+	   	 
+	    	     },
+	            error: function(e){
+	            	   alert("Error "+e);
+	            }
+	        });
+document.getElementById("id").value="";
+	
+}
+function Success(val) {
+	alert(val+" update Successfully" );		
+	
+}
+</script>
+<body>
+<table>
+<tr>
+<td>Name ::
+<input type="text" value="" id="uname"></td>
+<td><input type="submit" value="submit" onclick="adduser();">
+<input type="submit" value="GetUser" onclick="GetUser();">
+</td>
+</tr>
+
+<tr>
+<td>User Id::
+<input type="text" value="" id="id"></td>
+<td><input type="submit" value="Delete" onclick="deleteuser();">
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>

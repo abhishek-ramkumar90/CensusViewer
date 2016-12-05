@@ -1,0 +1,65 @@
+var mapColorFlag=true;
+var mapColorFlag1=true;
+function updateRegionStateDist(selectedDist,selectedState,resp) {
+	//alert("hhhhhhh");
+	var stDist=selectedState+":"+selectedDist;
+	var level=resp.AutoComplete.level;
+		//alert("level=="+level);
+	if(branchMap==true){
+		//alert("stDist"+stDist);
+		if(jQuery.inArray( selectedDist, branchDistArr )==-1){
+			mapColorFlag=false;
+			alert("District does not belong to the Region Selected");
+			
+		}else{
+			mapColorFlag=true;
+			checkDistBranch(stDist,level);	
+		}
+			 	
+	}if(territoryMap==true){
+		alert(terrVillTownArr);
+		clickedVill=resp.AutoComplete.villId;
+		if(jQuery.inArray( clickedVill, terrVillTownArr )==-1){
+			mapColorFlag=false;
+			alert("Village does not belong to the Branch Selected");
+			
+		}else{
+			mapColorFlag=true;
+			var villCode=resp.AutoComplete.villId;
+			var stDistVill=selectedState+":"+selectedDist+":"+villCode;
+			if(level=="village"){
+			checkVillTerritory(stDistVill,level);
+			}/*if(level=="TOWN"){
+				var townCode=resp.AutoComplete.townId;
+				//alert("townCode=="+townCode);
+				var stTownVill=selectedState+":"+selectedDist+":"+townCode;
+				checkTownTerritory(stTownVill,level);
+				
+			}*/
+			//checkDistBranch(stDist,level);	
+		}
+		if(level=="DISTRICT"){
+			//alert("Please zoom to village or Town level");
+			
+		}
+	}if(regionMap==true){
+			//alert("hello");
+		//alert(JSON.stringify(districtArr));
+		//alert(jQuery.inArray( selectedDist,districtArr ));
+		if(jQuery.inArray( selectedDist,districtArr )==-1){
+			mapColorFlag=false;
+			alert("District does not belong to the Zone Selected");
+			
+		}else{
+			mapColorFlag=true;
+			
+			checkDistRegion(stDist,level);	
+		}
+			
+		
+	}
+}
+function showBranch(){
+	branchFlag=true;
+	//MAP_INIT();
+}

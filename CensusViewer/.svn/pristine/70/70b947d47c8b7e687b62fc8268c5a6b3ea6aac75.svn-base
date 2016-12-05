@@ -1,0 +1,377 @@
+function saveChannelOk()
+{
+	createdChannelName = $("#createdChannelName").val();
+	var retval = validateOnId("createdChannelName");
+	if($.trim(createdChannelName) == "" || createdChannelName == undefined || $.trim(createdChannelName) == false) {
+		alert("Please enter channel Name.");
+		return;
+	}
+	if(retval == false){
+		alert("Please insert a valid name");
+		return;
+	}
+	input="{'channelName':'"+createdChannelName+"'}";
+	webMethod = CXFServiceURL+"ChannelService/checkChannelName";
+	var respObj = postAjax(webMethod,input);
+	if(respObj == true) {
+		alert("Channel name already exists.");
+		return;
+	}
+	var arr=[];
+	var intermArray = [];
+	var uniqueIntermArray = []; 
+	var i=1;
+	var checkFlag = true;
+	$("#channelIntermediary input:checked" )
+	.each(function() {
+		var type={};
+		if($(this).is(":checked"))
+		{var typeLevel={};
+		typeLevel["type"]=$(this).parent().find(".optionalCatg").attr("value");
+		intermArray.push($(this).parent().find(".optionalCatg").attr("value"));
+		if($.trim($(this).parent().find(".optionalCatg").attr("value")) == ""  ) {
+			checkFlag = false;
+			return false;
+			
+		} else if( !validateOnValue($.trim($(this).parent().find(".optionalCatg").attr("value"))) ) {
+			checkFlag = false;
+			return false;
+		}
+		typeLevel["level"]=i;
+		var typeLevelMarker=JSON.stringify(typeLevel);
+		arr.push(typeLevelMarker);
+		i++;
+		}
+	});
+	if(arr.length == 0){
+		alert("Please slect a valid  intermediary or enter a valid intermediary name(minimum 2 characters) ");
+		closePopUp("channelName");
+		return;
+	}
+	if(checkFlag  == true ) {
+		if(retval ) {
+			$.each(intermArray, function(i, el){
+			    if($.inArray(el, uniqueIntermArray) === -1) uniqueIntermArray.push(el);
+			});
+			if( intermArray.length > uniqueIntermArray.length ) {
+				alert("Duplicate intermediary's are not allowed.");
+				document.getElementById("channelName").style.display= "none";
+				$('.overlay').css('display','none');
+				return false;
+			}
+			channelName1 = $("#createdChannelName").val();
+			input="{'channelName':'"+channelName1+"','levelCount':"+i+",'interMediaryType':["+arr+"]}";
+			webMethod = CXFServiceURL+"ChannelService/saveChannel";
+			var respObj = postAjax(webMethod,input);
+			var displayObj = respObj.ChannelStruct.channelIntermjson;
+			//var displayObj=respObj.ChannelStruct;
+			removeChildNodes("channelNameDisplay");
+			document.getElementById("channelIdDisplay").value = respObj.ChannelStruct.channelId;
+			var channelNameText = document.createTextNode(respObj.ChannelStruct.channelName);
+			document.getElementById("channelNameDisplay").appendChild(channelNameText);
+			document.getElementById("channelLabelParah").style.display = "block";
+			removeChildNodes("createdChannel");
+			var resultDiv =  document.getElementById("resultTbl");
+			retparah = displayChannel(displayObj,"createdChannel");
+			resultDiv.appendChild(retparah);
+		} else {
+			alert("Please enter valid intermediary name minimum 2 character.");
+			
+		}
+	
+	} else {
+		alert("Please enter valid intermediary name minimum 2 character.");
+		
+	}
+	
+	document.getElementById("channelName").style.display= "none";
+	$('.overlay').css('display','none');
+	checkFalg = true;
+	channelReset();
+	$("#createdChannelName").val("");
+	$("#channelNameArea").attr("disabled", "disabled");
+	document.getElementById('channelLabelParah').style.visibility='visible';
+}
+
+
+
+
+
+
+function displayChannel(displayObj,id) {
+	 var parah = document.getElementById(id);
+	if(displayObj.length==undefined)
+		{
+		
+		var data = displayObj.type;
+        var level=displayObj.level;
+        var span = document.createElement('span');
+        var testNode = document.createTextNode(data);
+        span.appendChild(testNode);
+        parah.appendChild(span);
+		}
+	else
+		{
+    $.each(displayObj, function(key,value) {
+            var data = this.type;
+            var level=this.level;
+            var span = document.createElement('span');
+            var testNode = document.createTextNode(data);
+            span.appendChild(testNode);
+            var spanArrow = document.createElement('span');
+            if(key <= displayObj.length-1){
+                    var testNodeArrow = document.createTextNode("--->");
+                    spanArrow.appendChild(testNodeArrow);
+            }        
+            spanArrow.appendChild(testNode);
+            parah.appendChild(span);
+            parah.appendChild(spanArrow);
+    });
+		}
+    return parah;
+}
+
+function populateChannelList() {
+	$("#channelNameArea").removeAttr("disabled");
+	clearSelect("channelNameArea");
+	webMethod = CXFServiceURL+"ChannelService/channel/list";
+	var respObj = getAjax(webMethod);
+	var markers =JSON.stringify(respObj.Channels.channelJsonCollection);
+	var obj1=  $.parseJSON(markers);
+	$("#channelNameArea").append("<option value='select'>Select</option>");
+	$.each(obj1, function() {
+		var channelId=this.channelId;
+		var channelName=this.channelName;
+		var levelCount = this.levelCount;
+		var orgId=this.orgId;
+		$("#channelNameArea").append("<option orgid='"+ orgId +"' levelcount='"+ levelCount +"' value='"+channelId+"'>"+channelName+"</option>");
+	});
+	
+}
+
+function getChannelStructure(element) {
+	
+	$(".other").empty();
+	var channelId=$("#channelNameArea").val();	
+	var orgId= $('option:selected', element).attr('orgid');
+	var input="{'orgId':'"+orgId+"','channelId':'"+ channelId  +"'}";
+	
+	webMethod = CXFServiceURL+"ChannelService/channel/struct/";
+	var respObj = postAjax(webMethod,input);
+var chName= $("#channelNameArea option:selected").text().toLowerCase() ;
+if(chName == "custom"){
+	var channelIntermediary = document.getElementById("channelIntermediary");
+	var type="Other";
+	var level=1;
+	var retDiv = createIntermediaryDiv(type,level)
+	retDiv.appendTo(channelIntermediary);
+}else{
+	var channelIntermediary = document.getElementById("channelIntermediary");
+	$( respObj.ChannelStruct.channelIntermjson ).each(function() {
+		var type = this.type;
+		var level = this.level;
+		var retDiv = createIntermediaryDiv(type,level);		
+		retDiv.appendTo(channelIntermediary);
+	});
+}
+}
+
+function createIntermediaryDiv(imtermType,level) {
+		otherDiv= $(document.createElement('div')).attr("class","other");
+		chkBoxLabelWarapDiv= $(document.createElement('div')).attr("class","chkBoxLabelWarap").attr("style","clear:left");
+		var checkBoxElem = createInputElem('checkbox');
+		var textElem=createInputElem('text');
+	
+		
+		var anchorMoreOption = $(document.createElement('a')).attr("class","moreOptions").attr("href","#");
+		var imgMoreOption = $(document.createElement('img')).attr("width","14").attr("height","14").attr("alt","add more").attr("src","images/symbol_zoomIn.png");
+		
+		var anchorLessOption = $(document.createElement('a')).attr("class","lessOptions").attr("href","#");
+		var imgLessOption = $(document.createElement('img')).attr("width","14").attr("height","14").attr("alt","remove this").attr("src","images/symbol_zoomOut.png").attr("style","margin-left:10px; float:left");
+		$(textElem).attr("class","optionalCatg").attr("value",imtermType);
+		if(level != 1){
+			imgMoreOption.appendTo(anchorMoreOption);
+			imgLessOption.appendTo(anchorLessOption);		
+		}else{
+			imgMoreOption.appendTo(anchorMoreOption);
+		}
+		
+		chkBoxLabelWarapDiv.appendTo(otherDiv);
+		checkBoxElem.appendTo(chkBoxLabelWarapDiv);
+		textElem.appendTo(chkBoxLabelWarapDiv);
+		
+		anchorMoreOption.appendTo(chkBoxLabelWarapDiv);
+		anchorLessOption.appendTo(chkBoxLabelWarapDiv);
+		
+		return otherDiv;
+}
+
+function deleteChannnel() {
+	 $("#channelNameArea").show();
+	 $("#channelDetailDiv").css("visibility", "hidden");
+	 $("#saveChannels").show();
+	 $("#updatebuttonChannel").css("visibility", "hidden");
+	var channelId = document.getElementById("channelIdDisplay").value;
+	webMethod = CXFServiceURL+"ChannelService/deleteChannel/";
+	var input="{'channelId':'"+ channelId  +"'}";
+	var respObj = postAjax(webMethod,input);
+	channelReset();
+	removeChildNodes("channelNameDisplay");
+	removeChildNodes("createdChannel");
+	document.getElementById('channelLabelParah').style.visibility='hidden';
+	$("#channelNameArea").removeAttr("disabled");
+	
+}
+
+function UpdateChannel(){
+
+
+	 $("#channelDetailDiv").css("visibility", "hidden");
+		createdChannelName = $("#createChannelText").text();
+		var retval = validateOnId("createChannelText");
+		if(retval == false){
+			alert("Please insert a valid name (Minimum 2 characters)");
+			 $("#channelDetailDiv").css("visibility", "visible");
+			return;
+		}
+	/*	if($.trim(createdChannelName) == "" || createdChannelName == undefined || $.trim(createdChannelName) == false) {
+			alert("Please enter channel Name.");
+			 $("#channelDetailDiv").css("visibility", "visible");
+			return;
+		}
+	*/
+	
+	var arr=[];
+	var intermArray = [];
+	var uniqueIntermArray = []; 
+	var i=1;
+	var checkFlag = true;
+	$("#channelIntermediary input:checked" )
+	.each(function() {
+		var type={};
+		if($(this).is(":checked"))
+		{var typeLevel={};
+		typeLevel["type"]=$(this).parent().find(".optionalCatg").attr("value");
+		intermArray.push($(this).parent().find(".optionalCatg").attr("value"));
+		if($.trim($(this).parent().find(".optionalCatg").attr("value")) == ""  ) {
+			checkFlag = false;
+			return false;
+		} else if( !validateOnValue($.trim($(this).parent().find(".optionalCatg").attr("value"))) ) {
+			checkFlag = false;
+			return false;
+		}
+		typeLevel["level"]=i;
+		var typeLevelMarker=JSON.stringify(typeLevel);
+		arr.push(typeLevelMarker);
+		i++;
+		}
+	});
+	if(arr.length == 0){
+		alert("Please enter valid intermediary name(minimum 2 characters)");
+		closePopUp("channelName");
+		return;
+	}
+	if(checkFlag  == true ) {
+		if(retval ) {
+			$.each(intermArray, function(i, el){
+			    if($.inArray(el, uniqueIntermArray) === -1) uniqueIntermArray.push(el);
+			});
+			if( intermArray.length > uniqueIntermArray.length ) {
+				 $("#channelDetailDiv").css("visibility", "visible");
+				alert("Duplicate intermediary's are not allowed.");
+				document.getElementById("channelName").style.display= "none";
+				$('.overlay').css('display','none');
+				return false;
+			}
+		}
+		removeChildNodes("channelNameDisplay");
+		 $("#channelNameArea").show();
+	 $("#saveChannels").show();
+	 $("#updatebuttonChannel").css("visibility", "hidden");
+	channelName1 = $("#createChannelText").val();
+	channelId=$("#channelIdDisplay").val();
+	input="{'channelName':'"+channelName1+"','channelId':'"+channelId+"','levelCount':"+(--i)+",'interMediaryType':["+arr+"]}";
+	webMethod = CXFServiceURL+"ChannelService/updateChannel";
+	var respObj = postAjax(webMethod,input);
+	var channelNameText = document.createTextNode(channelName1);
+	document.getElementById("channelNameDisplay").appendChild(channelNameText);
+	document.getElementById("channelLabelParah").style.display = "block";
+	removeChildNodes("createdChannel");
+	var display="["+arr+"]";
+	var displayObj=$.parseJSON(display);
+	var resultDiv =  document.getElementById("resultTbl");
+	retparah = displayChannel(displayObj,"createdChannel");
+	resultDiv.appendChild(retparah);
+	$("div#channelIntermediary").empty();
+	} else {
+		alert("Please enter valid intermediary name minimum 2 character.");
+		
+	}
+/*	webMethod = CXFServiceURL+"ChannelService/saveChannel";
+	var respObj = postAjax(webMethod,input);*/
+}
+function createInputElem(type) {
+	return  $(document.createElement('input')).attr("type",type);
+} 
+function channelReset() {
+	populateChannelList();
+	removeChildNodes("channelIntermediary");
+}
+
+ function editChannel(){
+	 removeChildNodes("channelIntermediary");
+	 $("#channelNameArea").hide();
+	 $("#channelDetailDiv").css("visibility", "visible");
+	 $("#saveChannels").hide();
+	 $("#updatebuttonChannel").css("visibility", "visible");
+	 $("#createChannelText").val($("#channelNameDisplay").text());
+var channelDetails=$("#channelIdDisplay").val();
+var input="{'orgId':'ORG11','channelId':'"+channelDetails+"'}";
+webMethod = CXFServiceURL+"ChannelService/channel/struct/";
+var respObj = postAjax(webMethod,input);
+var channelIntermediary = document.getElementById("channelIntermediary");
+$( respObj.ChannelStruct.channelIntermjson ).each(function() {
+	var type = this.type;
+	var level = this.level;
+	var retDiv = createIntermediaryDiv(type);
+	retDiv.appendTo(channelIntermediary);
+	  $('#channelIntermediary').find(':checkbox').each(function(){
+		  $(':checkbox').prop("checked", true);
+  });
+ });
+ }
+
+function closePopUp(element){
+	document.getElementById(element).style.display= "none";
+	$('.overlay').css('display','none');
+}
+
+
+
+function FillChannelStructure()
+{
+
+	webMethod = CXFServiceURL+"ChannelService/getAllChannel";
+	var respObj = postAjaxNoInput(webMethod);
+	if(respObj.ChannelStruct!="")
+    {	
+		var displayObj = respObj.ChannelStruct.channelIntermjson;
+		//var displayObj=respObj.ChannelStruct;
+		removeChildNodes("channelNameDisplay");
+		document.getElementById("channelIdDisplay").value = respObj.ChannelStruct.channelId;
+		var channelNameText = document.createTextNode(respObj.ChannelStruct.channelName);
+		document.getElementById("channelNameDisplay").appendChild(channelNameText);
+		document.getElementById("channelLabelParah").style.display = "block";
+		removeChildNodes("createdChannel");
+		var resultDiv =  document.getElementById("resultTbl");
+		retparah = displayChannel(displayObj,"createdChannel");
+		resultDiv.appendChild(retparah);
+		$("#channelNameArea").attr("disabled", "disabled");
+    }	else{
+    	populateChannelList();
+    	
+    }
+}
+
+
+

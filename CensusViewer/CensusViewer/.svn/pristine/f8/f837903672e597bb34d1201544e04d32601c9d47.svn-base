@@ -1,0 +1,66 @@
+package com.mars.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CHANNEL", schema="distribution")
+public class Channel {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="ID")
+	private int id;
+	
+	
+	@Column(name="CHANNEL_NAME")
+	private String channelName;
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinTable(name="CHANNEL_INTERMEDIARY",schema="distribution")
+	private Collection<Intermediary> testCollection=new ArrayList<Intermediary>();
+	
+	@Column(name="LEVEL_COUNT")
+	private int levelCount;
+	
+	public int getLevelCount() {
+		return levelCount;
+	}
+
+	public void setLevelCount(int levelCount) {
+		this.levelCount = levelCount;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+	public Collection<Intermediary> getTestCollection() {
+		return testCollection;
+	}
+
+	public void setTestCollection(Collection<Intermediary> testCollection) {
+		this.testCollection = testCollection;
+	}
+}

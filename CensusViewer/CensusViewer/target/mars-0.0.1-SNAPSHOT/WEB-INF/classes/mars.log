@@ -1,0 +1,352 @@
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.Org [PESSIMISTIC_FORCE_INCREMENT]: select org0_.ORG_ID as ORG1_7_0_, org0_.CREATED_BY as CREATED2_7_0_, org0_.CREATED_ON as CREATED3_7_0_, org0_.ORG_NAME as ORG4_7_0_ from distribution.ORG org0_ where org0_.ORG_ID=? for update nowait 
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.Org [OPTIMISTIC]: select org0_.ORG_ID as ORG1_7_0_, org0_.CREATED_BY as CREATED2_7_0_, org0_.CREATED_ON as CREATED3_7_0_, org0_.ORG_NAME as ORG4_7_0_ from distribution.ORG org0_ where org0_.ORG_ID=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.Org [OPTIMISTIC_FORCE_INCREMENT]: select org0_.ORG_ID as ORG1_7_0_, org0_.CREATED_BY as CREATED2_7_0_, org0_.CREATED_ON as CREATED3_7_0_, org0_.ORG_NAME as ORG4_7_0_ from distribution.ORG org0_ where org0_.ORG_ID=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for action ACTION_MERGE on entity hibernatepojo.Org: select org0_.ORG_ID as ORG1_7_1_, org0_.CREATED_BY as CREATED2_7_1_, org0_.CREATED_ON as CREATED3_7_1_, org0_.ORG_NAME as ORG4_7_1_, branchs1_.ORG_ID as ORG5_7_3_, branchs1_.BRANCH_ID as BRANCH1_2_3_, branchs1_.BRANCH_ID as BRANCH1_2_0_, branchs1_.BRANCH_NAME as BRANCH2_2_0_, branchs1_.CREATED_ON as CREATED3_2_0_, branchs1_.THE_GEOM as THE4_2_0_ from distribution.ORG org0_ left outer join distribution.BRANCH_MASTER branchs1_ on org0_.ORG_ID=branchs1_.ORG_ID where org0_.ORG_ID=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for action ACTION_REFRESH on entity hibernatepojo.Org: select org0_.ORG_ID as ORG1_7_1_, org0_.CREATED_BY as CREATED2_7_1_, org0_.CREATED_ON as CREATED3_7_1_, org0_.ORG_NAME as ORG4_7_1_, branchs1_.ORG_ID as ORG5_7_3_, branchs1_.BRANCH_ID as BRANCH1_2_3_, branchs1_.BRANCH_ID as BRANCH1_2_0_, branchs1_.BRANCH_NAME as BRANCH2_2_0_, branchs1_.CREATED_ON as CREATED3_2_0_, branchs1_.THE_GEOM as THE4_2_0_ from distribution.ORG org0_ left outer join distribution.BRANCH_MASTER branchs1_ on org0_.ORG_ID=branchs1_.ORG_ID where org0_.ORG_ID=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [NONE]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [READ]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [UPGRADE]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for update
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [UPGRADE_NOWAIT]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for update nowait 
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [FORCE]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for update nowait 
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [PESSIMISTIC_READ]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for share
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [PESSIMISTIC_WRITE]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for update
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [PESSIMISTIC_FORCE_INCREMENT]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=? for update nowait 
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [OPTIMISTIC]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for entity hibernatepojo.WKT [OPTIMISTIC_FORCE_INCREMENT]: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for action ACTION_MERGE on entity hibernatepojo.WKT: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24090 [localhost-startStop-1] DEBUG org.hibernate.loader.Loader  - Static select for action ACTION_REFRESH on entity hibernatepojo.WKT: select wkt0_.Edge_id as Edge1_1_0_, wkt0_.WKT as WKT2_1_0_ from WKT wkt0_ where wkt0_.Edge_id=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Region.branches: select branches0_.REGION_ID as REGION6_8_1_, branches0_.BRANCH_ID as BRANCH1_2_1_, branches0_.BRANCH_ID as BRANCH1_2_0_, branches0_.BRANCH_NAME as BRANCH2_2_0_, branches0_.CREATED_ON as CREATED3_2_0_, branches0_.THE_GEOM as THE4_2_0_ from distribution.BRANCH_MASTER branches0_ where branches0_.REGION_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.DistChannel.distChannelStrucId: select distchanne0_.DIST_CHANNEL_ID as DIST4_4_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_0_, distchanne0_.CREATED_ON as CREATED2_6_0_ from distribution.DIST_CHANNEL_STRUC distchanne0_ where distchanne0_.DIST_CHANNEL_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.DistChannelInter.distChannelStrucId: select distchanne0_.DIST_CHANNEL_INTER_ID as DIST3_5_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_0_, distchanne0_.CREATED_ON as CREATED2_6_0_ from distribution.DIST_CHANNEL_STRUC distchanne0_ where distchanne0_.DIST_CHANNEL_INTER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.zones: select zones0_.CREATED_BY as CREATED2_14_1_, zones0_.ZONE_ID as ZONE1_15_1_, zones0_.ZONE_ID as ZONE1_15_0_, zones0_.CREATED_BY as CREATED2_15_0_, zones0_.CREATED_ON as CREATED3_15_0_, zones0_.THE_GEOM as THE4_15_0_, zones0_.ZONE_NAME as ZONE5_15_0_ from distribution.ZONE_MASTER zones0_ where zones0_.CREATED_BY=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.DistChannel.distChannelInterId: select distchanne0_.DIST_CHANNEL_ID as DIST4_4_1_, distchanne0_.DIST_CHANNEL_INTER_ID as DIST1_5_1_, distchanne0_.DIST_CHANNEL_INTER_ID as DIST1_5_0_, distchanne0_.CREATED_ON as CREATED2_5_0_, distchanne0_.DIST_CHANNEL_INTER_NAME as DIST3_5_0_ from distribution.DIST_CHANNEL_INTER distchanne0_ where distchanne0_.DIST_CHANNEL_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.SalesForOrgMaster.salesForOrgMasterInters: select salesforor0_.SFORG_ID as SFORG4_9_1_, salesforor0_.SFORG_INTER_ID as SFORG1_10_1_, salesforor0_.SFORG_INTER_ID as SFORG1_10_0_, salesforor0_.CREATED_ON as CREATED2_10_0_, salesforor0_.SFORG_INTER_NAME as SFORG3_10_0_ from distribution.SALES_FORCE_ORG_MASTER_INTER salesforor0_ where salesforor0_.SFORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Branch.territories: select territorie0_.BRANCH_ID as BRANCH6_2_1_, territorie0_.TERRITORY_ID as TERRITOR1_13_1_, territorie0_.TERRITORY_ID as TERRITOR1_13_0_, territorie0_.CREATED_ON as CREATED2_13_0_, territorie0_.THE_GEOM as THE3_13_0_, territorie0_.TERRITORY_NAME as TERRITOR4_13_0_ from distribution.TERRITORY_MASTER territorie0_ where territorie0_.BRANCH_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.distChannelStrucId: select distchanne0_.USER_ID as USER5_14_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_1_, distchanne0_.DIST_CHANNEL_STRUC_ID as DIST1_6_0_, distchanne0_.CREATED_ON as CREATED2_6_0_ from distribution.DIST_CHANNEL_STRUC distchanne0_ where distchanne0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.sforgInterId: select sforginter0_.USER_ID as USER5_14_1_, sforginter0_.SFORG_INTER_ID as SFORG1_10_1_, sforginter0_.SFORG_INTER_ID as SFORG1_10_0_, sforginter0_.CREATED_ON as CREATED2_10_0_, sforginter0_.SFORG_INTER_NAME as SFORG3_10_0_ from distribution.SALES_FORCE_ORG_MASTER_INTER sforginter0_ where sforginter0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Region.districts: select districts0_.REGION_ID as REGION4_8_1_, districts0_.SERIAL as SERIAL1_3_1_, districts0_.SERIAL as SERIAL1_3_0_, districts0_.DIST_ID as DIST2_3_0_, districts0_.distName as distName3_3_0_ from distribution.DISTRICT_MASTER districts0_ where districts0_.REGION_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.SalesForOrgMaster.splIds: select splids0_.SFORG_ID as SFORG4_9_1_, splids0_.SFORGSPEL_ID as SFORGSPE1_11_1_, splids0_.SFORGSPEL_ID as SFORGSPE1_11_0_, splids0_.CREATED_ON as CREATED2_11_0_, splids0_.SFORGSPEL_NAME as SFORGSPE3_11_0_ from distribution.SALES_FORCE_ORG_SPEL splids0_ where splids0_.SFORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.sforgIds: select sforgids0_.ORG_ID as ORG4_7_1_, sforgids0_.SFORG_ID as SFORG1_9_1_, sforgids0_.SFORG_ID as SFORG1_9_0_, sforgids0_.CREATED_ON as CREATED2_9_0_, sforgids0_.SFORG_TYPE as SFORG3_9_0_ from distribution.SALES_FORCE_ORG_MASTER sforgids0_ where sforgids0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.SalesForOrgSpecialization.sforgstrucId: select sforgstruc0_.SFORGSPEL_ID as SFORGSPE3_11_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_0_, sforgstruc0_.CREATED_ON as CREATED2_12_0_ from distribution.SALES_FORCE_ORG_STRUC sforgstruc0_ where sforgstruc0_.SFORGSPEL_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.branchs: select branchs0_.ORG_ID as ORG5_7_1_, branchs0_.BRANCH_ID as BRANCH1_2_1_, branchs0_.BRANCH_ID as BRANCH1_2_0_, branchs0_.BRANCH_NAME as BRANCH2_2_0_, branchs0_.CREATED_ON as CREATED3_2_0_, branchs0_.THE_GEOM as THE4_2_0_ from distribution.BRANCH_MASTER branchs0_ where branchs0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.distChannelIds: select distchanne0_.ORG_ID as ORG4_7_1_, distchanne0_.DIST_CHANNEL_ID as DIST1_4_1_, distchanne0_.DIST_CHANNEL_ID as DIST1_4_0_, distchanne0_.CREATED_ON as CREATED2_4_0_, distchanne0_.DIST_CHANNEL_NAME as DIST3_4_0_ from distribution.DIST_CHANNELS distchanne0_ where distchanne0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.distChannelInterIds: select distchanne0_.USER_ID as USER5_14_1_, distchanne0_.DIST_CHANNEL_INTER_ID as DIST1_5_1_, distchanne0_.DIST_CHANNEL_INTER_ID as DIST1_5_0_, distchanne0_.CREATED_ON as CREATED2_5_0_, distchanne0_.DIST_CHANNEL_INTER_NAME as DIST3_5_0_ from distribution.DIST_CHANNEL_INTER distchanne0_ where distchanne0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.sfordids: select sfordids0_.USER_ID as USER5_14_1_, sfordids0_.SFORG_ID as SFORG1_9_1_, sfordids0_.SFORG_ID as SFORG1_9_0_, sfordids0_.CREATED_ON as CREATED2_9_0_, sfordids0_.SFORG_TYPE as SFORG3_9_0_ from distribution.SALES_FORCE_ORG_MASTER sfordids0_ where sfordids0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.regions: select regions0_.ORG_ID as ORG5_7_1_, regions0_.REGION_ID as REGION1_8_1_, regions0_.REGION_ID as REGION1_8_0_, regions0_.CREATED_ON as CREATED2_8_0_, regions0_.THE_GEOM as THE3_8_0_, regions0_.REGION_NAME as REGION4_8_0_ from distribution.REGION_MASTER regions0_ where regions0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.SalesForOrgMasterInter.sforgstrucId: select sforgstruc0_.SFORG_INTER_ID as SFORG4_10_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_0_, sforgstruc0_.CREATED_ON as CREATED2_12_0_ from distribution.SALES_FORCE_ORG_STRUC sforgstruc0_ where sforgstruc0_.SFORG_INTER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Zone.regions: select regions0_.ZONE_ID as ZONE6_15_1_, regions0_.REGION_ID as REGION1_8_1_, regions0_.REGION_ID as REGION1_8_0_, regions0_.CREATED_ON as CREATED2_8_0_, regions0_.THE_GEOM as THE3_8_0_, regions0_.REGION_NAME as REGION4_8_0_ from distribution.REGION_MASTER regions0_ where regions0_.ZONE_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.organizations: select organizati0_.USER_ID as USER5_14_1_, organizati0_.ORG_ID as ORG1_7_1_, organizati0_.ORG_ID as ORG1_7_0_, organizati0_.CREATED_BY as CREATED2_7_0_, organizati0_.CREATED_ON as CREATED3_7_0_, organizati0_.ORG_NAME as ORG4_7_0_ from distribution.ORG organizati0_ where organizati0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.SalesForOrgMaster.sforgstrucId: select sforgstruc0_.SFORG_ID as SFORG5_9_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_0_, sforgstruc0_.CREATED_ON as CREATED2_12_0_ from distribution.SALES_FORCE_ORG_STRUC sforgstruc0_ where sforgstruc0_.SFORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.sforgstrucId: select sforgstruc0_.USER_ID as USER6_14_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_1_, sforgstruc0_.SFORGSTRUC_ID as SFORGSTR1_12_0_, sforgstruc0_.CREATED_ON as CREATED2_12_0_ from distribution.SALES_FORCE_ORG_STRUC sforgstruc0_ where sforgstruc0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.zones: select zones0_.ORG_ID as ORG6_7_1_, zones0_.ZONE_ID as ZONE1_15_1_, zones0_.ZONE_ID as ZONE1_15_0_, zones0_.CREATED_BY as CREATED2_15_0_, zones0_.CREATED_ON as CREATED3_15_0_, zones0_.THE_GEOM as THE4_15_0_, zones0_.ZONE_NAME as ZONE5_15_0_ from distribution.ZONE_MASTER zones0_ where zones0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.Org.territories: select territorie0_.ORG_ID as ORG5_7_1_, territorie0_.TERRITORY_ID as TERRITOR1_13_1_, territorie0_.TERRITORY_ID as TERRITOR1_13_0_, territorie0_.CREATED_ON as CREATED2_13_0_, territorie0_.THE_GEOM as THE3_13_0_, territorie0_.TERRITORY_NAME as TERRITOR4_13_0_ from distribution.TERRITORY_MASTER territorie0_ where territorie0_.ORG_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.distChannels: select distchanne0_.USER_ID as USER5_14_1_, distchanne0_.DIST_CHANNEL_ID as DIST1_4_1_, distchanne0_.DIST_CHANNEL_ID as DIST1_4_0_, distchanne0_.CREATED_ON as CREATED2_4_0_, distchanne0_.DIST_CHANNEL_NAME as DIST3_4_0_ from distribution.DIST_CHANNELS distchanne0_ where distchanne0_.USER_ID=?
+24106 [localhost-startStop-1] DEBUG org.hibernate.loader.collection.OneToManyLoader  - Static select for one-to-many hibernatepojo.User.splId: select splid0_.USER_ID as USER5_14_1_, splid0_.SFORGSPEL_ID as SFORGSPE1_11_1_, splid0_.SFORGSPEL_ID as SFORGSPE1_11_0_, splid0_.CREATED_ON as CREATED2_11_0_, splid0_.SFORGSPEL_NAME as SFORGSPE3_11_0_ from distribution.SALES_FORCE_ORG_SPEL splid0_ where splid0_.USER_ID=?
+24122 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryRegistry  - Initializing SessionFactoryRegistry : org.hibernate.internal.SessionFactoryRegistry@ffc2cb
+24153 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryRegistry  - Registering SessionFactory: a34fff81-330e-4894-8bfc-89a0539583f9 (<unnamed>)
+24153 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryRegistry  - Not binding SessionFactory to JNDI, no JNDI name configured
+24153 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryImpl  - Instantiated session factory
+24168 [localhost-startStop-1] INFO  org.hibernate.tool.hbm2ddl.SchemaUpdate  - HHH000228: Running hbm2ddl schema update
+24168 [localhost-startStop-1] INFO  org.hibernate.tool.hbm2ddl.SchemaUpdate  - HHH000102: Fetching database metadata
+24168 [localhost-startStop-1] DEBUG org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl  - Opening new JDBC connection
+45087 [localhost-startStop-1] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate  - HHH000319: Could not get database metadata
+org.postgresql.util.PSQLException: Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:207)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:64)
+	at org.postgresql.jdbc2.AbstractJdbc2Connection.<init>(AbstractJdbc2Connection.java:136)
+	at org.postgresql.jdbc3.AbstractJdbc3Connection.<init>(AbstractJdbc3Connection.java:29)
+	at org.postgresql.jdbc3g.AbstractJdbc3gConnection.<init>(AbstractJdbc3gConnection.java:21)
+	at org.postgresql.jdbc4.AbstractJdbc4Connection.<init>(AbstractJdbc4Connection.java:31)
+	at org.postgresql.jdbc4.Jdbc4Connection.<init>(Jdbc4Connection.java:24)
+	at org.postgresql.Driver.makeConnection(Driver.java:393)
+	at org.postgresql.Driver.connect(Driver.java:267)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:204)
+	at org.hibernate.tool.hbm2ddl.SuppliedConnectionProviderConnectionHelper.prepare(SuppliedConnectionProviderConnectionHelper.java:51)
+	at org.hibernate.tool.hbm2ddl.SchemaUpdate.execute(SchemaUpdate.java:194)
+	at org.hibernate.tool.hbm2ddl.SchemaUpdate.execute(SchemaUpdate.java:178)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:505)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1769)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1840)
+	at HibernateUtility.HibernateUtil.buildSessionFactory(HibernateUtil.java:15)
+	at HibernateUtility.HibernateUtil.<clinit>(HibernateUtil.java:8)
+	at Dao.RegionListDao.<init>(RegionListDao.java:22)
+	at ServiceClass.RegionList.<init>(RegionList.java:21)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:100)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:61)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:877)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:839)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:440)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:409)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:380)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:264)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:261)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:185)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:269)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:104)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveManagedList(BeanDefinitionValueResolver.java:287)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:126)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1010)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:472)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:409)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:380)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:264)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:261)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:185)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:429)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:728)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:380)
+	at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:255)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:199)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:45)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4887)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5381)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:60)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:101)
+	... 67 more
+45119 [localhost-startStop-1] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate  - HHH000299: Could not complete schema update
+org.postgresql.util.PSQLException: Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:207)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:64)
+	at org.postgresql.jdbc2.AbstractJdbc2Connection.<init>(AbstractJdbc2Connection.java:136)
+	at org.postgresql.jdbc3.AbstractJdbc3Connection.<init>(AbstractJdbc3Connection.java:29)
+	at org.postgresql.jdbc3g.AbstractJdbc3gConnection.<init>(AbstractJdbc3gConnection.java:21)
+	at org.postgresql.jdbc4.AbstractJdbc4Connection.<init>(AbstractJdbc4Connection.java:31)
+	at org.postgresql.jdbc4.Jdbc4Connection.<init>(Jdbc4Connection.java:24)
+	at org.postgresql.Driver.makeConnection(Driver.java:393)
+	at org.postgresql.Driver.connect(Driver.java:267)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:204)
+	at org.hibernate.tool.hbm2ddl.SuppliedConnectionProviderConnectionHelper.prepare(SuppliedConnectionProviderConnectionHelper.java:51)
+	at org.hibernate.tool.hbm2ddl.SchemaUpdate.execute(SchemaUpdate.java:194)
+	at org.hibernate.tool.hbm2ddl.SchemaUpdate.execute(SchemaUpdate.java:178)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:505)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1769)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1840)
+	at HibernateUtility.HibernateUtil.buildSessionFactory(HibernateUtil.java:15)
+	at HibernateUtility.HibernateUtil.<clinit>(HibernateUtil.java:8)
+	at Dao.RegionListDao.<init>(RegionListDao.java:22)
+	at ServiceClass.RegionList.<init>(RegionList.java:21)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:100)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:61)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:877)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:839)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:440)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:409)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:380)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:264)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:261)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:185)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:269)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:104)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveManagedList(BeanDefinitionValueResolver.java:287)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:126)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1245)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1010)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:472)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:409)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:380)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:264)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:261)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:185)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:429)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:728)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:380)
+	at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:255)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:199)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:45)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4887)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5381)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:60)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:101)
+	... 67 more
+45306 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryImpl  - Checking 0 named HQL queries
+45306 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryImpl  - Checking 2 named SQL queries
+45306 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryImpl  - Checking named SQL query: WKTList
+45353 [localhost-startStop-1] DEBUG org.hibernate.internal.SessionFactoryImpl  - Checking named SQL query: NodeList
+45369 [localhost-startStop-1] DEBUG org.hibernate.stat.internal.StatisticsInitiator  - Statistics initialized [enabled=false]
+86738 [http-bio-8081-exec-10] INFO  com.mars.dao.impl.CategoryDetails  - Entering com.mars.dao.impl.CategoryDetails
+86754 [http-bio-8081-exec-2] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+86754 [http-bio-8081-exec-10] INFO  com.mars.services.customservice.CategoryService  - Entering state com.mars.services.customservice.CategoryService
+86754 [http-bio-8081-exec-2] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+86832 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getArrayList() 
+86832 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT distinct category,cat_id FROM sub_category WHERE segment IN(?,'b') AND state=?
+86832 [http-bio-8081-exec-10] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+86847 [http-bio-8081-exec-2] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+86847 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+86847 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+86847 [http-bio-8081-exec-2] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+87176 [http-bio-8081-exec-4] INFO  com.mars.dao.impl.CategoryDetails  - Entering com.mars.dao.impl.CategoryDetails
+87176 [http-bio-8081-exec-4] INFO  com.mars.services.customservice.CategoryService  - Entering state com.mars.services.customservice.CategoryService
+87176 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getArrayList() 
+87176 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT distinct category,cat_id FROM sub_category WHERE segment IN(?,'b') AND state=?
+87176 [http-bio-8081-exec-4] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+107751 [http-bio-8081-exec-10] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+107751 [http-bio-8081-exec-10] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+107767 [http-bio-8081-exec-2] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+107767 [http-bio-8081-exec-2] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+107782 [http-bio-8081-exec-10] ERROR com.mars.services.customservice.CategoryService  - Index: 0, Size: 0
+108095 [http-bio-8081-exec-4] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+108110 [http-bio-8081-exec-4] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+108110 [http-bio-8081-exec-4] ERROR com.mars.services.customservice.CategoryService  - Index: 0, Size: 0
+108595 [http-bio-8081-exec-2] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+108595 [http-bio-8081-exec-2] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+108595 [http-bio-8081-exec-2] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+108595 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+108595 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+108595 [http-bio-8081-exec-2] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+108626 [http-bio-8081-exec-7] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+108626 [http-bio-8081-exec-7] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+108626 [http-bio-8081-exec-7] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+108626 [http-bio-8081-exec-7] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+108626 [http-bio-8081-exec-7] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+108626 [http-bio-8081-exec-7] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+129576 [http-bio-8081-exec-2] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+129576 [http-bio-8081-exec-2] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+129592 [http-bio-8081-exec-7] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+129592 [http-bio-8081-exec-7] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+129607 [http-bio-8081-exec-2] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+129607 [http-bio-8081-exec-2] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+129607 [http-bio-8081-exec-2] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+129607 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+129607 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+129607 [http-bio-8081-exec-2] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+150589 [http-bio-8081-exec-2] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+150589 [http-bio-8081-exec-2] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+152229 [http-bio-8081-exec-2] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+152229 [http-bio-8081-exec-2] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+152229 [http-bio-8081-exec-2] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+152229 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+152229 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+152229 [http-bio-8081-exec-2] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+173117 [http-bio-8081-exec-2] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+173133 [http-bio-8081-exec-2] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+173133 [http-bio-8081-exec-2] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+173133 [http-bio-8081-exec-2] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+173133 [http-bio-8081-exec-2] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+173133 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+173133 [http-bio-8081-exec-2] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+173148 [http-bio-8081-exec-2] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+194146 [http-bio-8081-exec-2] ERROR com.mars.services.datasource.DBConnectionManager  - Connection refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+194146 [http-bio-8081-exec-2] FATAL com.mars.services.datasource.MARSQueryInteractor  - Failed to fetch from database
+1035111 [http-bio-8081-exec-4] INFO  com.mars.services.customservice.MapService  - Entering com.mars.services.customservice.MapService
+1035111 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getArrayList() 
+1035111 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,name,statecode,distcode,x(pointonsurface(the_geom)) ,y(pointonsurface(the_geom)),service,pap_mag_src  from district  where st_contains(the_geom, setsrid(makepoint(?,?), 4326)) order by level desc limit 1
+1035111 [http-bio-8081-exec-4] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1036861 [http-bio-8081-exec-4] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1036876 [http-bio-8081-exec-4] INFO  com.mars.services.datasource.MARSQueryInteractor  - HashMap key for the query=1
+1036876 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - HashMap Value for the query 76.52142
+1036876 [http-bio-8081-exec-4] INFO  com.mars.services.datasource.MARSQueryInteractor  - HashMap key for the query=2
+1036876 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - HashMap Value for the query 19.576256
+1036876 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Hash MAp Retrieved
+1036876 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Before execute Select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,name,statecode,distcode,x(pointonsurface(the_geom)) ,y(pointonsurface(the_geom)),service,pap_mag_src  from district  where st_contains(the_geom, setsrid(makepoint(?,?), 4326)) order by level desc limit 1
+1039236 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - The value of flag = true
+1039267 [http-bio-8081-exec-4] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database
+1493335 [http-bio-8081-exec-5] INFO  com.mars.dao.impl.CategoryDetails  - Entering com.mars.dao.impl.CategoryDetails
+1493335 [http-bio-8081-exec-5] INFO  com.mars.services.customservice.CategoryService  - Entering state com.mars.services.customservice.CategoryService
+1493335 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getArrayList() 
+1493335 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT distinct category,cat_id FROM sub_category WHERE segment IN(?,'b') AND state=?
+1493335 [http-bio-8081-exec-5] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1493335 [http-bio-8081-exec-9] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+1493335 [http-bio-8081-exec-9] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+1493335 [http-bio-8081-exec-9] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+1493335 [http-bio-8081-exec-9] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+1493335 [http-bio-8081-exec-9] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1493335 [http-bio-8081-exec-9] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1496319 [http-bio-8081-exec-9] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1496319 [http-bio-8081-exec-9] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Before execute SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1496350 [http-bio-8081-exec-5] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1496397 [http-bio-8081-exec-5] INFO  com.mars.services.datasource.MARSQueryInteractor  - HashMap key for the query=1
+1496397 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - HashMap Value for the query d
+1496397 [http-bio-8081-exec-5] INFO  com.mars.services.datasource.MARSQueryInteractor  - HashMap key for the query=2
+1496397 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - HashMap Value for the query Y
+1496397 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Hash MAp Retrieved
+1496397 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Before execute SELECT distinct category,cat_id FROM sub_category WHERE segment IN(?,'b') AND state=?
+1496585 [http-bio-8081-exec-9] DEBUG com.mars.services.datasource.MARSQueryInteractor  - The value of flag = true
+1496585 [http-bio-8081-exec-9] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database
+1496647 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - The value of flag = true
+1496647 [http-bio-8081-exec-5] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database
+1496647 [http-bio-8081-exec-5] DEBUG com.mars.services.customservice.CategoryService  - district heading [Ljava.lang.Object;@1272d71
+1496694 [http-bio-8081-exec-10] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+1496694 [http-bio-8081-exec-10] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+1496694 [http-bio-8081-exec-10] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+1496694 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+1496694 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1496694 [http-bio-8081-exec-10] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1496725 [http-bio-8081-exec-10] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1496725 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Before execute SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1496725 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - The value of flag = true
+1496725 [http-bio-8081-exec-10] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database
+1496772 [http-bio-8081-exec-6] INFO  com.mars.service.dao.impl.DistrictRestService  - Entering com.mars.service.dao.impl.DistrictRestService
+1496772 [http-bio-8081-exec-6] INFO  com.mars.dao.impl.DistrictDetails  - Entering com.mars.dao.impl.DistrictDetails
+1496850 [http-bio-8081-exec-6] INFO  com.mars.services.customservice.DistrictService  - Entering com.mars.services.customservice.DistrictService
+1496850 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getArrayListOnIn() 
+1496850 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT distcode,name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM district WHERE statecode IN 
+1496850 [http-bio-8081-exec-6] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1496897 [http-bio-8081-exec-6] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1496897 [http-bio-8081-exec-6] INFO  com.mars.services.datasource.MARSQueryInteractor  - HashMap key for the query=1
+1496897 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Dynamic query SELECT distcode,name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM district WHERE statecode IN ('27')
+1496913 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database
+1496991 [http-bio-8081-exec-6] INFO  com.mars.service.dao.impl.StateRestService  - Entering com.mars.service.dao.impl.StateRestService
+1496991 [http-bio-8081-exec-6] INFO  com.mars.dao.impl.StateDetails  - Entering com.mars.dao.impl.StateDetails
+1496991 [http-bio-8081-exec-6] INFO  com.mars.services.customservice.StateService  - Entering com.mars.services.customservice.StateService
+1496991 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - inside getList() 
+1496991 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1496991 [http-bio-8081-exec-6] INFO  com.mars.services.datasource.DBConnectionManager  - Entering com.mars.services.datasource.DBConnectionManager
+1497022 [http-bio-8081-exec-6] INFO  com.mars.services.datasource.DBConnectionManager  - Connection created Successfully !
+1497022 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Query String Before execute SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state 
+1497022 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - The value of flag = true
+1497022 [http-bio-8081-exec-6] DEBUG com.mars.services.datasource.MARSQueryInteractor  - Fetch from database

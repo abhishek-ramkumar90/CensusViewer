@@ -1,0 +1,70 @@
+package com.mars.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Intermediaries",schema="distribution")
+public class TestInterMediary {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="INTERM_ID")
+	private int Serial;
+	
+	@Column(name="ZONE_ID")
+	private String Zoneid;
+	
+	
+	@Column(name="NAME")
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+@JoinTable(name="INTERMEDIARY_RELATION",schema="distribution")
+	private Collection<TestInterMediary> intermediaryCollection=new ArrayList<TestInterMediary>();
+
+	public int getSerial() {
+		return Serial;
+	}
+
+	public void setSerial(int serial) {
+		Serial = serial;
+	}
+
+	public String getZoneid() {
+		return Zoneid;
+	}
+
+	public void setZoneid(String zoneid) {
+		Zoneid = zoneid;
+	}
+
+	public Collection<TestInterMediary> getIntermediaryCollection() {
+		return intermediaryCollection;
+	}
+
+	public void setIntermediaryCollection(
+			Collection<TestInterMediary> intermediaryCollection) {
+		this.intermediaryCollection = intermediaryCollection;
+	}
+	
+	
+
+}

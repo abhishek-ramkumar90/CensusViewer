@@ -1,0 +1,39 @@
+package com.mars.distribution.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="DIST_CHANNEL_STRUC",schema = "distribution")
+public class DistChannelStruc {
+
+	@Id
+	@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.DistChannelStrucIdGenerator")
+	@GeneratedValue(generator="seq_id")
+	@Column(name = "DIST_CHANNEL_STRUC_ID", unique = true, nullable = false, length = 20)
+	private String distChannelStrucId;
+	
+	@Column(name="CREATED_ON")
+	public Date createdOn;
+	
+	public String getDistChannelStrucId() {
+		return distChannelStrucId;
+	}
+	public void setDistChannelStrucId(String distChannelStrucId) {
+		this.distChannelStrucId = distChannelStrucId;
+	}
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	
+}

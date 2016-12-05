@@ -1,0 +1,11 @@
+/* Page */
+
+.wrap {width: 960px; margin: 0 auto;}
+/*.demo-container { float: left; width: 100%;}*/
+.demo-container h4 {font-size: 14px; margin: 0 0 5px 0;}
+.clear {clear: both;}
+
+.dcjq-count {float: right;}
+.grey .accordion ul li a{
+	padding-left:33px;
+}

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+<!-- 	 	  <MapServiceURL>http://172.16.1.7:8888/cgi-bin/mapserv.exe?map=D:/Mars/MarsV2.map</MapServiceURL>   -->    
+	 	 <!--   <MapServiceURL>http://mum77sap-03/cgi-bin/mapserv.fcgi?map=/opt/mars/MarsV2.map</MapServiceURL> -->  
+	<MapServiceURL>http://172.16.1.7:8888/cgi-bin/mapserv.exe?map=D:/Mars/MarsV2.map</MapServiceURL>
+	<MapFileURL>http://172.16.1.7:8888/cgi-bin/mapserv.exe?map=D:/Mars/MarsTest.map</MapFileURL> 
+	 	  <!--  <MapServiceURL1>http://mum77sap-03/cgi-bin/mapserv.fcgi?map=/opt/mars/MarsTest.map</MapServiceURL1> -->        
+	   <!-- <CXFServiceURL>http://localhost:8081/mars/CXFService/</CXFServiceURL>   -->
+    <CXFServiceURL>http://localhost:8080/mars/CXFService/</CXFServiceURL>  
+</configuration>
+ 
+ 

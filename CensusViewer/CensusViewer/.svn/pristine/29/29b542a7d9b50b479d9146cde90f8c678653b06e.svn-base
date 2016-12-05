@@ -1,0 +1,64 @@
+package com.mars.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CHANNEL")
+public class TestChannel {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="ID")
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+
+	public Collection<TestInterMediary> getTestCollection() {
+		return testCollection;
+	}
+
+
+	public void setTestCollection(Collection<TestInterMediary> testCollection) {
+		this.testCollection = testCollection;
+	}
+
+
+	@Column(name="CHANNEL_NAME")
+	private String channelName;
+	
+	
+	@OneToMany(cascade= CascadeType.ALL)
+	private Collection<TestInterMediary> testCollection=new ArrayList<TestInterMediary>();
+	
+	
+	
+
+}

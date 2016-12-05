@@ -1,0 +1,6 @@
+SYMBOLSET
+SYMBOL
+  NAME "navigator"
+  TYPE PIXMAP
+  IMAGE "NorthNavigator.PNG"
+END

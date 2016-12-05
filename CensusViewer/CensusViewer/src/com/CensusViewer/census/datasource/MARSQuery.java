@@ -1,0 +1,78 @@
+package com.mars.census.datasource;
+
+public class MARSQuery {
+
+	public static String STATE_LIST = "SELECT name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src FROM state ";
+	
+	public static String DISTRICT_LIST = "SELECT distcode,name,statecode,tot_p,tot_irr,power,education,hospital,no_of_comm_inst,no_of_watersrc,entertain,round(tot_work_p),no_of_transport_mode,round(tot_exp),round(tot_inc),no_of_comm_mode,service,pap_mag_src,gid FROM district WHERE statecode IN ";
+	
+	public static String STATE_SUB_CAT_DETAILS = "SELECT district.name As dist_name,state.name As state_name,district.gid,district.level,st_x(st_pointonsurface(district.the_geom)) ,st_y(st_pointonsurface(district.the_geom)) FROM state,district WHERE district.statecode IN  AND state.statecode=district.statecode  AND ";
+	
+	public static String RESULT_STATE_DISTRICT= "SELECT village.name ,village.district,village.state,village.gid,village.level,st_x(st_pointonsurface(village.the_geom)) ,st_y(st_pointonsurface(village.the_geom)) FROM village WHERE village.statecode IN AND village.distcode IN AND" ;
+	
+	public static String STATE_DISTRICT_SUB_CAT_DETAILS = "SELECT district.name FROM state, district WHERE district.statecode = 'state_code' AND district.distcode = 'dist_code' and district.statecode = state.statecode ";
+	
+	public static String STATE_DISTRICT_SUB_CAT_CRITERIA_DETAILS ="SELECT town_name ,towns.district,towns.state,towns.gid,towns.level,st_x(st_pointonsurface(towns.the_geom)) ,st_y(st_pointonsurface(towns.the_geom)) FROM towns WHERE towns.statecode = 'state_code' AND towns.distcode = 'dist_code' AND ";
+	
+	public static String CATEGORY_STATE_LIST = "SELECT distinct category,cat_id FROM sub_category WHERE segment IN(?,'b') AND state=?";
+	
+	public static String CATEGORY_STATE_LIST_BOTH = "SELECT distinct category,cat_id FROM sub_category WHERE segment=? AND state=?";
+	
+	public static String CATEGORY_DISTRICT_LIST = "SELECT distinct category,cat_id FROM sub_category WHERE segment=? AND state=? AND district=?";
+	
+	public static String CATEGORY_DISTRICT_TOWN_VILLAGE_LIST = "SELECT distinct category, cat_id FROM sub_category WHERE segment=?";
+	
+//public static String STATE_SUB_CATEGORY_LIST_ON_CATEGORY = "SELECT column_name, sub_category, category, segment, sub_cat_id, cat_id, state, tehsil, district FROM sub_category WHERE cat_id=? AND segment=? AND state=?";
+//	public static String STATE_SUB_CATEGORY_LIST_ON_CATEGORY="SELECT distinct s.column_name, s.sub_category, s.category, s.segment, s.sub_cat_id, s.cat_id, s.state, s.tehsil,s.district,get_max_of_subcat(?,s.column_name) As max,get_min_of_subcat(?,s.column_name) As min,d.data_type FROM sub_category s,information_schema.columns d WHERE cat_id=? AND segment=? AND state=? AND d.column_name = s.column_name";
+	public static String STATE_SUB_CATEGORY_LIST_ON_CATEGORY="SELECT distinct s.column_name, s.sub_category, s.category, s.segment, s.sub_cat_id, s.cat_id, s.state,s.district FROM sub_category s,information_schema.columns d WHERE cat_id=? AND segment=? AND state=? AND d.column_name = s.column_name";
+	
+//public static String DISTRICT_SUB_CATEGORY_LIST_ON_CATEGORY = "SELECT column_name, sub_category, category, segment, sub_cat_id, cat_id, state, tehsil, district FROM sub_category WHERE cat_id=? AND segment=? AND state=? AND district=?";
+//	public static String DISTRICT_SUB_CATEGORY_LIST_ON_CATEGORY="SELECT distinct s.column_name, s.sub_category, s.category, s.segment, s.sub_cat_id, s.cat_id, s.state, s.tehsil,s.district,get_max_of_subcat(?,s.column_name) As max,get_min_of_subcat(?,s.column_name) As min,d.data_type FROM sub_category s,information_schema.columns d WHERE cat_id=? AND segment=? AND state=? AND d.column_name = s.column_name";
+	public static String DISTRICT_SUB_CATEGORY_LIST_ON_CATEGORY="SELECT distinct s.column_name, s.sub_category, s.category, s.segment, s.sub_cat_id, s.cat_id, s.state,s.district,d.data_type FROM sub_category s,information_schema.columns d WHERE cat_id=? AND segment=? AND state=? AND district=? AND d.column_name = s.column_name";
+	
+	public static String STATE_VILLAGE_LIST = "SELECT v.name, t.name, d.name, s.name, v.villid, t.tehsilcode, d.distcode, s.statecode FROM village v, tehsil t, state s, district d WHERE v.distcode = d.distcode AND v.tehsilcode = t.tehsilcode AND v.statecode = s.statecode AND v.statecode IN ";
+	
+	public static String STATE_TOWN_LIST = "SELECT to.town_name, t.name, d.name, s.name, v.townid, t.tehsilcode, d.distcode, s.statecode FROM towns to, tehsil t, state s, district d WHERE to.distcode = d.distcode AND to.tehsilcode = t.tehsilcode AND to.statecode = s.statecode AND to.statecode IN ";
+	
+	public static String STATE_DISTRICT_VILLAGE_LIST = "SELECT v.name, v.segment, t.name, d.name, s.name, v.villid, t.tehsilcode, d.distcode, s.statecode FROM village v, tehsil t, state s, district d WHERE v.distcode = d.distcode AND v.tehsilcode = t.tehsilcode AND v.statecode = s.statecode AND v.statecode IN and v.distcode IN ";
+	
+	public static String STATE_DISTRICT_TOWN_LIST = "SELECT o.town_name, o.segment, t.name, d.name, s.name, o.townid, t.tehsilcode, d.distcode, s.statecode FROM towns o, tehsil t, state s, district d WHERE o.distcode = d.distcode AND o.tehsilcode = t.tehsilcode AND o.statecode = s.statecode AND o.statecode IN and o.distcode IN ";
+
+	public static String RESULT_STATE_DIST_TEH_VILL_SUB_CAT = "SELECT v.name, v.district, t.name, v.state, v.villid, t.tehsilcode, v.distcode, v.statecode "
+			             +"FROM village v, tehsil t WHERE v.tehsilcode = t.tehsilcode AND t.distcode=v.distcode AND v.villid=v_code AND v.tehsilcode='th_code' AND "
+			             +" v.distcode='d_code' AND v.statecode='st_code'";
+	
+	
+	public static String MAP_DISTRICT_SELECTED_DATA = "Select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,name,statecode,distcode,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),service,pap_mag_src  from district  where st_contains(the_geom, st_setsrid(st_makepoint(?,?), 4326)) order by level desc limit 1";
+	//"select a.gid,a.statecode,a.distcode,a.name,a.level ,(select b.name from state b where a.statecode=b.statecode)as distname from district a  where st_contains(a.the_geom, setsrid(makepoint(?,?), 4326)) order by level desc limit 1";
+	
+	public static String MAP_TEHSIL_SELECTED_DATA = "Select round(tot_p,0),round(tot_m,0),round(tot_f,0),round(p_lit_per,0),round(m_lit_per,0),round(f_lit_per,0),round(p_lit,0),round(m_lit,0),round(f_lit,0),gid,level,name,statecode,distcode ,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)) from tehsil  where st_contains(the_geom, st_setsrid(st_makepoint(?,?), 4326)) order by level desc limit 1";
+			//"select a.gid,a.statecode,a.distcode,a.name,a.level ,(select b.name from district b where a.distcode=b.distcode)as distname,(select c.name from state c where  a.statecode=c.statecode)as statename from tehsil a   where st_contains(the_geom, setsrid(makepoint(?,?), 4326)) order by level desc limit 1";
+	
+	public static String MAP_TOWNS_SELECTED_DATA = "Select CAST(tot_p As Integer)as Population,CAST(avg_rain as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertainment,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,town_name,statecode,distcode,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),service,pap_mag_src,townid from towns   where st_contains(the_geom, st_setsrid(st_makepoint(?,?), 4326)) order by level desc limit 1";
+			//"select gid,statecode,distcode,town_name,level ,district,state from towns  where st_contains(the_geom, setsrid(makepoint(?,?), 4326)) order by level desc limit 1";
+	
+	public static String MAP_VILLAGE_SELECTED_DATA = "Select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(health As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,name,statecode,distcode,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),service,villid  from village   where st_contains(the_geom, st_setsrid(st_makepoint(?,?), 4326)) order by level desc limit 1";
+			//"select gid,statecode,tehsilcode,name,district,state from village  where st_contains(the_geom, setsrid(makepoint(?,?), 4326))  limit 1";
+	
+	//public static String SOLR_VILLAGE="Select round(tot_p,0),round(tot_m,0),round(tot_f,0),round(p_lit_per,0),round(m_lit_per,0),round(f_lit_per,0),round(p_lit,0),round(m_lit,0),round(f_lit,0),gid,level,x(pointonsurface(the_geom)) ,y(pointonsurface(the_geom)),name from village where villcode=? ";
+	public static String SOLR_VILLAGE="select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(health As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),name,service,pap_mag_src from village where villcode=?";
+	//public static String SOLR_TOWN="Select round(tot_p,0),round(tot_m,0),round(tot_f,0),round(p_lit_per,0),round(m_lit_per,0),round(f_lit_per,0),round(p_lit,0),round(m_lit,0),round(f_lit,0),gid,level,x(pointonsurface(the_geom)) ,y(pointonsurface(the_geom)),town_name from towns where towncode=? ";
+
+	public static String SOLR_TOWN="select CAST(tot_p As Integer)as Population,CAST(avg_rain as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertainment,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),town_name ,service,pap_mag_src from towns where towncode=?";
+	public static String SOLR_DISTRICT="select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,gid,level,st_x(st_pointonsurface(the_geom)),st_y(st_pointonsurface(the_geom)),name,service,pap_mag_src from district where distcode=? ";
+	public static String SOLR_STATE="Select CAST(tot_p As Integer)as Population,CAST(tot_irr as Integer) As Irrigation,power As Power,education As Education,CAST(hospital As Integer) As Health,CAST(tot_rec As Integer)as tot_rec,no_of_comm_inst,no_of_watersrc,entertain,CAST(tot_work_p As Integer)as tot_work_p,no_of_transport_mode,CAST(tot_exp As Integer)as tot_exp,CAST(tot_inc As Integer)as tot_inc,no_of_comm_mode,service,pap_mag_src,gid,level,st_x(st_pointonsurface(the_geom)) ,st_y(st_pointonsurface(the_geom)),name from state where statecode=? ";
+	
+	public static String VILLAGE_LIST_IN_STATE_DISTRICT = "SELECT v.name, v.statecode, v.villid, v.distcode,st_x(st_pointonsurface(v.the_geom)),st_y(st_pointonsurface(v.the_geom)),gid FROM village v WHERE v.statecode IN  and v.distcode IN ";
+	
+	public static String TOWN_LIST_IN_STATE_DISTRICT = "SELECT t.town_name, t.statecode, t.townid, t.distcode,st_x(st_pointonsurface(t.the_geom)),st_y(st_pointonsurface(t.the_geom)),gid FROM towns t WHERE t.statecode IN  and t.distcode IN ";
+	
+	public static String LIST_VILLAGE_DETAILS_ON_VILLAGE_ID = "SELECT v.name, v.villid, st_x(st_pointonsurface(v.the_geom)),st_y(st_pointonsurface(v.the_geom)),gid FROM village v WHERE v.villid IN ";
+	
+	public static String LIST_TOWN_DETAILS_ON_TOWN_ID = "SELECT t.town_name, t.townid, st_x(st_pointonsurface(t.the_geom)),st_y(st_pointonsurface(t.the_geom)),gid FROM towns t WHERE t.townid IN ";
+	
+	public static String SEQUENCE_QUERY = "SELECT nextval(?)";
+	
+	public static String NEXTVAL="nextval";
+
+}

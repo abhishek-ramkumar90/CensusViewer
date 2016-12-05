@@ -1,0 +1,130 @@
+package com.CensusViewer.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.GenericGenerator;
+
+
+@Entity
+@Table(name="REGION_MASTER",schema = "distribution")
+public class Region {
+	@Id
+	//@GenericGenerator(name="seq_id", strategy="com.mars.distribution.id.generator.RegionIdGenerator")
+	//@GeneratedValue(generator="seq_id")
+	@Column(name = "REGION_ID", unique = true, nullable = false, length = 20)
+	private String regionId;
+	
+	@Column(name="REGION_NAME")
+	private String region;
+	
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+	
+	@Column(name="gid")
+    private long gid;
+
+	@Column(name="STATUS")
+	private int status;
+
+	public long getGid() {
+		return gid;
+	}
+	public void setGid(long gid) {
+		this.gid = gid;
+	}
+	
+@ManyToOne(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
+@JoinColumn(name="ZONE_ID_CREATED")
+
+	private ZoneListFinal zone;
+
+/*@OneToMany(cascade= CascadeType.ALL,mappedBy="regionId")
+private Collection<DistrictChannelIntermediaryDetail> distChannelInterDetails;
+	   
+		public Collection<DistrictChannelIntermediaryDetail> getDistChannelInterDetails() {
+	return distChannelInterDetails;
+}
+public void setDistChannelInterDetails(
+		Collection<DistrictChannelIntermediaryDetail> distChannelInterDetails) {
+	this.distChannelInterDetails = distChannelInterDetails;
+}*/
+		@XmlTransient
+	public ZoneListFinal getZone() {
+		return zone;
+	}
+	public void setZone(ZoneListFinal zone) {
+		this.zone = zone;
+	}
+	
+
+
+	public Collection<DistIds> getIds() {
+		return Ids;
+	}
+	public void setIds(Collection<DistIds> ids) {
+		Ids = ids;
+	}
+
+	@OneToMany(cascade= CascadeType.ALL ,fetch=FetchType.LAZY)
+	@JoinColumn(name="REGION_ID")
+	private Collection<DistIds> Ids=new ArrayList<DistIds>();
+	
+	@OneToMany(cascade= CascadeType.ALL ,fetch=FetchType.LAZY)
+	@JoinColumn(name="REGION_ID")
+	private Collection<Districts> districts=new ArrayList<Districts>();
+	
+	public Collection<Districts> getDistricts() {
+		return districts;
+	}
+	public void setDistricts(Collection<Districts> districts) {
+		this.districts = districts;
+	}
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="REGION_ID")
+	private Collection<Branch> branches;
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public Collection<Branch> getBranches() {
+		return branches;
+	}
+	public void setBranches(Collection<Branch> branches) {
+		this.branches = branches;
+	}
+	public String getRegionId() {
+		return regionId;
+	}
+	public void setRegionId(String regionId) {
+		this.regionId = regionId;
+	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+}

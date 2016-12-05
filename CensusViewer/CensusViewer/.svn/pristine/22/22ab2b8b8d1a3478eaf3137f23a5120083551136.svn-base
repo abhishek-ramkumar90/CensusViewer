@@ -1,0 +1,137 @@
+package com.mars.distribution.test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.model.Channel;
+import com.mars.distribution.model.Intermediary;
+
+public class Test {
+
+	
+	
+	public static void main(String args[]) {
+		SessionFactory sessionFactory = null;
+		Session session  = null;
+		
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			ArrayList<Channel>  channels = new ArrayList<Channel>();
+			//session.beginTransaction();
+			 
+			//to insert 
+			
+		/*	TestChannel testChannel = new TestChannel();
+			testChannel.setChannelName("A3");
+			testChannel.setLevelCount(3);
+			
+			TestInterMediary testInterMediary = new TestInterMediary();
+			testInterMediary.setName("Producer");
+			
+			
+			TestInterMediary testInterMediary1 = new TestInterMediary();
+			testInterMediary1.setName("Wholesaler");
+			
+			TestInterMediary testInterMediary21 = new TestInterMediary();
+			testInterMediary21.setName("Wholesaler");
+			
+			TestInterMediary testInterMediary2 = new TestInterMediary();
+			testInterMediary2.setName("Retailer");
+			
+			TestInterMediary testInterMediary3 = new TestInterMediary();
+			testInterMediary3.setName("Retailer");
+			
+			TestInterMediary testInterMediary4 = new TestInterMediary();
+			testInterMediary4.setName("Retailer");
+			
+			testInterMediary21.getIntermediaryCollection().add(testInterMediary4);
+			
+			testInterMediary1.getIntermediaryCollection().add(testInterMediary2);
+			testInterMediary1.getIntermediaryCollection().add(testInterMediary3);
+			
+			testInterMediary.getIntermediaryCollection().add(testInterMediary1);
+			testInterMediary.getIntermediaryCollection().add(testInterMediary21);
+			
+			testChannel.getTestCollection().add(testInterMediary);
+			
+			session.save(testChannel);*/
+			
+			//to get the details of channel
+			
+			Query channels1 = session.createQuery("from TestChannel");
+			
+			channels = (ArrayList)channels1.list();
+			
+			HashMap hm = new HashMap();
+			HashMap hmIds = new HashMap();
+			
+			for(Channel test1 : channels) {
+				int count = test1.getLevelCount();
+				
+				List<Intermediary> testinter = (List<Intermediary>)test1.getTestCollection();
+				
+				while(count > 0) {
+				
+					//for(TestInterMediary testin : testinter) {
+					for(int i=0; i<testinter.size(); i++) {
+						hm.put(testinter.get(i).getName(),testinter.get(i).getName());
+						hmIds.put(new Integer(testinter.get(i).getSerial()), new Integer(testinter.get(i).getSerial()));
+						
+						System.out.println("inter--" + testinter.get(i).getName());
+						if(i == testinter.size()-1) {
+							testinter = (List<Intermediary>) testinter.get(i).getIntermediaryCollection();
+						}
+					}
+					
+					count--;
+				}
+				System.out.println("testInter" +  testinter);
+			}
+			//list all intermediaries
+			Iterator it = hm.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		     
+		    }
+		    
+		    Iterator it1 = hmIds.entrySet().iterator();
+		    while (it1.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it1.next();
+		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		     
+		    }
+			
+			System.out.println("list "  + channels );
+			
+			//session.getTransaction().commit();
+			
+			
+		} catch (Exception e ) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		
+	}
+}

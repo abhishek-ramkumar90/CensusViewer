@@ -1,0 +1,35 @@
+package com.mars.distribution.ServicePojo;
+
+public class TerrVillTownJson {
+	private String statecode;
+	private String distCode;
+	private String villTownCode;
+	private String level;
+	
+	public String getStatecode() {
+		return statecode;
+	}
+	public void setStatecode(String statecode) {
+		this.statecode = statecode;
+	}
+	public String getDistCode() {
+		return distCode;
+	}
+	public void setDistCode(String distCode) {
+		this.distCode = distCode;
+	}
+	public String getVillTownCode() {
+		return villTownCode;
+	}
+	public void setVillTownCode(String villTownCode) {
+		this.villTownCode = villTownCode;
+	}
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
+	
+
+}

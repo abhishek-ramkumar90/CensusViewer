@@ -1,0 +1,42 @@
+package com.mars.distribution.daoimpl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.ServicePojo.ZoneStateSelectedPojo;
+import com.mars.distribution.model.ZoneStates;
+
+public class SelectedStateZoneDao {
+
+	
+@SuppressWarnings("unchecked")
+public Collection<ZoneStates> getStateList(String ZoneID)
+{
+	SessionFactory sf = HibernateUtil.getSessionFactory();
+	Session session = sf.openSession();
+	session.beginTransaction();
+
+	Collection<ZoneStates> zoneStateList= new ArrayList<ZoneStates>();
+	Query query=session.createQuery("from ZoneStates where ZONE_ID='"+ZoneID+"'" );
+zoneStateList=query.list();
+
+Collection<ZoneStates> zoneStateListFinal=new ArrayList<ZoneStates>();
+for(ZoneStates zs:zoneStateList)
+{
+	zoneStateListFinal.add(zs);
+
+}
+
+	return zoneStateListFinal;
+}
+}
+
+
+
+

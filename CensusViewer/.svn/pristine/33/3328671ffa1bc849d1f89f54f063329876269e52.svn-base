@@ -1,0 +1,151 @@
+package com.mars.distribution.model;
+
+
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
+
+@Entity
+@Table(name="DIST_CHANNEL_INTERMEDIARY",schema="distribution")
+public class DistrictChannelIntermediary {
+	@Id
+	@Column(name="INTERM_ID")
+	private String intermId;
+	
+	@Column(name="ITERM_NAME")
+	private String intermName;
+	
+/*	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="INTERM_ID")
+	private DistrictChannelStructure districtIntermediary;*/
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="CREATED_BY")
+	private User createdBy;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="CREATED_ON")
+	private Date createdOn;
+
+/*	@XmlTransient
+	public DistrictChannelStructure getDistrictIntermediary() {
+		return districtIntermediary;
+	}
+
+
+
+	public void setDistrictIntermediary(
+			DistrictChannelStructure districtIntermediary) {
+		this.districtIntermediary = districtIntermediary;
+	}
+*/
+
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="MODIFIED_ON")
+	private Date modifiedOn;
+	
+	public String getIntermId() {
+		return intermId;
+	}
+
+
+
+	public void setIntermId(String intermId) {
+		this.intermId = intermId;
+	}
+
+
+
+	public String getIntermName() {
+		return intermName;
+	}
+
+
+
+	public void setIntermName(String intermName) {
+		this.intermName = intermName;
+	}
+
+
+	@XmlTransient
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+
+
+	public Date getModifiedOn() {
+		return modifiedOn;
+	}
+
+
+
+	public void setModifiedOn(Date modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+
+
+	@XmlTransient
+	public Org getOrgId() {
+		return orgId;
+	}
+
+
+
+	public void setOrgId(Org orgId) {
+		this.orgId = orgId;
+	}
+
+
+
+	public int getStatus() {
+		return Status;
+	}
+
+
+
+	public void setStatus(int status) {
+		Status = status;
+	}
+
+
+
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="ORGID")
+	private Org orgId;
+	
+
+	
+	@Column(name="status")
+	private int Status;
+	
+
+}

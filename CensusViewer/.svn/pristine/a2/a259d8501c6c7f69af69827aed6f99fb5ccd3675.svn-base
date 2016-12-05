@@ -1,0 +1,9 @@
+package com.mars.distribution.dao;
+
+public interface IntermediarySaveDao {
+	
+
+
+void saveIntermediary(String jsonString);
+
+}

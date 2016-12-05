@@ -1,0 +1,75 @@
+package com.mars.distribution.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Intermediaries",schema="distribution")
+public class Intermediary {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="INTERM_ID")
+	private int Serial;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="INTERMEDIARY_RELATION",schema="distribution")
+	private List<Intermediary> intermediaryCollection=new ArrayList<Intermediary>();
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Zone zoneId;
+	
+	public Zone getZoneId() {
+		return zoneId;
+	}
+
+	public void setZoneId(Zone zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	@Column(name="NAME")
+	private String name;
+	
+	
+	/*
+	private Collection<IntermediaryDetails> intermediarydetails = new ArrayList<IntermediaryDetails>();*/
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public int getSerial() {
+		return Serial;
+	}
+
+	public void setSerial(int serial) {
+		Serial = serial;
+	}
+
+	public List<Intermediary> getIntermediaryCollection() {
+		return intermediaryCollection;
+	}
+
+	public void setIntermediaryCollection(
+			List<Intermediary> intermediaryCollection) {
+		this.intermediaryCollection = intermediaryCollection;
+	}
+
+		
+}

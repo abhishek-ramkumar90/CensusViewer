@@ -1,0 +1,507 @@
+package com.mars.distribution.daoimpl;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.mars.HibernateUtility.HibernateUtil;
+import com.mars.distribution.ServicePojo.JacksonChannelDetails;
+import com.mars.distribution.ServicePojo.JacksonInterm;
+import com.mars.distribution.ServicePojo.JacksonUpdateChannel;
+import com.mars.distribution.config.DistributionConstants;
+import com.mars.distribution.dao.ChannelDao;
+import com.mars.distribution.map.RegionGeomJdbc;
+import com.mars.distribution.model.Channel;
+import com.mars.distribution.model.Districts;
+import com.mars.distribution.model.Intermediary;
+import com.mars.distribution.model.Region;
+import com.mars.util.MarsUtil;
+
+public class ChannelDaoImpl implements ChannelDao,Serializable {
+
+	Session session = null;
+	static int i=1;
+	
+	String CLASS_NAME = this.getClass().getName();
+	Logger logger = Logger.getLogger(CLASS_NAME);
+
+	public ChannelDaoImpl() {
+		logger.info("Entering " + CLASS_NAME);
+	}
+
+	
+	public List getChannelOnKey() {
+
+		try {
+			
+		} catch(Exception e ) {
+			
+		} finally {
+			
+		}
+		return null;
+	}
+
+
+	public List<Channel> getChannelNames() {
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List<Channel> channels = new ArrayList<Channel>();
+		try {
+			session = sf.openSession();
+			
+			Query channelQuery = session.createQuery("from Channel where orgId='"+DistributionConstants.DEFAULT_ORGID+"'");
+			channels = channelQuery.list();
+			
+			return channels;
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+		}
+		return null;
+	}
+	
+	
+	public List<LinkedHashMap> getChannelIntermOnKey(String channelId, String orgId) {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List<Channel> channels = new ArrayList<Channel>();
+		
+		Collection<Intermediary> channelCollec = new ArrayList<Intermediary>(); 
+		List<LinkedHashMap> channelDetails = new ArrayList<LinkedHashMap>();
+		
+		LinkedHashMap<String, String> channelhm = new LinkedHashMap<String, String>();
+		
+		try {
+			session = sf.openSession();
+			
+			Query channelQuery = session.createQuery("from Channel where orgId='"+orgId.trim()+"' and channelId='"+channelId.trim()+"' and status=1");
+			channels = channelQuery.list();
+			
+			if(channels.size() > 0) {
+				for(Channel channel : channels) {
+					
+					
+				/*	channelCollec = channel.getIntermCollection();
+				*/
+					channelCollec=filterCollection(channel.getIntermCollection(),session);
+				//	channelhm.put(channel.getChannelId(), channel.getChannelId());
+					channelhm.put(channel.getChannelId(), channel.getChannelName());
+				}
+				
+				LinkedHashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
+				traverseChildren(channelCollec, hm,session);
+				
+				channelDetails.add(channelhm);
+				channelDetails.add(hm);
+			}
+			return channelDetails;
+			
+		} catch(Exception e ) {
+			
+		} finally {
+		}
+		return null;
+	}
+	private Collection<Intermediary> filterCollection(Collection<Intermediary> collection, Session s) {
+		Query filterQuery = s.createFilter(collection, "where status=1");
+		return filterQuery.list();
+	}
+	
+	public Collection<Intermediary> traverseChildren(Collection<Intermediary> collection,HashMap<String, Integer> hm,Session s) {
+		for(Intermediary inter:collection) {
+			//System.out.println(inter.getName());
+			hm.put(inter.getType(), inter.getLevel());
+			List<Intermediary> interCollec=(List<Intermediary>) filterCollection(inter.getIntermediaryCollection(),s);
+			traverseChildren(interCollec,hm,s);
+		}
+		return null;
+	}
+
+	public void updateChannelData(JacksonUpdateChannel channelDetails){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List intermediaries=new ArrayList();
+		ChannelDaoImpl channelDao=new ChannelDaoImpl();
+		Map<Integer,String> updateMap=new TreeMap<Integer,String>();
+		Map<Integer,String> oldMap=new TreeMap<Integer,String>();
+		Intermediary intermed=null;
+		Intermediary intermediary1 = null;
+		Intermediary intermediary2 = null;
+		Intermediary intermediary3 = null;
+		try{
+			MarsUtil marsUtil = new MarsUtil();
+		String channelId=channelDetails.getChannelId();
+		String user=DistributionConstants.DEFAULT_USER;
+		String orgId=DistributionConstants.CREATED_ORGID;
+		int levelCount=channelDetails.getLevelCount();
+		for(JacksonInterm intmes:channelDetails.getInterMediaryType()){
+			updateMap.put(intmes.getLevel(), intmes.getType());
+		}
+		Session session=sf.openSession();
+		session.beginTransaction();	
+		Query query=session.createQuery("from Channel where channelId='"+channelId+"' AND status=1");
+		List<Channel> channelList=query.list();
+		for(Channel channel: channelList)
+		{
+			channel.setChannelName(channelDetails.getChannelName());
+			channel.setChannelId(channelDetails.getChannelId());
+			channel.setLevelCount(channelDetails.getLevelCount());
+			
+channelDao.traverseChildren2(channel.getIntermCollection(),oldMap,session);
+/*if(oldMap.size()>updateMap.size())
+{*/
+	channel.getIntermCollection().clear();
+	for(Map.Entry<Integer,String> entry : updateMap.entrySet()) {
+		  Integer key = entry.getKey();
+		  String value = entry.getValue();
+		  
+		if(key == 1) {
+		  String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+		  intermediary1 = new Intermediary();
+		  intermediary1.setLevel(key);
+		  intermediary1.setType(value);
+		  intermediary1.setStatus(DistributionConstants.ONE);
+		  intermediary1.setIntermId(intmId);
+		intermediary1.setChannel(channel);
+		  intermediary3 = intermediary1;
+		  
+		} else if(key != 1) {
+			intermediary2 = new Intermediary();
+			String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+			
+			intermediary2.setLevel(key);
+			intermediary2.setType(value);
+			 intermediary2.setStatus(DistributionConstants.ONE);
+			intermediary2.setIntermId(intmId);
+			intermediary1.getIntermediaryCollection().add(intermediary2);
+			intermediary2.setChannel(channel);
+			intermediary1 = intermediary2;
+		//}
+	}
+
+}
+	intermediary1 = intermediary3;
+	channel.getIntermCollection().add(intermediary1);
+	session.saveOrUpdate(channel);
+	session.getTransaction().commit();
+	session.close();
+	return;
+
+/*outerLoop:for (Entry<Integer, String> entry: updateMap.entrySet()) {
+    if (!oldMap.containsValue(entry.getValue())) {
+        System.out.println(entry.getValue());
+        System.out.println(entry.getKey());
+        if(entry.getKey()==1)
+        {
+        	List<Intermediary> oldCollection= new ArrayList<Intermediary>();
+        	for(Intermediary inter1:channel.getIntermCollection())
+        	{
+    		int Level=inter1.getLevel();
+			String Value=inter1.getType();
+			int status=inter1.getStatus();
+			  String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+		inter1.setLevel(entry.getKey());
+		inter1.setType(entry.getValue());
+		oldMap.put(entry.getKey(),entry.getValue());
+		 inter1.setStatus(DistributionConstants.ONE);
+continue outerLoop;
+        }
+        }
+        channelDao.insertNewChild(channel.getIntermCollection(),entry.getKey(),entry.getValue(),session,channel,oldMap);
+        }
+    }
+    session.saveOrUpdate(channel);
+	session.getTransaction().commit();*/
+}
+	}catch(HibernateException e){
+		e.printStackTrace();
+	}finally{
+		if(session.isOpen()) {
+			session.close();
+		}
+	}
+	}
+	
+	private void insertNewChild(List<Intermediary> intermCollection,Integer key, String value, Session session2,Channel channel,Map<Integer,String> oldMap) {
+		MarsUtil marsUtil = new MarsUtil();
+		Intermediary oldinter=null; 
+		for(Intermediary inter:intermCollection)
+		{
+			if(i!=key-1 && key!=1)
+			{
+				i++;
+				insertNewChild(inter.getIntermediaryCollection(),key,value,session2,channel,oldMap);
+			}
+			else{
+				i=1;
+				List<Intermediary> oldCollection= new ArrayList<Intermediary>();
+				Collection<Intermediary> replaceCollection=null;
+		 replaceCollection=inter.getIntermediaryCollection();
+		 if(replaceCollection.isEmpty())
+		 {
+			 Intermediary inter3=new Intermediary();
+		 List<Intermediary> interCollec=new ArrayList<Intermediary>();
+				inter3.setLevel(key);
+				inter3.setType(value);
+				oldMap.put(key,value);
+				inter3.setChannel(channel);
+				 inter3.setStatus(DistributionConstants.ONE);
+				 inter3.setIntermId(marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE));
+				 interCollec.add(inter3);
+				 int Level=key-1;
+				 String id=channel.getChannelId();
+				 Query query=session2.createQuery("from Intermediary where level="+Level+" AND channel_id='"+id+"'  ");
+			 List<Intermediary> interList=query.list();
+			 for(Intermediary inter4:interList)
+			 {
+				
+				 inter4.getIntermediaryCollection().addAll(interCollec);
+			 }
+		 }
+			for(Intermediary inter1:replaceCollection)
+			{
+				int Level=inter1.getLevel();
+				String Value=inter1.getType();
+				int status=inter1.getStatus();
+			  String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+			inter1.setLevel(key);
+			inter1.setType(value);
+			oldMap.put(key,value);
+			 inter1.setStatus(DistributionConstants.ONE);
+			}
+		}
+	}
+	}
+	
+	public Collection<Intermediary> traverseChildren2(Collection<Intermediary> collection,Map<Integer, String> oldMap,Session s) {
+		for(Intermediary inter:collection) {
+			//System.out.println(inter.getName());
+			
+			oldMap.put(inter.getLevel(), inter.getType());
+			List<Intermediary> interCollec=(List<Intermediary>) filterCollection(inter.getIntermediaryCollection(),s);
+			traverseChildren2(interCollec,oldMap,s);
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+public Collection<Intermediary> traverseDelete(Collection<Intermediary> collection) {
+		
+		for(Intermediary inter:collection) {
+			inter.setStatus(DistributionConstants.ZERO);
+			traverseDelete(inter.getIntermediaryCollection());
+		}
+		return null;
+	}
+
+	public String saveChannelData(JacksonChannelDetails channelDetails){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List intermediaries=new ArrayList();
+		Map<Integer,String> levelType=new TreeMap<Integer,String>();
+		Intermediary intermed=null;
+		Intermediary intermediary1 = null;
+		try{
+			
+			MarsUtil marsUtil = new MarsUtil();
+			String channelId = MarsUtil.getIdGenerated(DistributionConstants.CHANNEL_ID, DistributionConstants.CHANNEL_SEQUENCE);
+			String user=DistributionConstants.DEFAULT_USER;
+			String orgId=DistributionConstants.CREATED_ORGID;
+			int levelCount=channelDetails.getLevelCount();
+			//intermediaries=(List)channelDetails.getInterMediaryType();
+			for(JacksonInterm intmes:channelDetails.getInterMediaryType()){
+				levelType.put(intmes.getLevel(), intmes.getType());
+			}
+			Intermediary intermediary2 = null;
+			Intermediary intermediary3 = null;
+			session = sf.openSession();
+			session.beginTransaction();			
+			Channel channel = new Channel();
+			channel.setChannelName(channelDetails.getChannelName());
+			channel.setChannelId(channelId);
+			channel.setCreatedBy(user);
+			channel.setCreatedOn(new java.util.Date());
+			channel.setLevelCount(channelDetails.getLevelCount());
+			channel.setOrgId(orgId);
+			channel.setStatus(DistributionConstants.ONE);
+			for(Map.Entry<Integer,String> entry : levelType.entrySet()) {
+				  Integer key = entry.getKey();
+				  String value = entry.getValue();
+				  
+				if(key == 1) {
+				  String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+				  intermediary1 = new Intermediary();
+				  intermediary1.setLevel(key);
+				  intermediary1.setType(value);
+				  intermediary1.setStatus(DistributionConstants.ONE);
+				  intermediary1.setIntermId(intmId);
+				intermediary1.setChannel(channel);
+				  intermediary3 = intermediary1;
+				  
+				} else if(key != 1) {
+					intermediary2 = new Intermediary();
+					String intmId = marsUtil.getIdGenerated(DistributionConstants.INTERM_ID, DistributionConstants.INTERM_SEQUENCE);
+					
+					intermediary2.setLevel(key);
+					intermediary2.setType(value);
+					 intermediary2.setStatus(DistributionConstants.ONE);
+					intermediary2.setIntermId(intmId);
+					intermediary1.getIntermediaryCollection().add(intermediary2);
+					intermediary2.setChannel(channel);
+					intermediary1 = intermediary2;
+				}
+				  
+				}
+			intermediary1 = intermediary3;
+		
+			channel.getIntermCollection().add(intermediary1);
+			session.save(channel);
+			session.getTransaction().commit();
+			return channelId;
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}finally{
+			if(session.isOpen()) {
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	public void deleteChannelStruct(String chId){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		List<Channel> channels = new ArrayList<Channel>();
+		Collection<Intermediary> channelCollec = new ArrayList<Intermediary>();
+		try {
+			session = sf.openSession();
+			session.beginTransaction();		
+			Query channelQuery = session.createQuery("from Channel where channelId='"+chId+"'");
+			channels = channelQuery.list();
+			for(Channel channel : channels) {
+				channel.setStatus(DistributionConstants.ZERO);
+				channelCollec=channel.getIntermCollection();
+				traverseDelete(channelCollec);
+				session.update(channel);
+				
+				session.getTransaction().commit();
+			}
+			//traverseDelete(channelCollec);
+			
+		} catch(Exception e ) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+		}
+			
+	}
+	public boolean checkCHName(String channelName){
+		boolean channelNameStatus = false;
+		List<Channel> channels = new ArrayList<Channel>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		try {
+			session = sf.openSession();
+			session.beginTransaction();		
+			Query channelQuery = session.createQuery("from Channel where status= "+DistributionConstants.ONE);
+			channels = channelQuery.list();
+			for(Channel channel : channels) {
+				if(channel.getChannelName().trim().equalsIgnoreCase(channelName.trim())) {
+					channelNameStatus=true;
+				}
+
+			}
+		} catch(Exception e ) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(session.isOpen()) {
+					session.close();
+				}
+			} catch(Exception e ) {
+				e.printStackTrace();
+			} 
+		}
+		return channelNameStatus;
+	}
+public List<LinkedHashMap> getChannelInterm(){
+	SessionFactory sf = HibernateUtil.getSessionFactory();
+	List<Channel> channels = new ArrayList<Channel>();
+	
+	Collection<Intermediary> channelCollec = new ArrayList<Intermediary>(); 
+	List<LinkedHashMap> channelDetails = new ArrayList<LinkedHashMap>();
+	
+	LinkedHashMap<String, String> channelhm = new LinkedHashMap<String, String>();
+	
+	try {
+		session = sf.openSession();
+		
+		Query channelQuery = session.createQuery("from Channel where orgId='"+DistributionConstants.CREATED_ORGID+"' and status=1");
+		channels = channelQuery.list();
+		
+		if(channels.size() > 0) {
+			for(Channel channel : channels) {
+				
+				
+			/*	channelCollec = channel.getIntermCollection();
+			*/
+				channelCollec=filterCollection(channel.getIntermCollection(),session);
+			//	channelhm.put(channel.getChannelId(), channel.getChannelId());
+				channelhm.put(channel.getChannelId(), channel.getChannelName());
+			}
+			
+			LinkedHashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
+			traverseChildren(channelCollec, hm,session);
+			
+			channelDetails.add(channelhm);
+			channelDetails.add(hm);
+		}
+		return channelDetails;
+		
+	} catch(Exception e ) {
+		
+	} finally {
+	}
+	return null;
+}
+	
+	public static void main(String args[]) {
+		
+		ChannelDaoImpl channelDaoImpl = new ChannelDaoImpl();
+		channelDaoImpl.getChannelIntermOnKey("CH7", "D1");
+	}
+}

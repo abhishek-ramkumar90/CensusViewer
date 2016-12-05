@@ -1,0 +1,865 @@
+MAP
+  #EXTENT 72.65542 15.606794 80.899559 22.029028
+  EXTENT 72.402 15.544 80.984 22.065
+  FONTSET fonts.list
+  IMAGECOLOR 255 255 255
+  IMAGETYPE gif
+  #SYMBOLSET "symbols/biadasymbols.txt"
+  SIZE 578 415
+  STATUS ON
+  UNITS DD
+  CONFIG PROJ_LIB "C:\ms4w\proj\nad"
+  NAME "BIADA.map"
+
+  OUTPUTFORMAT
+    NAME "gif"
+    MIMETYPE "text/html"
+    DRIVER "GD/GIF"
+    EXTENSION "gif"
+    IMAGEMODE "PC256"
+    TRANSPARENT FALSE
+  END
+
+  PROJECTION
+    "init=epsg:4326"
+  END
+  LEGEND
+    IMAGECOLOR 255 255 255
+    KEYSIZE 18 12
+    KEYSPACING 5 5
+    LABEL
+      SIZE MEDIUM
+      TYPE BITMAP
+      BUFFER 0
+      COLOR 0 0 89
+      FORCE FALSE
+      MINDISTANCE -1
+      MINFEATURESIZE -1
+      OFFSET 0 0
+      PARTIALS TRUE
+    END
+    POSITION LL
+    STATUS ON
+  END
+
+  QUERYMAP
+    COLOR 255 255 0
+    SIZE -1 -1
+    STATUS ON
+    STYLE HILITE
+  END
+
+  SCALEBAR
+    ALIGN CENTER
+    COLOR 0 0 0
+    IMAGECOLOR 255 255 255
+    INTERVALS 4
+    LABEL
+      SIZE MEDIUM
+      TYPE BITMAP
+      BUFFER 0
+      COLOR 0 0 0
+      FORCE FALSE
+      MINDISTANCE -1
+      MINFEATURESIZE -1
+      OFFSET 0 0
+      PARTIALS TRUE
+    END
+    POSITION LL
+    SIZE 200 3
+    STATUS OFF
+    STYLE 0
+    UNITS MILES
+  END
+
+  WEB
+    IMAGEPATH ""
+    IMAGEURL ""
+    METADATA
+      "wms_srs"	"EPSG:4326"
+      "wms_onlineresource"	"http://localhost:8888/cgi-bin/mapserv.exe?map=D:/javasoft/mapserver/biadaref/BIADA.map"
+      "wms_title"	"WMS"
+	  "ows_enable_request"	"*"
+    END
+    QUERYFORMAT text/html
+    LEGENDFORMAT text/html
+    BROWSEFORMAT text/html
+  END
+ 
+ #####################
+
+LAYER
+	NAME "district"
+	# MAXSCALEDENOM 10000000
+    # MINSCALEDENOM 3500000
+   
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM district USING UNIQUE gid USING SRID=4326"
+    LABELITEM "name" 
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"district"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+	  LABEL
+	    ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+		
+      END
+      STYLE
+        ANGLE 360
+         COLOR 200 161 0
+        OUTLINECOLOR 0 0 0   
+        SYMBOL 0
+      END
+    END
+	
+	
+  END
+
+
+ #################
+ LAYER
+  NAME "tehsil"  
+  #MAXSCALEDENOM  3500100
+ # MINSCALEDENOM  1200000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM tehsil USING UNIQUE gid USING SRID=4326"
+    LABELITEM "name"
+    NAME "tehsil"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"tehsil"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 255 235 190
+         OPACITY 100
+        OUTLINECOLOR 0 0 0    
+        SYMBOL 0
+      END
+    END
+	
+ END
+##################
+LAYER
+	NAME "towns"
+	
+ MAXSCALEDENOM  1200000
+  MINSCALEDENOM 600000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM towns USING UNIQUE gid USING SRID=4326"
+    LABELITEM "town_name"
+    
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"towns"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 115 211 100
+        OUTLINECOLOR 0 0 0     
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+
+
+ 
+##################
+LAYER
+	NAME "village"
+	MAXSCALEDENOM 600000
+    MINSCALEDENOM   100000
+				  
+
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM village USING UNIQUE gid USING SRID=4326"
+    LABELITEM "name"
+   
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"village"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 115 211 100
+        OUTLINECOLOR 0 0 0     
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+
+##################
+  
+ LAYER
+    MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM airports USING UNIQUE gid USING SRID=4326"
+    LABELITEM "name"
+    NAME "airports"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"airports"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 115 211 100
+        OUTLINECOLOR 0 0 0    
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+
+##################
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM sea USING UNIQUE gid USING SRID=4326"
+   
+    NAME "sea"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"sea"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 115 211 100
+        OUTLINECOLOR 0 0 0    
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+
+##################
+
+
+ LAYER
+ MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM water_polygon USING UNIQUE gid USING SRID=4326"
+    LABELITEM "name"
+    NAME "water_polygon"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POLYGON
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"water_polygon"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+        COLOR 115 211 100
+        OUTLINECOLOR 0 0 0  
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+##################
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+	CONNECTIONTYPE postgis
+	CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+	DATA "the_geom FROM (select * from rail_network order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "region"
+	NAME "rail_network"
+    TYPE LINE
+    STATUS ON
+	TEMPLATE "nothing.htm"
+    CLASS
+      STYLE
+        COLOR  000 000 000
+        OUTLINECOLOR 209 212 200 
+	WIDTH 2
+      END
+    END
+END
+
+
+ LAYER
+ MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "the_geom FROM (select * from rail_network order by gid) as foo using unique gid using srid=4326"
+   LABELITEM "region"
+	NAME "rail_network"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE LINE
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"rail_network"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+         COLOR  000 000 000
+        OUTLINECOLOR 209 212 200  
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+##################
+ 
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+   DATA "the_geom FROM (select * from roads order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "name"
+    NAME "roads"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE LINE
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"roads"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+         COLOR  000 000 000
+        OUTLINECOLOR 209 212 200  
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+    DATA "the_geom FROM (select * from water_line order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "name"
+    NAME "water_line"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE LINE
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"water_line"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+        ANGLE 360
+         COLOR  000 000 000
+        OUTLINECOLOR 209 212 200
+        SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+  
+
+  DATA "the_geom FROM (select * from areanames order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "name"
+    NAME "areanames"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POINT
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"areanames"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+      
+       COLOR 30 144 255
+		SIZE 6
+			SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+  
+
+  DATA "the_geom FROM (select * from major_poi order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "poiname"
+    NAME "major_poi"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POINT
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"major_poi"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+      
+       COLOR 30 144 255
+		SIZE 6
+			SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+  
+
+  DATA "the_geom FROM (select * from shipping_port order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "poiname"
+    NAME "shipping_port"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POINT
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"shipping_port"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+      
+       COLOR 30 144 255
+		SIZE 6
+			SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+
+LAYER
+MAXSCALEDENOM 200000
+    MINSCALEDENOM 50000
+	
+    CONNECTION "host=172.16.1.7 dbname=Mars user=postgres password=admin@123 port=5432"
+    CONNECTIONTYPE POSTGIS
+  
+
+  DATA "the_geom FROM (select * from wetlands order by gid) as foo using unique gid using srid=4326"
+    LABELITEM "name"
+    NAME "wetlands"
+    STATUS ON
+    TEMPLATE "nothing.htm"
+    TYPE POINT
+    UNITS METERS
+	METADATA
+      "ows_include_items"	"all"
+	  "ows_enable_request"	"*"
+	  "wms_include_items"	"all"
+      "wms_title"	"wetlands"
+	  'gml_include_items'   'all'
+	  "queryable"	"true"
+    END
+    CLASS
+      LABEL
+        ANGLE FOLLOW
+        ANTIALIAS TRUE
+        FONT "arial"
+        MAXSIZE 256
+        MINSIZE 4
+        SIZE 7
+        TYPE TRUETYPE
+        BUFFER 1
+        COLOR 0 0 0
+        FORCE FALSE
+        MINDISTANCE -1
+        MINFEATURESIZE -1
+        OFFSET 0 0
+        OUTLINECOLOR 255 255 255
+        PARTIALS TRUE
+        POSITION CC
+      END
+      STYLE
+      
+       COLOR 30 144 255
+		SIZE 6
+			SYMBOL 0
+      END
+    END
+	
+ END
+
+################## 
+ 
+END
+

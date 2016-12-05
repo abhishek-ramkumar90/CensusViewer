@@ -1,0 +1,157 @@
+.grid {
+   width:100%;
+}
+
+.subgrid {
+   height:100%;
+   width:90%;
+   overflow:auto;
+}
+
+.gridHeader {
+   width:100%;
+   height: 20px;
+   font-size: 100%; font-weight: bold; text-align: left;
+   padding: 2px;
+   white-space: nowrap;
+   background: url(images/headercaption.gif);
+   color: #000000;
+}
+
+.gridHeaderTitle {
+   padding-left: 10px;
+   float: left;
+}
+
+.gridHeaderButton {
+   padding-right: 10px;
+   float: right;
+}
+
+.gridFooter {
+   width:100%;
+   height: 20px;
+   background: url(images/grid-layer.gif);
+   color: #000000;
+   padding: 2px;
+}
+
+.gridFooterIcon{
+   float: left;
+   
+}
+
+.gridTickIcon{
+   background: url(images/selected.gif) no-repeat;
+   
+}
+
+.gridFooterInfo{
+   padding-right: 10px;
+   float: right;
+}
+
+.gridcols{
+   padding-right:5px;
+   padding-left:5px;
+   border:1px solid #aaaaaa;
+}
+
+.gridBody {
+   border-left:1px solid #aaaaaa;
+   border-right:1px solid #aaaaaa;
+   width:100%;
+   overflow-x:auto;
+}
+
+.gridBodycols{
+}
+
+.gridBodyrows{
+}
+
+
+.rowElement {
+   display:block;
+   white-space:nowrap;
+   overflow:hidden;
+}
+
+
+table.gridstyle {
+   padding:0px;
+   margin:0px;
+   border-collapse:collapse;
+   width:100%;
+}
+
+table.gridstyle thead tr{
+   background-color: #C2DAFA; 
+}
+
+table.gridstyle tr {
+   background-color: #f7f7f7; 
+}
+
+table.gridstyle tr.alt{
+   background-color: #FFFFFF; 
+}
+
+table.gridstyle tr.clicked{
+   background-color: #F8F7CB; 
+}
+
+
+table.gridstyle td  {
+   border-left: 1px solid #32A0DF;
+   border-bottom: 1px solid #32A0DF;
+   font-size: 12px;
+   text-align: left;
+}
+
+table.gridstyle thead td  {
+   font-weight:bold;
+   vertical-align: top;
+}
+
+.headerText {
+   cursor: pointer;
+   width: 100%;
+   display: block;
+   overflow: hidden;
+   float:left;
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.cbox {
+	height: 10px;
+	width: 10px;
+}
+
+
+.pbox {
+	width: 10px;
+	height: 10px;
+   font-size: 80%;
+}
+
+.selected_total{
+   font-size:80%;
+   font-weight:bold;
+   margin-left:20px;
+   margin-right:10px;
+}
+.paging{
+   font-size:80%;
+   font-weight:bold;
+}
+
+.pagebox{
+font-size:8pt;
+width:20px;
+}
+
+.gridRowOption{
+   font-size:8pt;
+}

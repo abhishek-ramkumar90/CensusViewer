@@ -1,0 +1,21 @@
+package com.mars.distribution.ServicePojo;
+
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="Intermediary")
+public class IntermTypes {
+
+	private List<String> intermType;
+
+	public List<String> getIntermType() {
+		return intermType;
+	}
+
+	public void setIntermType(List<String> intermType) {
+		this.intermType = intermType;
+	}
+	
+	
+}

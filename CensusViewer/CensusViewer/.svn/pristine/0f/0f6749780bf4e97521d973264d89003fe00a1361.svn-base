@@ -1,0 +1,156 @@
+function saveChannelOk()
+{
+	createdChannelName = $("#createdChannelName").val();
+	
+	if($.trim(createdChannelName) == "" || createdChannelName == undefined || $.trim(createdChannelName) == false) {
+		//alert(createdChannelName);
+		return;
+	}
+	var arr=[];
+	var i=1;
+	$("#channelIntermediary input:checked" )
+	.each(function() {
+		var type={};
+		if($(this).is(":checked"))
+		{var typeLevel={};
+		typeLevel["type"]=$(this).parent().find(".optionalCatg").attr("value");
+		typeLevel["level"]=i;
+		var typeLevelMarker=JSON.stringify(typeLevel);
+		arr.push(typeLevelMarker);
+		i++;
+		}
+	});
+	//var channelName1=$("#channelNameArea").find(":selected").text();
+	channelName1 = $("#createdChannelName").val();
+	input="{'channelName':'"+channelName1+"','levelCount':"+i+",'interMediaryType':["+arr+"]}";
+	webMethod = CXFServiceURL+"ChannelService/saveChannel";
+	var respObj = postAjax(webMethod,input);
+	//alert("--saved channel---" + JSON.stringify(respObj));
+	
+	//to hide the div
+	document.getElementById("channelName").style.display= "none";
+	$('.overlay').css('display','none');
+	
+	//display the values of created channel
+	var displayObj = respObj.ChannelStruct.channelIntermjson;
+	
+	//alert(respObj.ChannelStruct.channelId +"---" + + JSON.stringify(respObj.ChannelStruct.channelId));
+	
+	document.getElementById("channelIdDisplay").value = respObj.ChannelStruct.channelId;
+	alert("name--"  +  respObj.ChannelStruct.channelName);
+	var channelNameText = document.createTextNode(respObj.ChannelStruct.channelName);
+	document.getElementById("channelNameDisplay").appendChild(channelNameText);
+	document.getElementById("channelLabelParah").style.display = "block";
+	
+	var resultDiv =  document.getElementById("channelResultGrid");
+	retparah = displayChannel(displayObj);
+	resultDiv.appendChild(retparah);
+	  
+}
+
+function displayChannel(displayObj) {
+
+	var parah = document.createElement('p');
+	
+	$.each(displayObj, function() {
+		var data = this.type;
+		var span = document.createElement('span');
+		var testNode = document.createTextNode(data);
+		span.appendChild(testNode);
+		
+		var spanArrow = document.createElement('span');
+		var testNodeArrow = document.createTextNode("--->");
+		
+		spanArrow.appendChild(testNodeArrow);
+		
+		parah.appendChild(span);
+		parah.appendChild(spanArrow);
+		
+	});
+	
+	return parah;
+}
+
+function populateChannelList() {
+	clearSelect("channelNameArea");
+	webMethod = CXFServiceURL+"ChannelService/channel/list";
+	var respObj = getAjax(webMethod);
+	var markers =JSON.stringify(respObj.Channels.channelJsonCollection);
+	var obj1=  $.parseJSON(markers);
+	$("#channelNameArea").append("<option value='select'>Select</option>");
+	//$("#channelNameArea").append("<option value='custom'>Custom</option>");
+	$.each(obj1, function() {
+		var channelId=this.channelId;
+		var channelName=this.channelName;
+		var levelCount = this.levelCount;
+		var orgId=this.orgId;
+		
+		$("#channelNameArea").append("<option orgid='"+ orgId +"' levelcount='"+ levelCount +"' value='"+channelId+"'>"+channelName+"</option>");
+	});
+	
+}
+
+function getChannelStructure(element) {
+	
+	$(".other").empty();
+	var channelId=$("#channelNameArea").val();	
+	var orgId= $('option:selected', element).attr('orgid');
+	var input="{'orgId':'"+orgId+"','channelId':'"+ channelId  +"'}";
+	
+	webMethod = CXFServiceURL+"ChannelService/channel/struct/";
+	var respObj = postAjax(webMethod,input);
+	//alert("-----" + JSON.stringify(respObj));
+	var channelIntermediary = document.getElementById("channelIntermediary");
+	$( respObj.ChannelStruct.channelIntermjson ).each(function() {
+		var type = this.type;
+		var level = this.level;
+		var retDiv = createIntermediaryDiv(type);
+		
+		retDiv.appendTo(channelIntermediary);
+	});
+}
+
+function createIntermediaryDiv(imtermType) {
+
+		otherDiv= $(document.createElement('div')).attr("class","other");
+		chkBoxLabelWarapDiv= $(document.createElement('div')).attr("class","chkBoxLabelWarap").attr("style","clear:left");
+
+		var checkBoxElem = createInputElem('checkbox');
+		var textElem=createInputElem('text');
+		
+		
+		var anchorMoreOption = $(document.createElement('a')).attr("class","moreOptions").attr("href","#");
+		var imgMoreOption = $(document.createElement('img')).attr("width","14").attr("height","14").attr("alt","add more").attr("src","images/symbol_zoomIn.png");
+		
+		var anchorLessOption = $(document.createElement('a')).attr("class","lessOptions").attr("href","#");
+		var imgLessOption = $(document.createElement('img')).attr("width","14").attr("height","14").attr("alt","remove this").attr("src","images/symbol_zoomOut.png").attr("style","margin-left:10px; float:left");
+		
+		$(textElem).attr("class","optionalCatg").attr("value",imtermType);
+		
+		imgMoreOption.appendTo(anchorMoreOption);
+		imgLessOption.appendTo(anchorLessOption);
+		
+		chkBoxLabelWarapDiv.appendTo(otherDiv);
+		checkBoxElem.appendTo(chkBoxLabelWarapDiv);
+		textElem.appendTo(chkBoxLabelWarapDiv);
+		
+		anchorMoreOption.appendTo(chkBoxLabelWarapDiv);
+		anchorLessOption.appendTo(chkBoxLabelWarapDiv);
+		
+		return otherDiv;
+}
+
+
+function deleteChannnel() {
+	//alert("in delete chanel");
+	var channelId = document.getElementById("channelIdDisplay").value;
+	webMethod = CXFServiceURL+"ChannelService/deleteChannel/";
+	var input="{'channelId':'"+ channelId  +"'}";
+	var respObj = postAjax(webMethod,input);
+
+	
+}
+
+function createInputElem(type) {
+	return  $(document.createElement('input')).attr("type",type);
+} 

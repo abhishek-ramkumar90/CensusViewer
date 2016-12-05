@@ -1,0 +1,82 @@
+package com.CensusViewer.distribution.ServicePojo;
+
+import java.util.Collection;
+import java.util.Comparator;
+
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement(name="TownList")
+public class TownListJson implements  Comparator<TownListJson>{
+	private String townId;
+	private String townName;
+	private String distId;
+	private String distName;
+	private String stateCode;
+	private double latitude;
+	private double longitude;
+	private int gid;
+	public int getGid() {
+		return gid;
+	}
+	public void setGid(int gid) {
+		this.gid = gid;
+	}
+	private Collection<TownListJson> townList;
+	public String getTownId() {
+		return townId;
+	}
+	public void setTownId(String townId) {
+		this.townId = townId;
+	}
+	public String getTownName() {
+		return townName;
+	}
+	public void setTownName(String townName) {
+		this.townName = townName;
+	}
+	public String getDistId() {
+		return distId;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	public void setDistId(String distId) {
+		this.distId = distId;
+	}
+	public String getDistName() {
+		return distName;
+	}
+	public void setDistName(String distName) {
+		this.distName = distName;
+	}
+	public String getStateCode() {
+		return stateCode;
+	}
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+	public Collection<TownListJson> getTownList() {
+		return townList;
+	}
+	public void setTownList(Collection<TownListJson> townList) {
+		this.townList = townList;
+	}
+	@Override
+	public int compare(TownListJson t1, TownListJson t2) {
+		if(t1.getTownName().equals(t2.getTownName()))
+		{
+			return t1.getTownName().compareTo(t2.getTownName());
+		}
+		return t1.getTownName().compareTo(t2.getTownName());
+
+	}
+
+}
