@@ -22,7 +22,7 @@ public class BranchServiceDaoTest extends CommonUtil {
 	BranchServiceDao branchServDao=new BranchServiceDao();
 	@Test
 	public void getRegionsTest(){
-		String zoneDetails="{'zoneDetails':'ZN281'}";
+		String zoneDetails="{'zoneDetails':'ZN2812'}";
 		Collection<RegionListBranch> regList=branchServDao.getRegions(zoneDetails);
 		List actualRegList=new ArrayList();
 		List expectedRegList=new ArrayList();
